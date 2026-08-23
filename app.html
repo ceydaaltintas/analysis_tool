@@ -699,10 +699,13 @@ function handleFileA(file) {
   FILE_A_NAME = file.name;
   document.getElementById('statusA').textContent = 'Okunuyor: ' + file.name + ' ...';
   document.getElementById('sheetSelectRowA').classList.add('hidden');
+  const isCsv = file.name.toLowerCase().endsWith('.csv');
   const reader = new FileReader();
   reader.onload = e => {
     try {
-      const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array', cellDates: true });
+      const wb = isCsv
+        ? XLSX.read(e.target.result, { type: 'string', cellDates: true })
+        : XLSX.read(new Uint8Array(e.target.result), { type: 'array', cellDates: true });
       WB_A = wb;
       if (wb.SheetNames.length > 1) {
         const sel = document.getElementById('sheetSelectA');
@@ -715,7 +718,7 @@ function handleFileA(file) {
       }
     } catch(err) { document.getElementById('statusA').textContent = 'Hata: ' + err.message; }
   };
-  reader.readAsArrayBuffer(file);
+  isCsv ? reader.readAsText(file, 'UTF-8') : reader.readAsArrayBuffer(file);
 }
 
 function loadSheetA(sheetName) {
@@ -732,10 +735,13 @@ function handleFileB(file) {
   FILE_B_NAME = file.name;
   document.getElementById('statusB').textContent = 'Okunuyor: ' + file.name + ' ...';
   document.getElementById('sheetSelectRowB').classList.add('hidden');
+  const isCsv = file.name.toLowerCase().endsWith('.csv');
   const reader = new FileReader();
   reader.onload = e => {
     try {
-      const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array', cellDates: true });
+      const wb = isCsv
+        ? XLSX.read(e.target.result, { type: 'string', cellDates: true })
+        : XLSX.read(new Uint8Array(e.target.result), { type: 'array', cellDates: true });
       WB_B = wb;
       if (wb.SheetNames.length > 1) {
         const sel = document.getElementById('sheetSelectB');
@@ -748,7 +754,7 @@ function handleFileB(file) {
       }
     } catch(err) { document.getElementById('statusB').textContent = 'Hata: ' + err.message; }
   };
-  reader.readAsArrayBuffer(file);
+  isCsv ? reader.readAsText(file, 'UTF-8') : reader.readAsArrayBuffer(file);
 }
 
 function loadSheetB(sheetName) {
@@ -864,11 +870,13 @@ function handleFile(file) {
   setStatus('Okunuyor: ' + file.name + ' ...');
   document.getElementById('sheetSelectRow').classList.add('hidden');
   document.getElementById('previewPanel').classList.add('hidden');
+  const isCsv = file.name.toLowerCase().endsWith('.csv');
   const reader = new FileReader();
   reader.onload = (e) => {
     try {
-      const data = new Uint8Array(e.target.result);
-      const wb = XLSX.read(data, { type: 'array', cellDates: true });
+      const wb = isCsv
+        ? XLSX.read(e.target.result, { type: 'string', cellDates: true })
+        : XLSX.read(new Uint8Array(e.target.result), { type: 'array', cellDates: true });
       CURRENT_WORKBOOK = wb;
       if (wb.SheetNames.length > 1) {
         const sel = document.getElementById('sheetSelect');
@@ -885,7 +893,7 @@ function handleFile(file) {
     }
   };
   reader.onerror = () => setStatus('Dosya okuma hatası.', true);
-  reader.readAsArrayBuffer(file);
+  isCsv ? reader.readAsText(file, 'UTF-8') : reader.readAsArrayBuffer(file);
 }
 
 function loadSheet(sheetName) {

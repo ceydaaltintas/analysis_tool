@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veri Analiz Atölyesi</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#12151A; --panel:#181C22; --panel2:#1F242B;
+    --text:#E7E9EC; --dim:#8B92A0;
+    --line: rgba(231,233,236,0.09);
+    --teal:#49B7AC; --teal-soft: rgba(73,183,172,0.12);
+    --amber:#E0A458; --amber-soft: rgba(224,164,88,0.12);
+    --blue:#6C8CFF; --danger:#E2685C;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1180px;margin:0 auto;padding:48px 28px 100px;}
+
+  header{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:36px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin:0 0 10px;}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,40px);margin:0;letter-spacing:-.01em;}
+  .sub{color:var(--dim);font-size:14px;margin-top:10px;max-width:600px;line-height:1.6;}
+
+  h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;margin:0 0 6px;}
+  .section-note{color:var(--dim);font-size:13px;margin:0 0 20px;line-height:1.55;max-width:720px;}
+  .step{display:none;}
+  .step.active{display:block;}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:26px;margin-bottom:28px;}
+
+  .step-track{display:flex;gap:6px;margin-bottom:32px;}
+  .step-dot{flex:1;height:3px;background:var(--line);border-radius:2px;overflow:hidden;}
+  .step-dot.done{background:var(--teal);}
+  .step-dot.current{background:var(--amber);}
+
+  /* dropzone */
+  #dropzone{border:1px dashed rgba(231,233,236,0.24);border-radius:6px;padding:56px 24px;text-align:center;cursor:pointer;transition:.15s;background:rgba(231,233,236,0.02);}
+  #dropzone:hover,#dropzone.drag{border-color:var(--teal);background:var(--teal-soft);}
+  #dropzone .icon{font-family:'Space Grotesk',sans-serif;font-size:34px;color:var(--teal);margin-bottom:10px;}
+  #dropzone p{margin:4px 0;color:var(--dim);font-size:14px;}
+  #dropzone .hint{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--teal);margin-top:10px;}
+  #fileInput,#templateInput{display:none;}
+  #status{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim);margin-top:14px;min-height:18px;}
+  #status.err{color:var(--danger);}
+  .template-row{margin-top:16px;font-size:13px;color:var(--dim);}
+  .template-row a{color:var(--teal);cursor:pointer;text-decoration:underline;}
+
+  /* buttons */
+  .btn{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:13.5px;padding:11px 22px;border-radius:5px;border:1px solid var(--line);background:var(--panel2);color:var(--text);cursor:pointer;transition:.12s;}
+  .btn:hover{border-color:var(--teal);}
+  .btn.primary{background:var(--teal);border-color:var(--teal);color:#0B1210;font-weight:600;}
+  .btn.primary:hover{background:#5FC9BE;}
+  .btn.ghost{background:transparent;}
+  .btn.small{padding:7px 14px;font-size:12.5px;}
+  .btn-row{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;}
+
+  /* column mapping table */
+  table.maptable{width:100%;border-collapse:collapse;font-size:13px;}
+  table.maptable th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);padding:8px 10px;border-bottom:1px solid var(--line);}
+  table.maptable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  .col-name{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text);}
+  .col-samples{color:var(--dim);font-size:12px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .type-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.05em;padding:3px 8px;border-radius:3px;font-weight:600;}
+  .type-badge.date{background:var(--teal-soft);color:var(--teal);}
+  .type-badge.number{background:rgba(108,140,255,0.14);color:var(--blue);}
+  .type-badge.category{background:var(--amber-soft);color:var(--amber);}
+  .type-badge.text{background:rgba(231,233,236,0.08);color:var(--dim);}
+  .type-badge.id{background:rgba(226,104,92,0.12);color:var(--danger);}
+  select.type-override{background:var(--panel2);border:1px solid var(--line);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:5px 8px;border-radius:4px;}
+
+  /* tabs */
+  .tabs{display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid var(--line);}
+  .tab{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;padding:11px 18px;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;}
+  .tab.active{color:var(--teal);border-bottom-color:var(--teal);}
+
+  /* form rows */
+  .form-row{display:flex;gap:14px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
+  .form-row label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:.03em;min-width:120px;}
+  select,input[type=text],input[type=number]{background:var(--panel2);border:1px solid var(--line);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;padding:8px 10px;border-radius:5px;}
+  .metric-row,.filter-row,.formula-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap;background:var(--panel2);padding:10px 12px;border-radius:5px;}
+  .remove-btn{margin-left:auto;background:none;border:none;color:var(--danger);cursor:pointer;font-size:16px;line-height:1;padding:4px 8px;}
+  .add-link{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--teal);cursor:pointer;display:inline-block;margin-top:6px;}
+
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--line);margin:24px 0;border:1px solid var(--line);}
+  .kpi{background:var(--panel);padding:18px 20px;}
+  .kpi .label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);}
+  .kpi .value{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:26px;margin-top:6px;}
+
+  table.resulttable{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12.5px;margin-top:18px;}
+  table.resulttable th{text-align:right;font-weight:500;color:var(--teal);border-bottom:1px solid var(--teal);padding:8px 10px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;}
+  table.resulttable th:first-child,table.resulttable td:first-child{text-align:left;}
+  table.resulttable td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;}
+  table.resulttable tr:hover td{background:rgba(231,233,236,0.03);}
+
+  .pivot-cell{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:6px 4px;}
+
+  #chart-wrap{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:22px;margin-top:22px;}
+
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:11px;font-family:'IBM Plex Mono',monospace;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Veri Analiz Atölyesi</p>
+    <h1>Genel Analiz Aracı</h1>
+    <p class="sub">Herhangi bir Excel yükle, kolonları tanımla, ne görmek istediğini seç. Tamamen tarayıcında çalışır, veri hiçbir yere gönderilmez.</p>
+  </header>
+
+  <div class="step-track">
+    <div class="step-dot current" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+    <div class="step-dot" id="dot3"></div>
+  </div>
+
+  <!-- STEP 1: UPLOAD -->
+  <div class="step active" id="step1">
+    <div class="panel">
+      <h2>1. Veriyi Yükle</h2>
+      <p class="section-note">Excel (.xlsx, .xls) veya CSV dosyanı yükle. İlk satır başlık olarak okunur.</p>
+      <div id="dropzone">
+        <div class="icon">⌗</div>
+        <p><strong>Dosyayı buraya sürükle</strong> ya da tıklayıp seç</p>
+        <p class="hint">.xlsx · .xls · .csv</p>
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+      </div>
+      <div id="status"></div>
+      <div id="sheetSelectRow" class="hidden" style="margin-top:16px;">
+        <label style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);display:block;margin-bottom:6px;">Dosyada birden fazla sayfa var — hangisini kullanalım?</label>
+        <select id="sheetSelect" style="min-width:220px;"></select>
+        <button class="btn small primary" id="loadSheetBtn" style="margin-left:10px;">Bu Sayfayı Yükle</button>
+      </div>
+      <div class="template-row">
+        Daha önce kaydettiğin bir şablonun varsa <a id="templateLink">buradan yükle</a>, veriyle birlikte otomatik uygulanır.
+        <input type="file" id="templateInput" accept=".json">
+      </div>
+    </div>
+    <div class="panel hidden" id="previewPanel">
+      <h2>Veri Önizleme</h2>
+      <p class="section-note" id="previewNote"></p>
+      <div style="overflow-x:auto;"><table class="resulttable" id="previewTable"></table></div>
+    </div>
+  </div>
+
+  <!-- STEP 2: COLUMN MAPPING -->
+  <div class="step" id="step2">
+    <div class="panel">
+      <h2>2. Kolonları Tanı</h2>
+      <p class="section-note">Her kolonun tipini otomatik tahmin ettim. Yanlış görünen varsa dropdown'dan düzelt.</p>
+      <table class="maptable" id="mapTable"></table>
+      <div class="btn-row">
+        <button class="btn primary" id="toStep3Btn">Devam Et</button>
+        <button class="btn ghost" id="backTo1Btn">← Geri</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: ANALYSIS BUILDER -->
+  <div class="step" id="step3">
+    <div class="panel">
+      <h2>3. Analizi Kur</h2>
+      <p class="section-note">Ne görmek istediğini seç: zaman içinde değişim mi, kategori kırılımı mı, yoksa ikisi bir arada mı (pivot).</p>
+      <div class="tabs" id="modeTabs">
+        <div class="tab active" data-mode="timeseries">Zaman Serisi</div>
+        <div class="tab" data-mode="category">Kategori Kırılımı</div>
+        <div class="tab" data-mode="pivot">Pivot (Kategori × Zaman)</div>
+      </div>
+
+      <div id="modeConfig"></div>
+
+      <h2 style="margin-top:32px;font-size:16px;">Filtreler <span style="color:var(--dim);font-weight:400;font-size:12px;">(opsiyonel)</span></h2>
+      <div id="filterList"></div>
+      <span class="add-link" id="addFilterLink">+ filtre ekle</span>
+
+      <h2 style="margin-top:32px;font-size:16px;">Hesaplanan Alanlar <span style="color:var(--dim);font-weight:400;font-size:12px;">(opsiyonel — örn. {duration_sec} / 60)</span></h2>
+      <div id="formulaList"></div>
+      <span class="add-link" id="addFormulaLink">+ hesaplanan alan ekle</span>
+
+      <div class="btn-row">
+        <button class="btn primary" id="runBtn">Analizi Çalıştır</button>
+        <button class="btn ghost" id="backTo2Btn">← Geri</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: RESULTS -->
+  <div class="step" id="step4">
+    <div class="panel">
+      <h2 id="resultTitle">Sonuçlar</h2>
+      <div class="kpis" id="resultKpis"></div>
+      <div id="chart-wrap" class="hidden"><canvas id="mainChart" height="100"></canvas></div>
+      <div id="resultTableWrap"></div>
+      <div class="btn-row">
+        <button class="btn" id="downloadTemplateBtn">Şablonu İndir</button>
+        <button class="btn" id="downloadCsvBtn">Sonucu CSV İndir</button>
+        <button class="btn" id="downloadXlsxBtn">Sonucu Excel İndir</button>
+        <button class="btn ghost" id="backTo3Btn">← Ayarlara Dön</button>
+        <button class="btn ghost" id="resetBtn">Yeni Analiz</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Tüm hesaplama tarayıcında yapılır, veri hiçbir yere gönderilmez.</footer>
+</div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+let RAW_ROWS = [];        // orijinal satırlar (obje dizisi, ham excel değerleri)
+let HEADERS = [];         // orijinal kolon başlıkları
+let COLUMN_TYPES = {};    // { headerName: {type, samples, overridden} }
+let MODE = 'timeseries';
+let FILTERS = [];         // [{col, op, val}]
+let FORMULAS = [];        // [{name, expr}]
+let CHART_INSTANCE = null;
+let LAST_RESULT = null;   // { table: [...], headers: [...] } for CSV export
+
+const TYPE_LABELS = { date: 'TARİH', number: 'SAYI', category: 'KATEGORİ', text: 'METİN', id: 'KİMLİK' };
+const AGG_LABELS = { sum: 'Toplam', avg: 'Ortalama', count: 'Sayı', count_distinct: 'Farklı Sayı', min: 'Min', max: 'Max' };
+const GRANULARITY_LABELS = { hour: 'Saat', day: 'Gün', week: 'Hafta', month: 'Ay' };
+
+function fmt(n, d = 1) {
+  if (n === null || n === undefined || isNaN(n)) return '–';
+  return Number(n).toLocaleString('tr-TR', { minimumFractionDigits: d, maximumFractionDigits: d });
+}
+function fmtInt(n) {
+  if (n === null || n === undefined || isNaN(n)) return '–';
+  return Number(n).toLocaleString('tr-TR', { maximumFractionDigits: 0 });
+}
+
+function setStatus(msg, isErr) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = isErr ? 'err' : '';
+}
+
+function goToStep(n) {
+  for (let i = 1; i <= 4; i++) document.getElementById('step' + i).classList.toggle('active', i === n);
+  for (let i = 1; i <= 3; i++) {
+    const dot = document.getElementById('dot' + i);
+    dot.classList.remove('done', 'current');
+    if (i < n && n <= 4 && i <= 3) dot.classList.add('done');
+  }
+  const curDot = document.getElementById('dot' + Math.min(n, 3));
+  if (curDot) curDot.classList.add('current');
+  if (n === 4) { document.getElementById('dot1').classList.add('done'); document.getElementById('dot2').classList.add('done'); document.getElementById('dot3').classList.add('done'); document.getElementById('dot3').classList.remove('current'); }
+}
+
+// ============================================================
+// FILE UPLOAD
+// ============================================================
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+
+dropzone.addEventListener('click', () => fileInput.click());
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag'));
+dropzone.addEventListener('drop', e => {
+  e.preventDefault(); dropzone.classList.remove('drag');
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => { if (e.target.files.length) handleFile(e.target.files[0]); });
+
+document.getElementById('templateLink').addEventListener('click', () => document.getElementById('templateInput').click());
+document.getElementById('templateInput').addEventListener('change', e => {
+  if (!e.target.files.length) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      PENDING_TEMPLATE = JSON.parse(ev.target.result);
+      setStatus('Şablon yüklendi: "' + (PENDING_TEMPLATE.name || 'isimsiz') + '". Şimdi veri dosyasını yükle, otomatik uygulanacak.');
+    } catch (err) {
+      setStatus('Şablon dosyası okunamadı: ' + err.message, true);
+    }
+  };
+  reader.readAsText(e.target.files[0]);
+});
+
+let PENDING_TEMPLATE = null;
+
+let CURRENT_WORKBOOK = null;
+
+function handleFile(file) {
+  setStatus('Okunuyor: ' + file.name + ' ...');
+  document.getElementById('sheetSelectRow').classList.add('hidden');
+  document.getElementById('previewPanel').classList.add('hidden');
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: 'array', cellDates: true });
+      CURRENT_WORKBOOK = wb;
+      if (wb.SheetNames.length > 1) {
+        const sel = document.getElementById('sheetSelect');
+        sel.innerHTML = wb.SheetNames.map(n => `<option value="${n}">${n}</option>`).join('');
+        document.getElementById('sheetSelectRow').classList.remove('hidden');
+        setStatus(wb.SheetNames.length + ' sayfa bulundu, birini seç.');
+        document.getElementById('loadSheetBtn').onclick = () => loadSheet(sel.value);
+      } else {
+        loadSheet(wb.SheetNames[0]);
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus('Dosya okunamadı: ' + err.message, true);
+    }
+  };
+  reader.onerror = () => setStatus('Dosya okuma hatası.', true);
+  reader.readAsArrayBuffer(file);
+}
+
+function loadSheet(sheetName) {
+  try {
+    const sheet = CURRENT_WORKBOOK.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(sheet, { defval: null, raw: true });
+    if (!rows.length) { setStatus('"' + sheetName + '" sayfasında satır bulunamadı.', true); return; }
+    RAW_ROWS = rows;
+    HEADERS = Object.keys(rows[0]);
+    COLUMN_TYPES = detectColumnTypes(RAW_ROWS, HEADERS);
+
+    let msg = rows.length.toLocaleString('tr-TR') + ' satır, ' + HEADERS.length + ' kolon okundu.';
+    if (rows.length > 100000) msg += ' Büyük bir dosya — tarayıcı biraz yavaşlayabilir.';
+    setStatus(msg);
+
+    renderPreview();
+    renderMapTable();
+    goToStep(2);
+    if (PENDING_TEMPLATE) {
+      applyTemplate(PENDING_TEMPLATE);
+      PENDING_TEMPLATE = null;
+    }
+  } catch (err) {
+    console.error(err);
+    setStatus('Sayfa okunamadı: ' + err.message, true);
+  }
+}
+
+function renderPreview() {
+  const previewRows = RAW_ROWS.slice(0, 8);
+  document.getElementById('previewNote').textContent = 'İlk 8 satır — kolonların doğru okunduğunu buradan kontrol edebilirsin.';
+  const thead = HEADERS.map(h => `<th>${h}</th>`).join('');
+  const tbody = previewRows.map(r => `<tr>${HEADERS.map(h => `<td style="text-align:left;">${r[h] === null || r[h] === undefined ? '<span style="color:var(--dim)">—</span>' : String(r[h])}</td>`).join('')}</tr>`).join('');
+  document.getElementById('previewTable').innerHTML = `<thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody>`;
+  document.getElementById('previewPanel').classList.remove('hidden');
+}
+
+// ============================================================
+// COLUMN TYPE DETECTION
+// ============================================================
+function looksLikeDate(v) {
+  if (v instanceof Date) return !isNaN(v.getTime());
+  if (typeof v === 'string') {
+    const s = v.trim();
+    if (/^\d{4}-\d{1,2}-\d{1,2}/.test(s)) return true;
+    if (/^\d{1,2}[.\/]\d{1,2}[.\/]\d{2,4}/.test(s)) return true;
+    if (/^\d{1,2}[-.\/\s][A-Za-zÇĞİÖŞÜçğıöşü]{3,4}[-.\/\s]\d{2,4}/.test(s)) return true;
+  }
+  return false;
+}
+function looksLikeNumber(v) {
+  if (typeof v === 'number') return !isNaN(v);
+  if (typeof v === 'string') {
+    const s = v.trim().replace(',', '.');
+    return s !== '' && !isNaN(Number(s));
+  }
+  return false;
+}
+
+function detectColumnTypes(rows, headers) {
+  const sampleSize = Math.min(rows.length, 200);
+  const types = {};
+  headers.forEach(h => {
+    let dateCount = 0, numCount = 0, nonNullCount = 0;
+    const uniqueVals = new Set();
+    const samples = [];
+    for (let i = 0; i < sampleSize; i++) {
+      const v = rows[i][h];
+      if (v === null || v === undefined || v === '') continue;
+      nonNullCount++;
+      uniqueVals.add(String(v));
+      if (samples.length < 3) samples.push(String(v));
+      if (looksLikeDate(v)) dateCount++;
+      else if (looksLikeNumber(v)) numCount++;
+    }
+    let type = 'text';
+    if (nonNullCount > 0) {
+      if (dateCount / nonNullCount > 0.7) type = 'date';
+      else if (numCount / nonNullCount > 0.7) type = 'number';
+      else if (uniqueVals.size / nonNullCount > 0.9 && nonNullCount > 20) type = 'id';
+      else if (uniqueVals.size <= Math.max(30, nonNullCount * 0.5)) type = 'category';
+      else type = 'text';
+    }
+    types[h] = { type, samples, overridden: false };
+  });
+  return types;
+}
+
+// ============================================================
+// STEP 2: COLUMN MAPPING TABLE
+// ============================================================
+function renderMapTable() {
+  const rowsHtml = HEADERS.map(h => {
+    const info = COLUMN_TYPES[h];
+    const badge = `<span class="type-badge ${info.type}">${TYPE_LABELS[info.type]}</span>`;
+    const options = Object.keys(TYPE_LABELS).map(t => `<option value="${t}" ${t === info.type ? 'selected' : ''}>${TYPE_LABELS[t]}</option>`).join('');
+    return `
+      <tr>
+        <td class="col-name">${h}</td>
+        <td class="col-samples">${info.samples.join(' · ') || '—'}</td>
+        <td>${badge}</td>
+        <td><select class="type-override" data-col="${h}">${options}</select></td>
+      </tr>`;
+  }).join('');
+  document.getElementById('mapTable').innerHTML = `
+    <thead><tr><th>Kolon</th><th>Örnek Değerler</th><th>Algılanan Tip</th><th>Düzelt</th></tr></thead>
+    <tbody>${rowsHtml}</tbody>
+  `;
+  document.querySelectorAll('.type-override').forEach(sel => {
+    sel.addEventListener('change', () => {
+      COLUMN_TYPES[sel.dataset.col].type = sel.value;
+      COLUMN_TYPES[sel.dataset.col].overridden = true;
+      renderMapTable();
+    });
+  });
+}
+
+document.getElementById('backTo1Btn').addEventListener('click', () => goToStep(1));
+document.getElementById('toStep3Btn').addEventListener('click', () => { renderModeConfig(); goToStep(3); });
+
+// ============================================================
+// STEP 3: MODE TABS
+// ============================================================
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    MODE = tab.dataset.mode;
+    renderModeConfig();
+  });
+});
+
+function colsByType(type) { return HEADERS.filter(h => COLUMN_TYPES[h].type === type).concat(FORMULAS.map(f => f.name)); }
+function allValueCols() { return HEADERS.filter(h => COLUMN_TYPES[h].type === 'number').concat(FORMULAS.map(f => f.name)); }
+function allGroupCols() { return HEADERS.filter(h => ['category', 'text', 'id'].includes(COLUMN_TYPES[h].type)); }
+function allDateCols() { return HEADERS.filter(h => COLUMN_TYPES[h].type === 'date'); }
+
+function metricRowHtml(idx, agg = 'sum', col = '') {
+  const valOptions = allValueCols().map(c => `<option value="${c}" ${c === col ? 'selected' : ''}>${c}</option>`).join('');
+  const aggOptions = Object.keys(AGG_LABELS).map(a => `<option value="${a}" ${a === agg ? 'selected' : ''}>${AGG_LABELS[a]}</option>`).join('');
+  return `
+    <div class="metric-row" data-idx="${idx}">
+      <label>Değer</label>
+      <select class="metric-col">${valOptions}</select>
+      <label>İşlem</label>
+      <select class="metric-agg">${aggOptions}</select>
+      <button class="remove-btn metric-remove" title="kaldır">✕</button>
+    </div>`;
+}
+
+function renderModeConfig() {
+  const container = document.getElementById('modeConfig');
+  const dateOpts = allDateCols().map(c => `<option value="${c}">${c}</option>`).join('');
+  const groupOpts = allGroupCols().map(c => `<option value="${c}">${c}</option>`).join('');
+  const granOpts = Object.keys(GRANULARITY_LABELS).map(g => `<option value="${g}">${GRANULARITY_LABELS[g]}</option>`).join('');
+
+  if (MODE === 'timeseries') {
+    container.innerHTML = `
+      <div class="form-row"><label>Zaman Kolonu</label><select id="cfgTimeCol">${dateOpts}</select></div>
+      <div class="form-row"><label>Zaman Dilimi</label><select id="cfgGranularity">${granOpts}</select></div>
+      <div class="form-row"><label>Seriye Ayır</label><select id="cfgSplitCol"><option value="">— (tek seri)</option>${groupOpts}</select></div>
+      <div id="metricList"></div>
+      <span class="add-link" id="addMetricLink">+ metrik ekle</span>
+    `;
+  } else if (MODE === 'category') {
+    container.innerHTML = `
+      <div class="form-row"><label>Kategori Kolonu</label><select id="cfgGroupCol">${groupOpts}</select></div>
+      <div class="form-row"><label>Sırala</label><select id="cfgSortDir"><option value="desc">Büyükten küçüğe</option><option value="asc">Küçükten büyüğe</option></select></div>
+      <div class="form-row"><label>Grafik Tipi</label><select id="cfgChartType"><option value="bar">Bar</option><option value="pie">Pasta</option></select></div>
+      <div class="form-row"><label>İlk N</label><input type="number" id="cfgTopN" value="20" min="1" style="width:80px"></div>
+      <div id="metricList"></div>
+      <span class="add-link" id="addMetricLink">+ metrik ekle</span>
+    `;
+  } else if (MODE === 'pivot') {
+    container.innerHTML = `
+      <div class="form-row"><label>Satırlar (Kategori)</label><select id="cfgGroupCol">${groupOpts}</select></div>
+      <div class="form-row"><label>Kolonlar (Zaman)</label><select id="cfgTimeCol">${dateOpts}</select></div>
+      <div class="form-row"><label>Zaman Dilimi</label><select id="cfgGranularity">${granOpts}</select></div>
+      <div class="form-row"><label>Değer</label><select id="cfgPivotCol">${allValueCols().map(c => `<option value="${c}">${c}</option>`).join('')}</select></div>
+      <div class="form-row"><label>İşlem</label><select id="cfgPivotAgg">${Object.keys(AGG_LABELS).map(a => `<option value="${a}">${AGG_LABELS[a]}</option>`).join('')}</select></div>
+    `;
+  }
+
+  if (MODE === 'timeseries' || MODE === 'category') {
+    METRICS = METRICS.length ? METRICS : [{ col: allValueCols()[0] || '', agg: 'sum' }];
+    renderMetricList();
+    document.getElementById('addMetricLink').addEventListener('click', () => {
+      METRICS.push({ col: allValueCols()[0] || '', agg: 'sum' });
+      renderMetricList();
+    });
+  }
+}
+
+let METRICS = [];
+
+function renderMetricList() {
+  const el = document.getElementById('metricList');
+  el.innerHTML = METRICS.map((m, i) => metricRowHtml(i, m.agg, m.col)).join('');
+  el.querySelectorAll('.metric-row').forEach((row, i) => {
+    row.querySelector('.metric-col').addEventListener('change', e => METRICS[i].col = e.target.value);
+    row.querySelector('.metric-agg').addEventListener('change', e => METRICS[i].agg = e.target.value);
+    row.querySelector('.metric-remove').addEventListener('click', () => { METRICS.splice(i, 1); renderMetricList(); });
+  });
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+const OP_LABELS = { eq: '=', neq: '≠', gt: '>', lt: '<', gte: '≥', lte: '≤', contains: 'içerir', empty: 'boş', notempty: 'boş değil' };
+
+function filterRowHtml(idx, f) {
+  const colOpts = HEADERS.map(c => `<option value="${c}" ${c === f.col ? 'selected' : ''}>${c}</option>`).join('');
+  const opOpts = Object.keys(OP_LABELS).map(o => `<option value="${o}" ${o === f.op ? 'selected' : ''}>${OP_LABELS[o]}</option>`).join('');
+  const needsVal = !['empty', 'notempty'].includes(f.op);
+  return `
+    <div class="filter-row" data-idx="${idx}">
+      <select class="filter-col">${colOpts}</select>
+      <select class="filter-op">${opOpts}</select>
+      ${needsVal ? `<input type="text" class="filter-val" value="${f.val || ''}" placeholder="değer">` : ''}
+      <button class="remove-btn filter-remove">✕</button>
+    </div>`;
+}
+function renderFilterList() {
+  const el = document.getElementById('filterList');
+  el.innerHTML = FILTERS.map((f, i) => filterRowHtml(i, f)).join('');
+  el.querySelectorAll('.filter-row').forEach((row, i) => {
+    row.querySelector('.filter-col').addEventListener('change', e => { FILTERS[i].col = e.target.value; });
+    row.querySelector('.filter-op').addEventListener('change', e => { FILTERS[i].op = e.target.value; renderFilterList(); });
+    const valInput = row.querySelector('.filter-val');
+    if (valInput) valInput.addEventListener('input', e => { FILTERS[i].val = e.target.value; });
+    row.querySelector('.filter-remove').addEventListener('click', () => { FILTERS.splice(i, 1); renderFilterList(); });
+  });
+}
+document.getElementById('addFilterLink').addEventListener('click', () => {
+  FILTERS.push({ col: HEADERS[0], op: 'eq', val: '' });
+  renderFilterList();
+});
+
+// ============================================================
+// ROW-LEVEL FORMULAS
+// ============================================================
+function formulaRowHtml(idx, f) {
+  return `
+    <div class="formula-row" data-idx="${idx}" style="flex-wrap:wrap;">
+      <input type="text" class="formula-name" value="${f.name || ''}" placeholder="alan adı" style="width:140px">
+      <span style="color:var(--dim)">=</span>
+      <input type="text" class="formula-expr" value="${f.expr || ''}" placeholder="{kolon_a} / {kolon_b} * 100  ·  IF({x}>10, 1, 0)  ·  ROUND({x}, 2)" style="width:380px">
+      <button class="remove-btn formula-remove">✕</button>
+      <div class="formula-error" style="width:100%;color:var(--danger);font-size:11.5px;font-family:'IBM Plex Mono',monospace;display:none;"></div>
+    </div>`;
+}
+function renderFormulaList() {
+  const el = document.getElementById('formulaList');
+  el.innerHTML = FORMULAS.map((f, i) => formulaRowHtml(i, f)).join('');
+  el.querySelectorAll('.formula-row').forEach((row, i) => {
+    const errEl = row.querySelector('.formula-error');
+    const check = () => {
+      const v = validateFormula(FORMULAS[i].expr, RAW_ROWS[0] || {});
+      errEl.style.display = v.ok ? 'none' : 'block';
+      errEl.textContent = v.ok ? '' : v.message;
+      row.style.borderColor = v.ok ? 'var(--line)' : 'var(--danger)';
+    };
+    row.querySelector('.formula-name').addEventListener('input', e => { FORMULAS[i].name = e.target.value; });
+    row.querySelector('.formula-expr').addEventListener('input', e => { FORMULAS[i].expr = e.target.value; check(); });
+    row.querySelector('.formula-remove').addEventListener('click', () => { FORMULAS.splice(i, 1); renderFormulaList(); renderModeConfig(); });
+    check();
+  });
+}
+document.getElementById('addFormulaLink').addEventListener('click', () => {
+  FORMULAS.push({ name: 'yeni_alan' + (FORMULAS.length + 1), expr: '' });
+  renderFormulaList();
+  renderModeConfig();
+});
+
+document.getElementById('backTo2Btn').addEventListener('click', () => goToStep(2));
+
+// ============================================================
+// FORMULA EVALUATION (guarded arithmetic only)
+// ============================================================
+function safeEvalFormula(expr, scope) {
+  let e = expr.replace(/\{([^}]+)\}/g, (m, name) => {
+    const raw = scope[name.trim()];
+    const num = typeof raw === 'number' ? raw : parseFloat(String(raw).replace(',', '.'));
+    return '(' + (isNaN(num) ? 0 : num) + ')';
+  });
+  // izin verilen: sayilar, operatorler, karsilastirma, ve fonksiyon isimleri (buyuk harf)
+  if (!/^[0-9A-Z_+\-*/(),.\s<>=!&|]+$/.test(e)) {
+    return { error: 'Geçersiz karakter içeriyor. Sadece sayı, +-*/, karşılaştırma ve ROUND/ABS/IF/MIN/MAX/SQRT kullanılabilir.' };
+  }
+  try {
+    // eslint-disable-next-line no-new-func
+    const fn = Function('ROUND', 'ABS', 'IF', 'MIN', 'MAX', 'SQRT', '"use strict"; return (' + e + ')');
+    const result = fn(
+      (x, n) => { const p = Math.pow(10, n || 0); return Math.round(x * p) / p; },
+      (x) => Math.abs(x),
+      (cond, a, b) => cond ? a : b,
+      (...args) => Math.min(...args),
+      (...args) => Math.max(...args),
+      (x) => Math.sqrt(x)
+    );
+    if (typeof result !== 'number' || isNaN(result)) return { error: 'Sonuç sayı değil.' };
+    return { value: result };
+  } catch (err) {
+    return { error: 'Formül hatası: ' + err.message };
+  }
+}
+
+function applyRowFormulas(rows, formulas) {
+  if (!formulas.length) return rows;
+  return rows.map(r => {
+    const extended = { ...r };
+    formulas.forEach(f => {
+      if (f.name && f.expr) {
+        const res = safeEvalFormula(f.expr, r);
+        extended[f.name] = res.error ? null : res.value;
+      }
+    });
+    return extended;
+  });
+}
+
+function validateFormula(expr, sampleRow) {
+  if (!expr || !expr.trim()) return { ok: true };
+  const res = safeEvalFormula(expr, sampleRow || {});
+  return res.error ? { ok: false, message: res.error } : { ok: true };
+}
+
+// ============================================================
+// FILTERING
+// ============================================================
+function passesFilter(row, f) {
+  const v = row[f.col];
+  const isEmpty = v === null || v === undefined || v === '';
+  switch (f.op) {
+    case 'empty': return isEmpty;
+    case 'notempty': return !isEmpty;
+    case 'contains': return !isEmpty && String(v).toLowerCase().includes(String(f.val).toLowerCase());
+    case 'eq': return String(v) === String(f.val);
+    case 'neq': return String(v) !== String(f.val);
+    case 'gt': return Number(v) > Number(f.val);
+    case 'lt': return Number(v) < Number(f.val);
+    case 'gte': return Number(v) >= Number(f.val);
+    case 'lte': return Number(v) <= Number(f.val);
+    default: return true;
+  }
+}
+function applyFilters(rows, filters) {
+  if (!filters.length) return rows;
+  return rows.filter(r => filters.every(f => passesFilter(r, f)));
+}
+
+// ============================================================
+// DATE BUCKETING
+// ============================================================
+function toJsDate(v) {
+  if (v instanceof Date) return isNaN(v.getTime()) ? null : v;
+  if (typeof v === 'number') {
+    const epoch = new Date(Date.UTC(1899, 11, 30));
+    const dt = new Date(epoch.getTime() + v * 86400000);
+    return isNaN(dt.getTime()) ? null : dt;
+  }
+  if (typeof v === 'string') {
+    const s = v.trim().replace(/\u00A0/g, ' ').replace(/\s+/g, ' ');
+    if (!s) return null;
+    if (/^\d{4}-\d{1,2}-\d{1,2}/.test(s)) { const d = new Date(s.replace(' ', 'T')); if (!isNaN(d.getTime())) return d; }
+
+    // DD/MM/YYYY or DD.MM.YYYY, optional HH:MM:SS
+    let m = s.match(/^(\d{1,2})[.\/](\d{1,2})[.\/](\d{2,4})(?:[ ,T]+(\d{1,2}):(\d{2})(?::(\d{2}))?(?:[.,]\d+)?)?$/);
+    if (m) {
+      let [, dd, mm, yyyy, hh, mi, ss] = m;
+      if (yyyy.length === 2) yyyy = '20' + yyyy;
+      const d = new Date(Number(yyyy), Number(mm) - 1, Number(dd), Number(hh || 0), Number(mi || 0), Number(ss || 0));
+      if (!isNaN(d.getTime())) return d;
+    }
+
+    // Oracle default DATE/TIMESTAMP: DD-MON-YY(YY) [HH:MI:SS[.ffffff]] [AM/PM], Turkce/Ingilizce ay kisaltmalari
+    m = s.match(/^(\d{1,2})[-.\/\s]([A-Za-zÇĞİÖŞÜçğıöşü]{3,4})[-.\/\s](\d{2,4})(?:[\s,T]+(\d{1,2})[:.](\d{2})(?:[:.](\d{2}))?(?:[.,](\d+))?)?(?:\s*([AaPp][Mm]))?$/);
+    if (m) {
+      const monthMap = {
+        OCA: 0, JAN: 0, SUB: 1, ŞUB: 1, FEB: 1, MAR: 2,
+        NIS: 3, NİS: 3, APR: 3, MAY: 4,
+        HAZ: 5, JUN: 5, TEM: 6, JUL: 6,
+        AGU: 7, AĞU: 7, AUG: 7, EYL: 8, SEP: 8,
+        EKI: 9, EKİ: 9, OCT: 9, KAS: 10, NOV: 10, ARA: 11, DEC: 11
+      };
+      let [, dd, monRaw, yyyy, hh, mi, ss, frac, ampm] = m;
+      const monKey = monRaw.toUpperCase();
+      if (monKey in monthMap) {
+        if (yyyy.length === 2) yyyy = '20' + yyyy;
+        let hhNum = hh ? Number(hh) : 0;
+        mi = mi || '0'; ss = ss || '0';
+        if (ampm) {
+          const isPM = ampm.toUpperCase() === 'PM';
+          if (isPM && hhNum !== 12) hhNum += 12;
+          if (!isPM && hhNum === 12) hhNum = 0;
+        }
+        let ms = 0;
+        if (frac) ms = Math.round(parseFloat('0.' + frac) * 1000);
+        const d = new Date(Number(yyyy), monthMap[monKey], Number(dd), hhNum, Number(mi), Number(ss), ms);
+        if (!isNaN(d.getTime())) return d;
+      }
+    }
+
+    const g = new Date(s);
+    if (!isNaN(g.getTime())) return g;
+  }
+  return null;
+}
+
+function bucketLabel(date, granularity) {
+  if (!date) return null;
+  const pad = n => String(n).padStart(2, '0');
+  if (granularity === 'hour') return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:00`;
+  if (granularity === 'day') return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+  if (granularity === 'week') {
+    const d = new Date(date); const day = (d.getDay() + 6) % 7; d.setDate(d.getDate() - day);
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} (hafta)`;
+  }
+  if (granularity === 'month') return `${date.getFullYear()}-${pad(date.getMonth() + 1)}`;
+  return null;
+}
+function bucketSortKey(date, granularity) {
+  if (granularity === 'week') { const d = new Date(date); const day = (d.getDay() + 6) % 7; d.setDate(d.getDate() - day); return d.getTime(); }
+  return date.getTime();
+}
+
+// ============================================================
+// AGGREGATION
+// ============================================================
+function aggregate(values, agg) {
+  const nums = values.map(v => typeof v === 'number' ? v : parseFloat(String(v).replace(',', '.'))).filter(v => !isNaN(v));
+  switch (agg) {
+    case 'sum': return nums.reduce((a, b) => a + b, 0);
+    case 'avg': return nums.length ? nums.reduce((a, b) => a + b, 0) / nums.length : 0;
+    case 'count': return values.length;
+    case 'count_distinct': return new Set(values.map(v => String(v))).size;
+    case 'min': return nums.length ? Math.min(...nums) : 0;
+    case 'max': return nums.length ? Math.max(...nums) : 0;
+    default: return 0;
+  }
+}
+
+function groupRows(rows, keyFn) {
+  const groups = new Map();
+  rows.forEach(r => {
+    const key = keyFn(r);
+    if (key === null || key === undefined) return;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(r);
+  });
+  return groups;
+}
+
+// ============================================================
+// RUN ANALYSIS
+// ============================================================
+document.getElementById('runBtn').addEventListener('click', runAnalysis);
+
+function validateBeforeRun() {
+  const problems = [];
+  if (MODE === 'timeseries') {
+    if (!document.getElementById('cfgTimeCol').value) problems.push('Zaman kolonu seçilmedi.');
+    if (!METRICS.length || METRICS.some(m => !m.col)) problems.push('En az bir metrik seçilmeli.');
+  } else if (MODE === 'category') {
+    if (!document.getElementById('cfgGroupCol').value) problems.push('Kategori kolonu seçilmedi.');
+    if (!METRICS.length || METRICS.some(m => !m.col)) problems.push('En az bir metrik seçilmeli.');
+  } else if (MODE === 'pivot') {
+    if (!document.getElementById('cfgGroupCol').value) problems.push('Satır (kategori) kolonu seçilmedi.');
+    if (!document.getElementById('cfgTimeCol').value) problems.push('Kolon (zaman) alanı seçilmedi.');
+    if (!document.getElementById('cfgPivotCol').value) problems.push('Değer kolonu seçilmedi.');
+  }
+  FORMULAS.forEach(f => {
+    if (f.expr) {
+      const v = validateFormula(f.expr, RAW_ROWS[0] || {});
+      if (!v.ok) problems.push('"' + f.name + '" formülünde hata: ' + v.message);
+    }
+  });
+  return problems;
+}
+
+function showRunError(msg) {
+  let el = document.getElementById('runError');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'runError';
+    el.style.cssText = 'color:var(--danger);font-family:IBM Plex Mono,monospace;font-size:12.5px;margin-top:14px;white-space:pre-line;';
+    document.getElementById('runBtn').insertAdjacentElement('beforebegin', el);
+  }
+  el.textContent = msg;
+}
+
+function runAnalysis() {
+  const problems = validateBeforeRun();
+  if (problems.length) { showRunError('Devam edemiyorum:\n• ' + problems.join('\n• ')); return; }
+  showRunError('');
+
+  let rows = applyRowFormulas(RAW_ROWS, FORMULAS);
+  const totalBefore = rows.length;
+  rows = applyFilters(rows, FILTERS);
+
+  if (rows.length === 0) { showRunError('Filtrelerden sonra hiç satır kalmadı. Filtreleri gözden geçir.'); return; }
+
+  if (MODE === 'timeseries') runTimeSeries(rows, totalBefore);
+  else if (MODE === 'category') runCategory(rows, totalBefore);
+  else if (MODE === 'pivot') runPivot(rows, totalBefore);
+
+  goToStep(4);
+}
+
+function metricHeaderName(m) { return `${m.col} (${AGG_LABELS[m.agg]})`; }
+
+function runTimeSeries(rows, totalBefore) {
+  const timeCol = document.getElementById('cfgTimeCol').value;
+  const granularity = document.getElementById('cfgGranularity').value;
+  const splitCol = document.getElementById('cfgSplitCol').value;
+
+  const withBucket = rows.map(r => {
+    const d = toJsDate(r[timeCol]);
+    return { ...r, __bucket: d ? bucketLabel(d, granularity) : null, __bucketSort: d ? bucketSortKey(d, granularity) : null };
+  }).filter(r => r.__bucket !== null);
+
+  const bucketGroups = groupRows(withBucket, r => r.__bucket);
+  let bucketKeys = Array.from(bucketGroups.keys());
+  bucketKeys.sort((a, b) => bucketGroups.get(a)[0].__bucketSort - bucketGroups.get(b)[0].__bucketSort);
+
+  const splitVals = splitCol ? Array.from(new Set(withBucket.map(r => r[splitCol]).filter(v => v !== null && v !== undefined))) : [null];
+
+  const table = bucketKeys.map(bk => {
+    const row = { Zaman: bk };
+    const bucketRows = bucketGroups.get(bk);
+    if (splitCol) {
+      splitVals.forEach(sv => {
+        const subset = bucketRows.filter(r => r[splitCol] === sv);
+        METRICS.forEach(m => { row[`${sv} — ${metricHeaderName(m)}`] = aggregate(subset.map(r => r[m.col]), m.agg); });
+      });
+    } else {
+      METRICS.forEach(m => { row[metricHeaderName(m)] = aggregate(bucketRows.map(r => r[m.col]), m.agg); });
+    }
+    return row;
+  });
+
+  const valueCols = Object.keys(table[0] || {}).filter(c => c !== 'Zaman');
+
+  renderKpis([
+    { label: 'Toplam Satır', value: fmtInt(totalBefore) },
+    { label: 'Filtre Sonrası', value: fmtInt(rows.length) },
+    { label: 'Zaman Dilimi Sayısı', value: fmtInt(bucketKeys.length) }
+  ]);
+
+  document.getElementById('resultTitle').textContent = 'Zaman Serisi — ' + GRANULARITY_LABELS[granularity] + ' Bazında';
+  renderLineChart(table.map(r => r.Zaman), valueCols.map(c => ({ label: c, data: table.map(r => r[c]) })));
+  renderResultTable(['Zaman', ...valueCols], table);
+  LAST_RESULT = { headers: ['Zaman', ...valueCols], table };
+}
+
+function runCategory(rows, totalBefore) {
+  const groupCol = document.getElementById('cfgGroupCol').value;
+  const sortDir = document.getElementById('cfgSortDir').value;
+  const topN = parseInt(document.getElementById('cfgTopN').value) || 20;
+
+  const groups = groupRows(rows, r => r[groupCol]);
+  let table = Array.from(groups.entries()).map(([key, subset]) => {
+    const row = { [groupCol]: key };
+    METRICS.forEach(m => { row[metricHeaderName(m)] = aggregate(subset.map(r => r[m.col]), m.agg); });
+    return row;
+  });
+
+  const sortCol = Object.keys(table[0] || {}).find(c => c !== groupCol);
+  if (sortCol) table.sort((a, b) => sortDir === 'desc' ? b[sortCol] - a[sortCol] : a[sortCol] - b[sortCol]);
+  table = table.slice(0, topN);
+
+  const valueCols = Object.keys(table[0] || {}).filter(c => c !== groupCol);
+
+  renderKpis([
+    { label: 'Toplam Satır', value: fmtInt(totalBefore) },
+    { label: 'Filtre Sonrası', value: fmtInt(rows.length) },
+    { label: 'Kategori Sayısı', value: fmtInt(groups.size) }
+  ]);
+
+  document.getElementById('resultTitle').textContent = 'Kategori Kırılımı — ' + groupCol;
+  const chartType = document.getElementById('cfgChartType').value;
+  if (chartType === 'pie' && valueCols.length === 1) {
+    renderPieChart(table.map(r => String(r[groupCol])), table.map(r => r[valueCols[0]]), valueCols[0]);
+  } else {
+    renderBarChart(table.map(r => String(r[groupCol])), valueCols.map(c => ({ label: c, data: table.map(r => r[c]) })));
+  }
+  renderResultTable([groupCol, ...valueCols], table);
+  LAST_RESULT = { headers: [groupCol, ...valueCols], table };
+}
+
+function runPivot(rows, totalBefore) {
+  const groupCol = document.getElementById('cfgGroupCol').value;
+  const timeCol = document.getElementById('cfgTimeCol').value;
+  const granularity = document.getElementById('cfgGranularity').value;
+  const valCol = document.getElementById('cfgPivotCol').value;
+  const agg = document.getElementById('cfgPivotAgg').value;
+
+  const withBucket = rows.map(r => {
+    const d = toJsDate(r[timeCol]);
+    return { ...r, __bucket: d ? bucketLabel(d, granularity) : null, __bucketSort: d ? bucketSortKey(d, granularity) : null };
+  }).filter(r => r.__bucket !== null);
+
+  const bucketMap = new Map();
+  withBucket.forEach(r => { if (!bucketMap.has(r.__bucket)) bucketMap.set(r.__bucket, r.__bucketSort); });
+  const bucketKeys = Array.from(bucketMap.keys()).sort((a, b) => bucketMap.get(a) - bucketMap.get(b));
+
+  const catVals = Array.from(new Set(withBucket.map(r => r[groupCol]).filter(v => v !== null && v !== undefined)));
+
+  const matrix = catVals.map(cat => {
+    const row = { [groupCol]: cat };
+    bucketKeys.forEach(bk => {
+      const subset = withBucket.filter(r => r[groupCol] === cat && r.__bucket === bk);
+      row[bk] = aggregate(subset.map(r => r[valCol]), agg);
+    });
+    return row;
+  });
+
+  renderKpis([
+    { label: 'Toplam Satır', value: fmtInt(totalBefore) },
+    { label: 'Filtre Sonrası', value: fmtInt(rows.length) },
+    { label: 'Kategori × Zaman', value: fmtInt(catVals.length) + ' × ' + fmtInt(bucketKeys.length) }
+  ]);
+
+  document.getElementById('resultTitle').textContent = 'Pivot — ' + groupCol + ' × ' + GRANULARITY_LABELS[granularity];
+  document.getElementById('chart-wrap').classList.add('hidden');
+  renderPivotTable(groupCol, bucketKeys, matrix);
+  LAST_RESULT = { headers: [groupCol, ...bucketKeys], table: matrix };
+}
+
+// ============================================================
+// RENDERING
+// ============================================================
+function renderKpis(kpis) {
+  document.getElementById('resultKpis').innerHTML = kpis.map(k => `
+    <div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div></div>
+  `).join('');
+}
+
+const CHART_COLORS = ['#49B7AC', '#E0A458', '#6C8CFF', '#E2685C', '#B08DFF', '#7ED6A5'];
+
+function renderLineChart(labels, datasets) {
+  document.getElementById('chart-wrap').classList.remove('hidden');
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  if (CHART_INSTANCE) CHART_INSTANCE.destroy();
+  CHART_INSTANCE = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets: datasets.map((d, i) => ({ label: d.label, data: d.data, borderColor: CHART_COLORS[i % CHART_COLORS.length], backgroundColor: CHART_COLORS[i % CHART_COLORS.length], borderWidth: 2, tension: 0.3, pointRadius: 2 })) },
+    options: chartOptions()
+  });
+}
+function renderBarChart(labels, datasets) {
+  document.getElementById('chart-wrap').classList.remove('hidden');
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  if (CHART_INSTANCE) CHART_INSTANCE.destroy();
+  CHART_INSTANCE = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets: datasets.map((d, i) => ({ label: d.label, data: d.data, backgroundColor: CHART_COLORS[i % CHART_COLORS.length], borderRadius: 2 })) },
+    options: chartOptions()
+  });
+}
+function renderPieChart(labels, data, label) {
+  document.getElementById('chart-wrap').classList.remove('hidden');
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  if (CHART_INSTANCE) CHART_INSTANCE.destroy();
+  CHART_INSTANCE = new Chart(ctx, {
+    type: 'doughnut',
+    data: { labels, datasets: [{ label, data, backgroundColor: labels.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]) }] },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'right', labels: { color: '#E7E9EC', font: { family: 'IBM Plex Sans', size: 11 } } } }
+    }
+  });
+}
+function chartOptions() {
+  return {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: { legend: { labels: { color: '#E7E9EC', font: { family: 'IBM Plex Sans', size: 11 } } } },
+    scales: {
+      x: { ticks: { color: '#8B92A0', font: { family: 'IBM Plex Mono', size: 10 } }, grid: { color: 'rgba(231,233,236,0.06)' } },
+      y: { ticks: { color: '#8B92A0', font: { size: 10 } }, grid: { color: 'rgba(231,233,236,0.06)' } }
+    }
+  };
+}
+
+let CURRENT_TABLE_STATE = null; // {headers, table, sortCol, sortDir}
+
+function renderResultTable(headers, table) {
+  CURRENT_TABLE_STATE = { headers, table, sortCol: null, sortDir: 'desc' };
+  drawResultTable();
+}
+
+function drawResultTable() {
+  const { headers, table, sortCol, sortDir } = CURRENT_TABLE_STATE;
+  let rows = table;
+  if (sortCol) {
+    rows = [...table].sort((a, b) => {
+      const av = a[sortCol], bv = b[sortCol];
+      const cmp = typeof av === 'number' && typeof bv === 'number' ? av - bv : String(av).localeCompare(String(bv));
+      return sortDir === 'asc' ? cmp : -cmp;
+    });
+  }
+  const thead = headers.map(h => {
+    const arrow = sortCol === h ? (sortDir === 'asc' ? ' ▲' : ' ▼') : '';
+    return `<th data-col="${h}" style="cursor:pointer;user-select:none;">${h}${arrow}</th>`;
+  }).join('');
+  const tbody = rows.map(row => `<tr>${headers.map(h => {
+    const v = row[h];
+    const isNum = typeof v === 'number';
+    return `<td>${isNum ? fmt(v, Number.isInteger(v) ? 0 : 1) : (v ?? '–')}</td>`;
+  }).join('')}</tr>`).join('');
+  document.getElementById('resultTableWrap').innerHTML = `<table class="resulttable" id="resultTableEl"><thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody></table>`;
+  document.querySelectorAll('#resultTableEl th').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.dataset.col;
+      if (CURRENT_TABLE_STATE.sortCol === col) {
+        CURRENT_TABLE_STATE.sortDir = CURRENT_TABLE_STATE.sortDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        CURRENT_TABLE_STATE.sortCol = col;
+        CURRENT_TABLE_STATE.sortDir = 'desc';
+      }
+      drawResultTable();
+    });
+  });
+}
+
+function renderPivotTable(groupCol, bucketKeys, matrix) {
+  let maxVal = 0;
+  matrix.forEach(row => bucketKeys.forEach(bk => { if (row[bk] > maxVal) maxVal = row[bk]; }));
+  const thead = `<th>${groupCol}</th>` + bucketKeys.map(bk => `<th>${bk}</th>`).join('');
+  const tbody = matrix.map(row => {
+    const cells = bucketKeys.map(bk => {
+      const v = row[bk] || 0;
+      const intensity = maxVal > 0 ? v / maxVal : 0;
+      const bg = `rgba(73,183,172,${(intensity * 0.55).toFixed(2)})`;
+      return `<td class="pivot-cell" style="background:${bg}">${v ? fmt(v, Number.isInteger(v) ? 0 : 1) : '–'}</td>`;
+    }).join('');
+    return `<tr><td class="col-name">${row[groupCol]}</td>${cells}</tr>`;
+  }).join('');
+  document.getElementById('resultTableWrap').innerHTML = `<table class="resulttable"><thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody></table>`;
+}
+
+// ============================================================
+// CSV EXPORT
+// ============================================================
+document.getElementById('downloadCsvBtn').addEventListener('click', () => {
+  if (!LAST_RESULT) return;
+  const { headers, table } = LAST_RESULT;
+  const lines = [headers.join(';')];
+  table.forEach(row => lines.push(headers.map(h => {
+    const v = row[h];
+    return typeof v === 'number' ? String(v).replace('.', ',') : (v ?? '');
+  }).join(';')));
+  const blob = new Blob(['\uFEFF' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'analiz_sonucu.csv'; a.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('downloadXlsxBtn').addEventListener('click', () => {
+  if (!LAST_RESULT) return;
+  const { headers, table } = LAST_RESULT;
+  const ws = XLSX.utils.json_to_sheet(table, { header: headers });
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Analiz Sonucu');
+  XLSX.writeFile(wb, 'analiz_sonucu.xlsx');
+});
+
+// ============================================================
+// TEMPLATE SAVE / LOAD
+// ============================================================
+document.getElementById('downloadTemplateBtn').addEventListener('click', () => {
+  const template = {
+    name: 'sablon_' + new Date().toISOString().slice(0, 10),
+    columnTypes: Object.fromEntries(Object.entries(COLUMN_TYPES).map(([k, v]) => [k, v.type])),
+    mode: MODE,
+    filters: FILTERS,
+    formulas: FORMULAS,
+    metrics: METRICS,
+    modeConfig: readModeConfigValues()
+  };
+  const blob = new Blob([JSON.stringify(template, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = template.name + '.json'; a.click();
+  URL.revokeObjectURL(url);
+});
+
+function readModeConfigValues() {
+  const cfg = {};
+  ['cfgTimeCol', 'cfgGranularity', 'cfgSplitCol', 'cfgGroupCol', 'cfgSortDir', 'cfgTopN', 'cfgChartType', 'cfgPivotCol', 'cfgPivotAgg'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) cfg[id] = el.value;
+  });
+  return cfg;
+}
+
+function applyTemplate(tpl) {
+  if (tpl.columnTypes) {
+    Object.entries(tpl.columnTypes).forEach(([col, type]) => {
+      if (COLUMN_TYPES[col]) { COLUMN_TYPES[col].type = type; COLUMN_TYPES[col].overridden = true; }
+    });
+    renderMapTable();
+  }
+  if (tpl.filters) FILTERS = tpl.filters;
+  if (tpl.formulas) FORMULAS = tpl.formulas;
+  if (tpl.metrics) METRICS = tpl.metrics;
+  if (tpl.mode) {
+    MODE = tpl.mode;
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.mode === MODE));
+  }
+  renderModeConfig();
+  renderFilterList();
+  renderFormulaList();
+  if (tpl.modeConfig) {
+    Object.entries(tpl.modeConfig).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val;
+    });
+  }
+  goToStep(3);
+}
+
+// ============================================================
+// RESET
+// ============================================================
+document.getElementById('backTo3Btn').addEventListener('click', () => goToStep(3));
+document.getElementById('resetBtn').addEventListener('click', () => {
+  RAW_ROWS = []; HEADERS = []; COLUMN_TYPES = {}; FILTERS = []; FORMULAS = []; METRICS = [];
+  MODE = 'timeseries';
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.mode === 'timeseries'));
+  setStatus('');
+  fileInput.value = '';
+  goToStep(1);
+});
+</script>
+</body>
+</html>

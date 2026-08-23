@@ -1273,27 +1273,25 @@ document.getElementById('backTo2Btn').addEventListener('click', () => goToStep(2
 // FORMULA EVALUATION (guarded arithmetic only)
 // ============================================================
 function safeEvalFormula(expr, scope) {
-  let e = expr.replace(/\{([^}]+)\}/g, (m, name) => {
-    const raw = scope[name.trim()];
-    const num = typeof raw === 'number' ? raw : parseFloat(String(raw).replace(',', '.'));
-    return '(' + (isNaN(num) ? 0 : num) + ')';
+  // Sütun adlarını güvenli JS tanımlayıcılarına eşle (_c0, _c1...)
+  const cols = Object.keys(scope).sort((a, b) => b.length - a.length); // uzundan kısaya
+  const paramNames = cols.map((_, i) => '_c' + i);
+  const values = cols.map(c => scope[c]);
+  const varMap = Object.fromEntries(cols.map((c, i) => [c, '_c' + i]));
+
+  let e = expr;
+  // {sütun} yazımını değiştir
+  e = e.replace(/\{([^}]+)\}/g, (m, name) => varMap[name.trim()] ?? '0');
+  // Düz sütun adı yazımını değiştir (uzundan kısaya, kısmi eşleşmeyi önlemek için)
+  cols.forEach((col, i) => {
+    e = e.split(col).join(paramNames[i]);
   });
-  // izin verilen: sayilar, operatorler, karsilastirma, ve fonksiyon isimleri (buyuk harf)
-  if (!/^[0-9A-Z_+\-*/(),.\s<>=!&|]+$/.test(e)) {
-    return { error: 'Geçersiz karakter içeriyor. Sadece sayı, +-*/, karşılaştırma ve ROUND/ABS/IF/MIN/MAX/SQRT kullanılabilir.' };
-  }
+
   try {
     // eslint-disable-next-line no-new-func
-    const fn = Function('ROUND', 'ABS', 'IF', 'MIN', 'MAX', 'SQRT', '"use strict"; return (' + e + ')');
-    const result = fn(
-      (x, n) => { const p = Math.pow(10, n || 0); return Math.round(x * p) / p; },
-      (x) => Math.abs(x),
-      (cond, a, b) => cond ? a : b,
-      (...args) => Math.min(...args),
-      (...args) => Math.max(...args),
-      (x) => Math.sqrt(x)
-    );
-    if (typeof result !== 'number' || isNaN(result)) return { error: 'Sonuç sayı değil.' };
+    const fn = new Function(...paramNames, 'Math', 'parseInt', 'parseFloat', 'String', 'Number', '"use strict"; return (' + e + ')');
+    const result = fn(...values, Math, parseInt, parseFloat, String, Number);
+    if (result === null || result === undefined) return { error: 'Sonuç boş.' };
     return { value: result };
   } catch (err) {
     return { error: 'Formül hatası: ' + err.message };

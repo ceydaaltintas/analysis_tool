@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Veri Analiz Atölyesi</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
@@ -16,134 +16,246 @@
     --teal:#49B7AC; --teal-soft: rgba(73,183,172,0.12);
     --amber:#E0A458; --amber-soft: rgba(224,164,88,0.12);
     --blue:#6C8CFF; --danger:#E2685C;
+    --radius:8px;
   }
-  *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:1180px;margin:0 auto;padding:48px 28px 100px;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;}
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 28px 100px;}
 
-  header{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:36px;}
-  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin:0 0 10px;}
-  h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(28px,4vw,40px);margin:0;letter-spacing:-.01em;}
-  .sub{color:var(--dim);font-size:14px;margin-top:10px;max-width:600px;line-height:1.6;}
+  /* ── header ────────────────────────────────────────── */
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:36px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .header-left{}
+  .logo-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .logo-mark{width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .logo-mark svg{display:block;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(24px,3.5vw,36px);letter-spacing:-.02em;color:var(--text);}
+  .sub{color:var(--dim);font-size:13.5px;margin-top:8px;max-width:560px;line-height:1.65;}
+  .trust-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(73,183,172,0.08);border:1px solid rgba(73,183,172,0.22);border-radius:20px;padding:5px 12px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.04em;color:var(--teal);margin-top:14px;}
+  .trust-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;}
 
-  h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;margin:0 0 6px;}
-  .section-note{color:var(--dim);font-size:13px;margin:0 0 20px;line-height:1.55;max-width:720px;}
-  .step{display:none;}
+  /* ── step progress track ───────────────────────────── */
+  .step-track{display:flex;align-items:center;margin-bottom:32px;gap:0;}
+  .step-node{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:80px;position:relative;z-index:1;}
+  .step-node-circle{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--panel2);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--dim);transition:all .25s ease;}
+  .step-node-label{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);transition:color .25s;white-space:nowrap;}
+  .step-node.done .step-node-circle{background:rgba(73,183,172,0.15);border-color:var(--teal);color:var(--teal);}
+  .step-node.done .step-node-label{color:var(--teal);}
+  .step-node.current .step-node-circle{background:var(--teal);border-color:var(--teal);color:#0B1210;box-shadow:0 0 16px rgba(73,183,172,0.3);}
+  .step-node.current .step-node-label{color:var(--text);}
+  .step-conn{flex:1;height:1.5px;background:var(--line);position:relative;top:-12px;transition:background .3s;}
+  .step-conn.done{background:var(--teal);}
+
+  /* ── panel ─────────────────────────────────────────── */
+  h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;letter-spacing:-.01em;margin-bottom:6px;}
+  .section-note{color:var(--dim);font-size:13px;margin-bottom:22px;line-height:1.6;max-width:680px;}
+  .step{display:none;animation:fadeUp .2s ease;}
   .step.active{display:block;}
-  .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:26px;margin-bottom:28px;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px;margin-bottom:24px;}
+  .panel-header{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .panel-num{width:22px;height:22px;border-radius:50%;background:var(--teal-soft);border:1px solid rgba(73,183,172,.3);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--teal);flex-shrink:0;}
 
-  .step-track{display:flex;gap:6px;margin-bottom:32px;}
-  .step-dot{flex:1;height:3px;background:var(--line);border-radius:2px;overflow:hidden;}
-  .step-dot.done{background:var(--teal);}
-  .step-dot.current{background:var(--amber);}
-
-  /* dropzone */
-  #dropzone{border:1px dashed rgba(231,233,236,0.24);border-radius:6px;padding:56px 24px;text-align:center;cursor:pointer;transition:.15s;background:rgba(231,233,236,0.02);}
-  #dropzone:hover,#dropzone.drag{border-color:var(--teal);background:var(--teal-soft);}
-  #dropzone .icon{font-family:'Space Grotesk',sans-serif;font-size:34px;color:var(--teal);margin-bottom:10px;}
-  #dropzone p{margin:4px 0;color:var(--dim);font-size:14px;}
-  #dropzone .hint{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--teal);margin-top:10px;}
+  /* ── dropzone ──────────────────────────────────────── */
+  #dropzone{
+    border:1.5px dashed rgba(231,233,236,0.18);
+    border-radius:var(--radius);
+    padding:64px 32px;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color .2s, background .2s;
+    background:radial-gradient(ellipse at 50% 60%, rgba(73,183,172,0.04), transparent 70%);
+    position:relative;
+  }
+  #dropzone:hover,#dropzone.drag{border-color:var(--teal);background:radial-gradient(ellipse at 50% 60%, rgba(73,183,172,0.1), transparent 70%);}
+  .dz-icon{margin:0 auto 18px;width:52px;height:52px;border-radius:12px;background:var(--teal-soft);border:1px solid rgba(73,183,172,.25);display:flex;align-items:center;justify-content:center;}
+  .dz-icon svg{display:block;}
+  #dropzone .dz-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:var(--text);margin-bottom:6px;}
+  #dropzone .dz-sub{font-size:13.5px;color:var(--dim);margin-bottom:12px;}
+  #dropzone .hint{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:var(--teal);background:var(--teal-soft);border:1px solid rgba(73,183,172,.2);border-radius:4px;padding:4px 10px;}
   #fileInput,#templateInput{display:none;}
-  #status{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim);margin-top:14px;min-height:18px;}
+  #status{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--dim);margin-top:16px;min-height:16px;display:flex;align-items:center;gap:8px;}
+  #status:not(:empty)::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--teal);flex-shrink:0;}
   #status.err{color:var(--danger);}
-  .template-row{margin-top:16px;font-size:13px;color:var(--dim);}
-  .template-row a{color:var(--teal);cursor:pointer;text-decoration:underline;}
+  #status.err::before{background:var(--danger);}
+  .template-row{margin-top:14px;font-size:12.5px;color:var(--dim);}
+  .template-row a{color:var(--teal);cursor:pointer;text-decoration:none;border-bottom:1px solid rgba(73,183,172,.3);}
+  .template-row a:hover{border-bottom-color:var(--teal);}
 
-  /* buttons */
-  .btn{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:13.5px;padding:11px 22px;border-radius:5px;border:1px solid var(--line);background:var(--panel2);color:var(--text);cursor:pointer;transition:.12s;}
-  .btn:hover{border-color:var(--teal);}
-  .btn.primary{background:var(--teal);border-color:var(--teal);color:#0B1210;font-weight:600;}
-  .btn.primary:hover{background:#5FC9BE;}
-  .btn.ghost{background:transparent;}
-  .btn.small{padding:7px 14px;font-size:12.5px;}
-  .btn-row{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;}
+  /* ── buttons ───────────────────────────────────────── */
+  .btn{
+    font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:13.5px;
+    padding:10px 20px;border-radius:6px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);cursor:pointer;
+    transition:border-color .15s, background .15s, transform .1s, opacity .15s;
+    display:inline-flex;align-items:center;gap:7px;
+  }
+  .btn:hover:not(:disabled){border-color:rgba(73,183,172,.5);background:rgba(73,183,172,.06);}
+  .btn:active:not(:disabled){transform:translateY(1px);}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+  .btn.primary{background:var(--teal);border-color:var(--teal);color:#0B1210;font-weight:700;}
+  .btn.primary:hover:not(:disabled){background:#5FC9BE;border-color:#5FC9BE;}
+  .btn.ghost{background:transparent;border-color:transparent;}
+  .btn.ghost:hover:not(:disabled){background:rgba(231,233,236,.04);border-color:var(--line);}
+  .btn.small{padding:6px 13px;font-size:12px;}
+  .btn-row{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;align-items:center;}
 
-  /* column mapping table */
+  /* ── column mapping table ──────────────────────────── */
   table.maptable{width:100%;border-collapse:collapse;font-size:13px;}
-  table.maptable th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);padding:8px 10px;border-bottom:1px solid var(--line);}
-  table.maptable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  table.maptable th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);padding:8px 12px;border-bottom:1px solid var(--line);}
+  table.maptable td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  table.maptable tr:hover td{background:rgba(231,233,236,.025);}
   .col-name{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text);}
-  .col-samples{color:var(--dim);font-size:12px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .type-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.05em;padding:3px 8px;border-radius:3px;font-weight:600;}
+  .col-samples{color:var(--dim);font-size:11.5px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .type-badge{display:inline-flex;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.06em;padding:3px 8px;border-radius:4px;font-weight:700;text-transform:uppercase;}
   .type-badge.date{background:var(--teal-soft);color:var(--teal);}
   .type-badge.number{background:rgba(108,140,255,0.14);color:var(--blue);}
   .type-badge.category{background:var(--amber-soft);color:var(--amber);}
   .type-badge.text{background:rgba(231,233,236,0.08);color:var(--dim);}
   .type-badge.id{background:rgba(226,104,92,0.12);color:var(--danger);}
-  select.type-override{background:var(--panel2);border:1px solid var(--line);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:5px 8px;border-radius:4px;}
+  select.type-override{background:var(--panel2);border:1px solid var(--line);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 8px;border-radius:5px;cursor:pointer;}
+  select.type-override:hover{border-color:rgba(73,183,172,.4);}
 
-  /* tabs */
-  .tabs{display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid var(--line);}
-  .tab{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;padding:11px 18px;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;}
+  /* ── tabs ──────────────────────────────────────────── */
+  .tabs{display:flex;gap:0;margin-bottom:26px;border-bottom:1px solid var(--line);}
+  .tab{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;padding:10px 18px;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s, border-color .15s;user-select:none;}
+  .tab:hover{color:var(--text);}
   .tab.active{color:var(--teal);border-bottom-color:var(--teal);}
 
-  /* form rows */
-  .form-row{display:flex;gap:14px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
-  .form-row label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:.03em;min-width:120px;}
-  select,input[type=text],input[type=number]{background:var(--panel2);border:1px solid var(--line);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;padding:8px 10px;border-radius:5px;}
-  .metric-row,.filter-row,.formula-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap;background:var(--panel2);padding:10px 12px;border-radius:5px;}
-  .remove-btn{margin-left:auto;background:none;border:none;color:var(--danger);cursor:pointer;font-size:16px;line-height:1;padding:4px 8px;}
-  .add-link{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--teal);cursor:pointer;display:inline-block;margin-top:6px;}
+  /* ── form rows ─────────────────────────────────────── */
+  .form-row{display:flex;gap:14px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
+  .form-row label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--dim);min-width:130px;}
+  select,input[type=text],input[type=number]{
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;font-size:13px;padding:8px 11px;border-radius:5px;
+    transition:border-color .15s;outline:none;
+  }
+  select:focus,input[type=text]:focus,input[type=number]:focus{border-color:rgba(73,183,172,.5);}
+  .metric-row,.filter-row,.formula-row{
+    display:flex;gap:10px;align-items:center;margin-bottom:8px;flex-wrap:wrap;
+    background:var(--panel2);padding:10px 14px;border-radius:6px;
+    border:1px solid transparent;transition:border-color .15s;
+  }
+  .metric-row:hover,.filter-row:hover,.formula-row:hover{border-color:var(--line);}
+  .remove-btn{margin-left:auto;background:none;border:none;color:var(--dim);cursor:pointer;font-size:15px;line-height:1;padding:4px 8px;border-radius:4px;transition:color .15s, background .15s;}
+  .remove-btn:hover{color:var(--danger);background:rgba(226,104,92,.1);}
+  .add-link{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--teal);cursor:pointer;display:inline-flex;align-items:center;gap:5px;margin-top:8px;opacity:.8;transition:opacity .15s;}
+  .add-link:hover{opacity:1;}
 
-  /* KPI */
-  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--line);margin:24px 0;border:1px solid var(--line);}
-  .kpi{background:var(--panel);padding:18px 20px;}
-  .kpi .label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);}
-  .kpi .value{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:26px;margin-top:6px;}
+  /* ── section sub-headings ──────────────────────────── */
+  .sub-section{margin-top:28px;padding-top:22px;border-top:1px solid var(--line);}
+  .sub-section-title{font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+  .sub-section-note{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);}
 
-  table.resulttable{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12.5px;margin-top:18px;}
-  table.resulttable th{text-align:right;font-weight:500;color:var(--teal);border-bottom:1px solid var(--teal);padding:8px 10px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;}
+  /* ── KPI cards ─────────────────────────────────────── */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--line);margin:22px 0 28px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .kpi{background:var(--panel);padding:20px 22px;position:relative;overflow:hidden;}
+  .kpi::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--teal);opacity:.6;}
+  .kpi .label{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);}
+  .kpi .value{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:30px;margin-top:8px;letter-spacing:-.02em;line-height:1.1;}
+
+  /* ── result table ──────────────────────────────────── */
+  table.resulttable{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12px;margin-top:16px;}
+  table.resulttable th{text-align:right;font-weight:600;color:var(--teal);border-bottom:1px solid rgba(73,183,172,.3);padding:9px 12px;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;user-select:none;white-space:nowrap;}
   table.resulttable th:first-child,table.resulttable td:first-child{text-align:left;}
-  table.resulttable td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;}
-  table.resulttable tr:hover td{background:rgba(231,233,236,0.03);}
+  table.resulttable th:hover{color:var(--text);}
+  table.resulttable td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:right;}
+  table.resulttable tbody tr:hover td{background:rgba(73,183,172,.04);}
 
-  .pivot-cell{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:6px 4px;}
+  .pivot-cell{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;padding:6px 5px;}
 
-  #chart-wrap{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:22px;margin-top:22px;}
+  /* ── chart wrap ────────────────────────────────────── */
+  #chart-wrap{background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-top:20px;}
 
-  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:11px;font-family:'IBM Plex Mono',monospace;}
+  /* ── result title row ──────────────────────────────── */
+  .result-header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .result-meta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);}
+
+  /* ── preview panel ─────────────────────────────────── */
+  .preview-panel-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .preview-badge{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;background:var(--amber-soft);color:var(--amber);padding:3px 9px;border-radius:4px;}
+
+  /* ── footer ────────────────────────────────────────── */
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:10.5px;font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .footer-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);opacity:.5;display:inline-block;margin-right:6px;}
+
+  /* ── hidden utility ────────────────────────────────── */
+  .hidden{display:none!important;}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <header>
-    <p class="eyebrow">Veri Analiz Atölyesi</p>
-    <h1>Genel Analiz Aracı</h1>
-    <p class="sub">Herhangi bir Excel yükle, kolonları tanımla, ne görmek istediğini seç. Tamamen tarayıcında çalışır, veri hiçbir yere gönderilmez.</p>
+    <div class="header-left">
+      <div class="logo-row">
+        <div class="logo-mark">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="9" width="3" height="5" rx="1" fill="#0B1210"/>
+            <rect x="6.5" y="5" width="3" height="9" rx="1" fill="#0B1210"/>
+            <rect x="11" y="2" width="3" height="12" rx="1" fill="#0B1210"/>
+          </svg>
+        </div>
+        <p class="eyebrow">Veri Analiz Atölyesi</p>
+      </div>
+      <h1>Genel Analiz Aracı</h1>
+      <p class="sub">Herhangi bir Excel yükle, kolonları tanımla, ne görmek istediğini seç. Tamamen tarayıcında çalışır, veri hiçbir yere gönderilmez.</p>
+      <span class="trust-badge">Veri hiçbir sunucuya gönderilmez</span>
+    </div>
   </header>
 
   <div class="step-track">
-    <div class="step-dot current" id="dot1"></div>
-    <div class="step-dot" id="dot2"></div>
-    <div class="step-dot" id="dot3"></div>
+    <div class="step-node current" id="dot1">
+      <div class="step-node-circle">1</div>
+      <span class="step-node-label">Yükle</span>
+    </div>
+    <div class="step-conn" id="conn1"></div>
+    <div class="step-node" id="dot2">
+      <div class="step-node-circle">2</div>
+      <span class="step-node-label">Kolonlar</span>
+    </div>
+    <div class="step-conn" id="conn2"></div>
+    <div class="step-node" id="dot3">
+      <div class="step-node-circle">3</div>
+      <span class="step-node-label">Analiz</span>
+    </div>
   </div>
 
   <!-- STEP 1: UPLOAD -->
   <div class="step active" id="step1">
     <div class="panel">
-      <h2>1. Veriyi Yükle</h2>
+      <div class="panel-header"><div class="panel-num">1</div><h2>Veriyi Yükle</h2></div>
       <p class="section-note">Excel (.xlsx, .xls) veya CSV dosyanı yükle. İlk satır başlık olarak okunur.</p>
       <div id="dropzone">
-        <div class="icon">⌗</div>
-        <p><strong>Dosyayı buraya sürükle</strong> ya da tıklayıp seç</p>
-        <p class="hint">.xlsx · .xls · .csv</p>
+        <div class="dz-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4L12 16M12 4L8 8M12 4L16 8" stroke="#49B7AC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 17V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V17" stroke="#49B7AC" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="dz-title">Dosyayı buraya sürükle</p>
+        <p class="dz-sub">ya da tıklayarak dosya seç</p>
+        <span class="hint">.xlsx &nbsp;·&nbsp; .xls &nbsp;·&nbsp; .csv</span>
         <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
       </div>
       <div id="status"></div>
       <div id="sheetSelectRow" class="hidden" style="margin-top:16px;">
-        <label style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);display:block;margin-bottom:6px;">Dosyada birden fazla sayfa var — hangisini kullanalım?</label>
-        <select id="sheetSelect" style="min-width:220px;"></select>
-        <button class="btn small primary" id="loadSheetBtn" style="margin-left:10px;">Bu Sayfayı Yükle</button>
+        <label style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);display:block;margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase;">Dosyada birden fazla sayfa var — hangisini kullanalım?</label>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <select id="sheetSelect" style="min-width:220px;"></select>
+          <button class="btn small primary" id="loadSheetBtn">Bu Sayfayı Yükle</button>
+        </div>
       </div>
       <div class="template-row">
-        Daha önce kaydettiğin bir şablonun varsa <a id="templateLink">buradan yükle</a>, veriyle birlikte otomatik uygulanır.
+        Daha önce kaydettiğin bir şablonun varsa <a id="templateLink">buradan yükle</a> — veriyle birlikte otomatik uygulanır.
         <input type="file" id="templateInput" accept=".json">
       </div>
     </div>
     <div class="panel hidden" id="previewPanel">
-      <h2>Veri Önizleme</h2>
-      <p class="section-note" id="previewNote"></p>
+      <div class="preview-panel-head">
+        <h2>Veri Önizleme</h2>
+        <span class="preview-badge" id="previewNote"></span>
+      </div>
       <div style="overflow-x:auto;"><table class="resulttable" id="previewTable"></table></div>
     </div>
   </div>
@@ -151,11 +263,11 @@
   <!-- STEP 2: COLUMN MAPPING -->
   <div class="step" id="step2">
     <div class="panel">
-      <h2>2. Kolonları Tanı</h2>
+      <div class="panel-header"><div class="panel-num">2</div><h2>Kolonları Tanı</h2></div>
       <p class="section-note">Her kolonun tipini otomatik tahmin ettim. Yanlış görünen varsa dropdown'dan düzelt.</p>
       <table class="maptable" id="mapTable"></table>
       <div class="btn-row">
-        <button class="btn primary" id="toStep3Btn">Devam Et</button>
+        <button class="btn primary" id="toStep3Btn">Devam Et →</button>
         <button class="btn ghost" id="backTo1Btn">← Geri</button>
       </div>
     </div>
@@ -164,7 +276,7 @@
   <!-- STEP 3: ANALYSIS BUILDER -->
   <div class="step" id="step3">
     <div class="panel">
-      <h2>3. Analizi Kur</h2>
+      <div class="panel-header"><div class="panel-num">3</div><h2>Analizi Kur</h2></div>
       <p class="section-note">Ne görmek istediğini seç: zaman içinde değişim mi, kategori kırılımı mı, yoksa ikisi bir arada mı (pivot).</p>
       <div class="tabs" id="modeTabs">
         <div class="tab active" data-mode="timeseries">Zaman Serisi</div>
@@ -174,16 +286,29 @@
 
       <div id="modeConfig"></div>
 
-      <h2 style="margin-top:32px;font-size:16px;">Filtreler <span style="color:var(--dim);font-weight:400;font-size:12px;">(opsiyonel)</span></h2>
-      <div id="filterList"></div>
-      <span class="add-link" id="addFilterLink">+ filtre ekle</span>
+      <div class="sub-section">
+        <div class="sub-section-title">
+          Filtreler
+          <span class="sub-section-note">opsiyonel</span>
+        </div>
+        <div id="filterList" style="margin-top:10px;"></div>
+        <span class="add-link" id="addFilterLink">+ filtre ekle</span>
+      </div>
 
-      <h2 style="margin-top:32px;font-size:16px;">Hesaplanan Alanlar <span style="color:var(--dim);font-weight:400;font-size:12px;">(opsiyonel — örn. {duration_sec} / 60)</span></h2>
-      <div id="formulaList"></div>
-      <span class="add-link" id="addFormulaLink">+ hesaplanan alan ekle</span>
+      <div class="sub-section">
+        <div class="sub-section-title">
+          Hesaplanan Alanlar
+          <span class="sub-section-note">opsiyonel — örn. {duration_sec} / 60</span>
+        </div>
+        <div id="formulaList" style="margin-top:10px;"></div>
+        <span class="add-link" id="addFormulaLink">+ hesaplanan alan ekle</span>
+      </div>
 
-      <div class="btn-row">
-        <button class="btn primary" id="runBtn">Analizi Çalıştır</button>
+      <div class="btn-row" style="margin-top:28px;">
+        <button class="btn primary" id="runBtn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2.5L11 7L3 11.5V2.5Z" fill="currentColor"/></svg>
+          Analizi Çalıştır
+        </button>
         <button class="btn ghost" id="backTo2Btn">← Geri</button>
       </div>
     </div>
@@ -192,27 +317,39 @@
   <!-- STEP 4: RESULTS -->
   <div class="step" id="step4">
     <div class="panel">
-      <h2 id="resultTitle">Sonuçlar</h2>
+      <div class="result-header">
+        <h2 id="resultTitle">Sonuçlar</h2>
+        <span class="result-meta" id="resultMeta"></span>
+      </div>
       <div class="kpis" id="resultKpis"></div>
       <div id="chart-wrap" class="hidden"><canvas id="mainChart" height="100"></canvas></div>
       <div id="resultTableWrap"></div>
-      <div class="btn-row">
+      <div class="btn-row" style="margin-top:28px;padding-top:20px;border-top:1px solid var(--line);">
+        <button class="btn primary" id="buildOfflineBtn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M7 9l-3-3M7 9l3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Çevrimdışı Araç Olarak İndir
+        </button>
+        <button class="btn" id="downloadXlsxBtn">Excel İndir</button>
+        <button class="btn" id="downloadCsvBtn">CSV İndir</button>
         <button class="btn" id="downloadTemplateBtn">Şablonu İndir</button>
-        <button class="btn" id="downloadCsvBtn">Sonucu CSV İndir</button>
-        <button class="btn" id="downloadXlsxBtn">Sonucu Excel İndir</button>
         <button class="btn ghost" id="backTo3Btn">← Ayarlara Dön</button>
         <button class="btn ghost" id="resetBtn">Yeni Analiz</button>
       </div>
+      <div id="offlineError" style="display:none;color:var(--danger);font-family:'IBM Plex Mono',monospace;font-size:11.5px;margin-top:10px;"></div>
     </div>
   </div>
 
-  <footer>Tüm hesaplama tarayıcında yapılır, veri hiçbir yere gönderilmez.</footer>
+  <footer>
+    <span><span class="footer-dot"></span>Tüm hesaplama tarayıcında yapılır, veri hiçbir yere gönderilmez.</span>
+    <a href="/" style="color:var(--dim);text-decoration:none;border-bottom:1px solid var(--line);">← Ana Sayfa</a>
+  </footer>
 </div>
 
 <script>
 // ============================================================
 // STATE
 // ============================================================
+const EMBEDDED_PRESET = null; // build sirasinda JSON.stringify(preset) ile degistirilir
 let RAW_ROWS = [];        // orijinal satırlar (obje dizisi, ham excel değerleri)
 let HEADERS = [];         // orijinal kolon başlıkları
 let COLUMN_TYPES = {};    // { headerName: {type, samples, overridden} }
@@ -244,13 +381,20 @@ function setStatus(msg, isErr) {
 function goToStep(n) {
   for (let i = 1; i <= 4; i++) document.getElementById('step' + i).classList.toggle('active', i === n);
   for (let i = 1; i <= 3; i++) {
-    const dot = document.getElementById('dot' + i);
-    dot.classList.remove('done', 'current');
-    if (i < n && n <= 4 && i <= 3) dot.classList.add('done');
+    const node = document.getElementById('dot' + i);
+    node.classList.remove('done', 'current');
+    if (i < n) node.classList.add('done');
   }
-  const curDot = document.getElementById('dot' + Math.min(n, 3));
-  if (curDot) curDot.classList.add('current');
-  if (n === 4) { document.getElementById('dot1').classList.add('done'); document.getElementById('dot2').classList.add('done'); document.getElementById('dot3').classList.add('done'); document.getElementById('dot3').classList.remove('current'); }
+  const curNode = document.getElementById('dot' + Math.min(n, 3));
+  if (curNode && n <= 3) curNode.classList.add('current');
+  if (n === 4) {
+    [1,2,3].forEach(i => { const nd = document.getElementById('dot'+i); nd.classList.remove('current'); nd.classList.add('done'); });
+  }
+  for (let i = 1; i <= 2; i++) {
+    const conn = document.getElementById('conn' + i);
+    if (conn) conn.classList.toggle('done', n > i);
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ============================================================
@@ -328,12 +472,17 @@ function loadSheet(sheetName) {
     if (rows.length > 100000) msg += ' Büyük bir dosya — tarayıcı biraz yavaşlayabilir.';
     setStatus(msg);
 
-    renderPreview();
-    renderMapTable();
-    goToStep(2);
-    if (PENDING_TEMPLATE) {
-      applyTemplate(PENDING_TEMPLATE);
-      PENDING_TEMPLATE = null;
+    if (EMBEDDED_PRESET) {
+      applyTemplate(EMBEDDED_PRESET);
+      runAnalysis();
+    } else {
+      renderPreview();
+      renderMapTable();
+      goToStep(2);
+      if (PENDING_TEMPLATE) {
+        applyTemplate(PENDING_TEMPLATE);
+        PENDING_TEMPLATE = null;
+      }
     }
   } catch (err) {
     console.error(err);
@@ -1145,6 +1294,56 @@ function applyTemplate(tpl) {
   }
   goToStep(3);
 }
+
+// ============================================================
+// BUILD OFFLINE TOOL
+// ============================================================
+document.getElementById('buildOfflineBtn').addEventListener('click', async () => {
+  const errEl = document.getElementById('offlineError');
+  errEl.style.display = 'none';
+  const btn = document.getElementById('buildOfflineBtn');
+  const origText = btn.textContent;
+  btn.textContent = 'Hazırlanıyor...';
+  btn.disabled = true;
+  try {
+    const preset = {
+      name: 'kisisel-analiz-araci',
+      columnTypes: Object.fromEntries(Object.entries(COLUMN_TYPES).map(([k, v]) => [k, v.type])),
+      mode: MODE,
+      filters: FILTERS,
+      formulas: FORMULAS,
+      metrics: METRICS,
+      modeConfig: readModeConfigValues()
+    };
+    let html;
+    try {
+      const resp = await fetch('genel-analiz-araci-cevrimdisi.html');
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      html = await resp.text();
+    } catch (e) {
+      errEl.textContent = 'Bu özellik sadece deploy edilmiş siteden çalışır (file:// protokolü desteklenmez).';
+      errEl.style.display = 'block';
+      return;
+    }
+    const newHtml = html.replace(
+      'const EMBEDDED_PRESET = null; // build sirasinda JSON.stringify(preset) ile degistirilir',
+      'const EMBEDDED_PRESET = ' + JSON.stringify(preset) + ';'
+    );
+    if (newHtml === html) {
+      errEl.textContent = 'Çevrimdışı dosyada yer tutucu bulunamadı — genel-analiz-araci-cevrimdisi.html güncellenmeli.';
+      errEl.style.display = 'block';
+      return;
+    }
+    const blob = new Blob([newHtml], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'kisisel-analiz-araci.html'; a.click();
+    URL.revokeObjectURL(url);
+  } finally {
+    btn.textContent = origText;
+    btn.disabled = false;
+  }
+});
 
 // ============================================================
 // RESET

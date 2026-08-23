@@ -1861,7 +1861,7 @@ function drawResultTable() {
     const isNum = typeof v === 'number';
     return `<td>${isNum ? fmt(v, Number.isInteger(v) ? 0 : 1) : (v ?? '–')}</td>`;
   }).join('')}</tr>`).join('');
-  document.getElementById('resultTableWrap').innerHTML = `<table class="resulttable" id="resultTableEl"><thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody></table>`;
+  document.getElementById('resultTableWrap').innerHTML = `<div style="overflow-x:auto"><table class="resulttable" id="resultTableEl"><thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody></table></div>`;
   document.querySelectorAll('#resultTableEl th').forEach(th => {
     th.addEventListener('click', () => {
       const col = th.dataset.col;
@@ -1889,7 +1889,7 @@ function renderPivotTable(groupCol, bucketKeys, matrix) {
     }).join('');
     return `<tr><td class="col-name">${row[groupCol]}</td>${cells}</tr>`;
   }).join('');
-  document.getElementById('resultTableWrap').innerHTML = `<table class="resulttable"><thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody></table>`;
+  document.getElementById('resultTableWrap').innerHTML = `<div style="overflow-x:auto"><table class="resulttable"><thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody></table></div>`;
 }
 
 // ============================================================

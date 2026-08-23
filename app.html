@@ -534,7 +534,7 @@
         <span class="result-meta" id="resultMeta"></span>
       </div>
       <div class="kpis" id="resultKpis"></div>
-      <div id="chart-wrap" class="hidden"><canvas id="mainChart" height="100"></canvas></div>
+      <div id="chart-wrap" class="hidden" style="position:relative"><canvas id="mainChart" height="100"></canvas><button id="downloadChartBtn" title="Grafiği PNG olarak indir" style="position:absolute;top:10px;right:10px;background:rgba(24,28,34,.85);border:1px solid var(--line);color:var(--dim);font-size:11px;font-family:'IBM Plex Mono',monospace;padding:4px 10px;border-radius:4px;cursor:pointer;">↓ PNG</button></div>
       <div id="resultTableWrap"></div>
       <div class="btn-row" style="margin-top:28px;padding-top:20px;border-top:1px solid var(--line);">
         <button class="btn" id="downloadXlsxBtn">Excel İndir</button>
@@ -1201,18 +1201,32 @@ function renderMetricList() {
 // ============================================================
 // FILTERS
 // ============================================================
-const OP_LABELS = { eq: '=', neq: '≠', gt: '>', lt: '<', gte: '≥', lte: '≤', contains: 'içerir', empty: 'boş', notempty: 'boş değil' };
+const OP_LABELS_NUM  = { eq: '=', neq: '≠', gt: '>', lt: '<', gte: '≥', lte: '≤', empty: 'boş', notempty: 'boş değil' };
+const OP_LABELS_TEXT = { eq: '=', neq: '≠', contains: 'içerir', empty: 'boş', notempty: 'boş değil' };
+const OP_LABELS_DATE = { date_last7: 'son 7 gün', date_last30: 'son 30 gün', date_thisweek: 'bu hafta', date_thismonth: 'bu ay', date_thisyear: 'bu yıl', date_q1: 'Q1', date_q2: 'Q2', date_q3: 'Q3', date_q4: 'Q4', gte: '≥ tarih', lte: '≤ tarih', empty: 'boş', notempty: 'boş değil' };
+const NO_VAL_OPS = new Set(['empty','notempty','date_last7','date_last30','date_thisweek','date_thismonth','date_thisyear','date_q1','date_q2','date_q3','date_q4']);
+function opLabelsFor(col) {
+  const t = (COLUMN_TYPES[col] || {}).type;
+  if (t === 'date') return OP_LABELS_DATE;
+  if (t === 'number') return OP_LABELS_NUM;
+  return OP_LABELS_TEXT;
+}
 
 function filterRowHtml(idx, f) {
   const filterCols = HEADERS.concat(FORMULAS.map(f => f.name));
   const colOpts = filterCols.map(c => `<option value="${c}" ${c === f.col ? 'selected' : ''}>${c}</option>`).join('');
-  const opOpts = Object.keys(OP_LABELS).map(o => `<option value="${o}" ${o === f.op ? 'selected' : ''}>${OP_LABELS[o]}</option>`).join('');
-  const needsVal = !['empty', 'notempty'].includes(f.op);
+  const ops = opLabelsFor(f.col);
+  const currentOp = ops[f.op] !== undefined ? f.op : Object.keys(ops)[0];
+  const opOpts = Object.entries(ops).map(([o, l]) => `<option value="${o}" ${o === currentOp ? 'selected' : ''}>${l}</option>`).join('');
+  const needsVal = !NO_VAL_OPS.has(f.op);
+  const isDateOp = f.op === 'gte' || f.op === 'lte';
+  const colType = (COLUMN_TYPES[f.col] || {}).type;
+  const inputType = (isDateOp && colType === 'date') ? 'date' : 'text';
   return `
     <div class="filter-row" data-idx="${idx}">
       <select class="filter-col">${colOpts}</select>
       <select class="filter-op">${opOpts}</select>
-      ${needsVal ? `<input type="text" class="filter-val" value="${f.val || ''}" placeholder="değer">` : ''}
+      ${needsVal ? `<input type="${inputType}" class="filter-val" value="${f.val || ''}" placeholder="değer">` : ''}
       <button class="remove-btn filter-remove">✕</button>
     </div>`;
 }
@@ -1220,7 +1234,7 @@ function renderFilterList() {
   const el = document.getElementById('filterList');
   el.innerHTML = FILTERS.map((f, i) => filterRowHtml(i, f)).join('');
   el.querySelectorAll('.filter-row').forEach((row, i) => {
-    row.querySelector('.filter-col').addEventListener('change', e => { FILTERS[i].col = e.target.value; });
+    row.querySelector('.filter-col').addEventListener('change', e => { FILTERS[i].col = e.target.value; FILTERS[i].op = Object.keys(opLabelsFor(e.target.value))[0]; renderFilterList(); });
     row.querySelector('.filter-op').addEventListener('change', e => { FILTERS[i].op = e.target.value; renderFilterList(); });
     const valInput = row.querySelector('.filter-val');
     if (valInput) valInput.addEventListener('input', e => { FILTERS[i].val = e.target.value; });
@@ -1228,7 +1242,8 @@ function renderFilterList() {
   });
 }
 document.getElementById('addFilterLink').addEventListener('click', () => {
-  FILTERS.push({ col: HEADERS[0], op: 'eq', val: '' });
+  const defaultCol = HEADERS[0] || '';
+  FILTERS.push({ col: defaultCol, op: Object.keys(opLabelsFor(defaultCol))[0], val: '' });
   renderFilterList();
 });
 
@@ -1352,8 +1367,25 @@ function passesFilter(row, f) {
     case 'neq': return String(v) !== String(f.val);
     case 'gt': return Number(v) > Number(f.val);
     case 'lt': return Number(v) < Number(f.val);
-    case 'gte': return Number(v) >= Number(f.val);
-    case 'lte': return Number(v) <= Number(f.val);
+    case 'gte': {
+      const d = toJsDate(v);
+      if (d) { const dv = toJsDate(f.val); return dv ? d >= dv : true; }
+      return Number(v) >= Number(f.val);
+    }
+    case 'lte': {
+      const d = toJsDate(v);
+      if (d) { const dv = toJsDate(f.val); return dv ? d <= dv : true; }
+      return Number(v) <= Number(f.val);
+    }
+    case 'date_last7': { const d = toJsDate(v); if (!d) return false; const c = new Date(); c.setDate(c.getDate() - 7); return d >= c; }
+    case 'date_last30': { const d = toJsDate(v); if (!d) return false; const c = new Date(); c.setDate(c.getDate() - 30); return d >= c; }
+    case 'date_thisweek': { const d = toJsDate(v); if (!d) return false; const n = new Date(); const mon = new Date(n); mon.setDate(n.getDate() - (n.getDay() + 6) % 7); mon.setHours(0,0,0,0); return d >= mon; }
+    case 'date_thismonth': { const d = toJsDate(v); if (!d) return false; const n = new Date(); return d.getFullYear() === n.getFullYear() && d.getMonth() === n.getMonth(); }
+    case 'date_thisyear': { const d = toJsDate(v); if (!d) return false; return d.getFullYear() === new Date().getFullYear(); }
+    case 'date_q1': { const d = toJsDate(v); return d ? [0,1,2].includes(d.getMonth()) : false; }
+    case 'date_q2': { const d = toJsDate(v); return d ? [3,4,5].includes(d.getMonth()) : false; }
+    case 'date_q3': { const d = toJsDate(v); return d ? [6,7,8].includes(d.getMonth()) : false; }
+    case 'date_q4': { const d = toJsDate(v); return d ? [9,10,11].includes(d.getMonth()) : false; }
     default: return true;
   }
 }
@@ -1931,6 +1963,14 @@ function renderPivotTable(groupCol, bucketKeys, matrix) {
 // ============================================================
 // CSV EXPORT
 // ============================================================
+document.getElementById('downloadChartBtn').addEventListener('click', () => {
+  if (!CHART_INSTANCE) return;
+  const a = document.createElement('a');
+  a.href = CHART_INSTANCE.toBase64Image('image/png', 1);
+  a.download = 'grafik.png';
+  a.click();
+});
+
 document.getElementById('downloadCsvBtn').addEventListener('click', () => {
   if (!LAST_RESULT) return;
   const { headers, table } = LAST_RESULT;

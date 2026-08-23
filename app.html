@@ -809,17 +809,22 @@ function runAnalysis() {
   if (problems.length) { showRunError('Devam edemiyorum:\n• ' + problems.join('\n• ')); return; }
   showRunError('');
 
-  let rows = applyRowFormulas(RAW_ROWS, FORMULAS);
-  const totalBefore = rows.length;
-  rows = applyFilters(rows, FILTERS);
+  try {
+    let rows = applyRowFormulas(RAW_ROWS, FORMULAS);
+    const totalBefore = rows.length;
+    rows = applyFilters(rows, FILTERS);
 
-  if (rows.length === 0) { showRunError('Filtrelerden sonra hiç satır kalmadı. Filtreleri gözden geçir.'); return; }
+    if (rows.length === 0) { showRunError('Filtrelerden sonra hiç satır kalmadı. Filtreleri gözden geçir.'); return; }
 
-  if (MODE === 'timeseries') runTimeSeries(rows, totalBefore);
-  else if (MODE === 'category') runCategory(rows, totalBefore);
-  else if (MODE === 'pivot') runPivot(rows, totalBefore);
+    if (MODE === 'timeseries') runTimeSeries(rows, totalBefore);
+    else if (MODE === 'category') runCategory(rows, totalBefore);
+    else if (MODE === 'pivot') runPivot(rows, totalBefore);
 
-  goToStep(4);
+    goToStep(4);
+  } catch (err) {
+    console.error('Analiz hatası:', err);
+    showRunError('Analiz çalıştırılırken hata oluştu: ' + err.message);
+  }
 }
 
 function metricHeaderName(m) { return `${m.col} (${AGG_LABELS[m.agg]})`; }
@@ -833,6 +838,10 @@ function runTimeSeries(rows, totalBefore) {
     const d = toJsDate(r[timeCol]);
     return { ...r, __bucket: d ? bucketLabel(d, granularity) : null, __bucketSort: d ? bucketSortKey(d, granularity) : null };
   }).filter(r => r.__bucket !== null);
+
+  if (withBucket.length === 0) {
+    throw new Error('"' + timeCol + '" kolonu tarih olarak okunamadı. Kolon tipini 2. adımda TARİH olarak işaretlediğinden emin ol veya veri formatını kontrol et.');
+  }
 
   const bucketGroups = groupRows(withBucket, r => r.__bucket);
   let bucketKeys = Array.from(bucketGroups.keys());

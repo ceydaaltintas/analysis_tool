@@ -231,6 +231,26 @@
   .result-ab-legend{display:flex;gap:20px;margin-bottom:14px;flex-wrap:wrap;}
   .result-ab-label{display:flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);}
   .result-ab-label span{width:28px;height:3px;border-radius:2px;display:inline-block;}
+
+  /* ── NLQ panel ─────────────────────────────────────── */
+  #nlqSection{margin-bottom:20px;}
+  .nlq-input-row{display:flex;gap:10px;align-items:center;margin-top:14px;}
+  #nlqInput{flex:1;font-family:'IBM Plex Sans',sans-serif;font-size:14px;padding:10px 14px;border-radius:6px;background:var(--panel2);border:1.5px solid var(--line);color:var(--text);outline:none;transition:border-color .15s;}
+  #nlqInput:focus{border-color:rgba(73,183,172,.5);}
+  #nlqInput::placeholder{color:var(--dim);}
+  .nlq-explanation{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--dim);margin-top:10px;padding:8px 12px;background:rgba(73,183,172,.05);border-left:2px solid rgba(73,183,172,.4);border-radius:0 4px 4px 0;}
+  .nlq-explanation strong{color:var(--teal);font-weight:600;}
+  .nlq-error{color:var(--danger);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-top:10px;}
+  .nlq-clarify{margin-top:12px;}
+  .nlq-clarify-q{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--dim);margin-bottom:8px;}
+  .nlq-clarify-opts{display:flex;flex-wrap:wrap;gap:7px;}
+  .nlq-opt-btn{font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:5px 12px;border-radius:4px;border:1px solid rgba(73,183,172,.4);background:rgba(73,183,172,.08);color:var(--teal);cursor:pointer;transition:background .15s;}
+  .nlq-opt-btn:hover{background:rgba(73,183,172,.18);}
+  .nlq-result-wrap{margin-top:18px;}
+  .nlq-kpi-single{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:6px;padding:18px 22px;display:inline-block;min-width:200px;}
+  .nlq-kpi-single .nlq-kpi-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
+  .nlq-kpi-single .nlq-kpi-value{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:34px;color:var(--teal);}
+  #nlqResultChart{background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-top:12px;}
 </style>
 </head>
 <body>
@@ -489,6 +509,19 @@
     </div>
   </div>
 
+  <!-- NLQ persistent panel (visible from step 3 onwards) -->
+  <div id="nlqSection" class="hidden">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-num" style="background:rgba(108,140,255,.12);border-color:rgba(108,140,255,.35);color:var(--blue);">?</div><h2>Verin Hakkında Soru Sor</h2></div>
+      <p class="section-note">Kural tabanlı, AI yok — veri hiçbir yere gitmiyor. Örn: <em>"toplam satış ne kadar?"</em>, <em>"en çok satan 5 ürün"</em>, <em>"İstanbul'da toplam satış"</em>, <em>"aylık trend"</em></p>
+      <div class="nlq-input-row">
+        <input type="text" id="nlqInput" placeholder="Bir şey sor...">
+        <button class="btn primary" id="nlqAskBtn">Sor</button>
+      </div>
+      <div id="nlqFeedback"></div>
+    </div>
+  </div>
+
   <!-- STEP 4: RESULTS -->
   <div class="step" id="step4">
     <div class="panel">
@@ -500,17 +533,12 @@
       <div id="chart-wrap" class="hidden"><canvas id="mainChart" height="100"></canvas></div>
       <div id="resultTableWrap"></div>
       <div class="btn-row" style="margin-top:28px;padding-top:20px;border-top:1px solid var(--line);">
-        <button class="btn primary" id="buildOfflineBtn">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M7 9l-3-3M7 9l3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Çevrimdışı Araç Olarak İndir
-        </button>
         <button class="btn" id="downloadXlsxBtn">Excel İndir</button>
         <button class="btn" id="downloadCsvBtn">CSV İndir</button>
         <button class="btn" id="downloadTemplateBtn">Şablonu İndir</button>
         <button class="btn ghost" id="backTo3Btn">← Ayarlara Dön</button>
         <button class="btn ghost" id="resetBtn">Yeni Analiz</button>
       </div>
-      <div id="offlineError" style="display:none;color:var(--danger);font-family:'IBM Plex Mono',monospace;font-size:11.5px;margin-top:10px;"></div>
     </div>
   </div>
 
@@ -582,6 +610,8 @@ function goToStep(n) {
     if (conn) conn.classList.toggle('done', n > i);
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  const nlqSec = document.getElementById('nlqSection');
+  if (nlqSec) nlqSec.classList.toggle('hidden', n < 3);
 }
 
 // ============================================================
@@ -1505,32 +1535,16 @@ function runCompare() {
 }
 
 function buildTimeSeriesTable(rows, timeCol, granularity, metrics, keyName) {
-  const withBucket = rows.map(r => {
-    const d = toJsDate(r[timeCol]);
-    return { ...r, __bucket: d ? bucketLabel(d, granularity) : null, __bucketSort: d ? bucketSortKey(d, granularity) : null };
-  }).filter(r => r.__bucket !== null);
-  if (!withBucket.length) throw new Error('"' + timeCol + '" kolonu tarih olarak okunamadı.');
-  const bucketGroups = groupRows(withBucket, r => r.__bucket);
-  const bucketKeys = Array.from(bucketGroups.keys()).sort((a,b) => bucketGroups.get(a)[0].__bucketSort - bucketGroups.get(b)[0].__bucketSort);
-  const table = bucketKeys.map(bk => {
-    const row = { [keyName]: bk };
-    const subset = bucketGroups.get(bk);
-    metrics.forEach(m => { row[m.col] = aggregate(subset.map(r => r[m.col]), m.agg); });
-    return row;
-  });
-  return { table, keyCol: keyName };
+  const { table, valueCols } = computeTimeSeriesResult(rows, { timeCol, granularity, splitCol: null, metrics });
+  // remap Zaman -> keyName if needed
+  const remapped = table.map(r => { const row = { [keyName]: r.Zaman }; valueCols.forEach(c => { row[metrics.find(m=>metricHeaderName(m)===c)?.col || c] = r[c]; }); return row; });
+  return { table: remapped, keyCol: keyName };
 }
 
 function buildCategoryTable(rows, groupCol, metrics, topN, sortDir) {
-  const groups = groupRows(rows, r => r[groupCol]);
-  let table = Array.from(groups.entries()).map(([key, subset]) => {
-    const row = { [groupCol]: key };
-    metrics.forEach(m => { row[m.col] = aggregate(subset.map(r => r[m.col]), m.agg); });
-    return row;
-  });
-  const sortColName = metrics[0] ? metrics[0].col : null;
-  if (sortColName) table.sort((a,b) => sortDir === 'desc' ? b[sortColName] - a[sortColName] : a[sortColName] - b[sortColName]);
-  return { table: table.slice(0, topN), keyCol: groupCol };
+  const { table } = computeCategoryResult(rows, { groupCol, metrics, sortDir, topN });
+  const remapped = table.map(r => { const row = { [groupCol]: r[groupCol] }; metrics.forEach(m => { row[m.col] = r[metricHeaderName(m)]; }); return row; });
+  return { table: remapped, keyCol: groupCol };
 }
 
 function renderCompareResult(tableA, tableB, keyCol, countA, countB, granularity) {
@@ -1639,48 +1653,81 @@ function renderCompareResult(tableA, tableB, keyCol, countA, countB, granularity
 
 function metricHeaderName(m) { return `${m.col} (${AGG_LABELS[m.agg]})`; }
 
-function runTimeSeries(rows, totalBefore) {
-  const timeCol = document.getElementById('cfgTimeCol').value;
-  const granularity = document.getElementById('cfgGranularity').value;
-  const splitCol = document.getElementById('cfgSplitCol').value;
-
+// ============================================================
+// COMPUTE FUNCTIONS (pure, DOM-independent — used by wizard + NLQ)
+// ============================================================
+function computeTimeSeriesResult(rows, config) {
+  const { timeCol, granularity, splitCol, metrics } = config;
   const withBucket = rows.map(r => {
     const d = toJsDate(r[timeCol]);
     return { ...r, __bucket: d ? bucketLabel(d, granularity) : null, __bucketSort: d ? bucketSortKey(d, granularity) : null };
   }).filter(r => r.__bucket !== null);
-
-  if (withBucket.length === 0) {
-    throw new Error('"' + timeCol + '" kolonu tarih olarak okunamadı. Kolon tipini 2. adımda TARİH olarak işaretlediğinden emin ol veya veri formatını kontrol et.');
-  }
-
+  if (!withBucket.length) throw new Error('"' + timeCol + '" kolonu tarih olarak okunamadı. Kolon tipini TARİH olarak işaretlediğinden emin ol.');
   const bucketGroups = groupRows(withBucket, r => r.__bucket);
   let bucketKeys = Array.from(bucketGroups.keys());
   bucketKeys.sort((a, b) => bucketGroups.get(a)[0].__bucketSort - bucketGroups.get(b)[0].__bucketSort);
-
   const splitVals = splitCol ? Array.from(new Set(withBucket.map(r => r[splitCol]).filter(v => v !== null && v !== undefined))) : [null];
-
   const table = bucketKeys.map(bk => {
     const row = { Zaman: bk };
     const bucketRows = bucketGroups.get(bk);
     if (splitCol) {
       splitVals.forEach(sv => {
         const subset = bucketRows.filter(r => r[splitCol] === sv);
-        METRICS.forEach(m => { row[`${sv} — ${metricHeaderName(m)}`] = aggregate(subset.map(r => r[m.col]), m.agg); });
+        metrics.forEach(m => { row[`${sv} — ${metricHeaderName(m)}`] = aggregate(subset.map(r => r[m.col]), m.agg); });
       });
     } else {
-      METRICS.forEach(m => { row[metricHeaderName(m)] = aggregate(bucketRows.map(r => r[m.col]), m.agg); });
+      metrics.forEach(m => { row[metricHeaderName(m)] = aggregate(bucketRows.map(r => r[m.col]), m.agg); });
     }
     return row;
   });
-
   const valueCols = Object.keys(table[0] || {}).filter(c => c !== 'Zaman');
+  return { table, valueCols, bucketKeys };
+}
 
+function computeCategoryResult(rows, config) {
+  const { groupCol, metrics, sortDir, topN } = config;
+  const groups = groupRows(rows, r => r[groupCol]);
+  let table = Array.from(groups.entries()).map(([key, subset]) => {
+    const row = { [groupCol]: key };
+    metrics.forEach(m => { row[metricHeaderName(m)] = aggregate(subset.map(r => r[m.col]), m.agg); });
+    return row;
+  });
+  const valueCols = metrics.map(m => metricHeaderName(m));
+  if (valueCols[0]) table.sort((a, b) => (sortDir === 'desc' ? b[valueCols[0]] - a[valueCols[0]] : a[valueCols[0]] - b[valueCols[0]]));
+  return { table: table.slice(0, topN || table.length), valueCols, groupCol, totalGroups: groups.size };
+}
+
+function computePivotResult(rows, config) {
+  const { groupCol, timeCol, granularity, valCol, agg } = config;
+  const withBucket = rows.map(r => {
+    const d = toJsDate(r[timeCol]);
+    return { ...r, __bucket: d ? bucketLabel(d, granularity) : null, __bucketSort: d ? bucketSortKey(d, granularity) : null };
+  }).filter(r => r.__bucket !== null);
+  const bucketMap = new Map();
+  withBucket.forEach(r => { if (!bucketMap.has(r.__bucket)) bucketMap.set(r.__bucket, r.__bucketSort); });
+  const bucketKeys = Array.from(bucketMap.keys()).sort((a, b) => bucketMap.get(a) - bucketMap.get(b));
+  const catVals = Array.from(new Set(withBucket.map(r => r[groupCol]).filter(v => v !== null && v !== undefined)));
+  const matrix = catVals.map(cat => {
+    const row = { [groupCol]: cat };
+    bucketKeys.forEach(bk => {
+      const subset = withBucket.filter(r => r[groupCol] === cat && r.__bucket === bk);
+      row[bk] = aggregate(subset.map(r => r[valCol]), agg);
+    });
+    return row;
+  });
+  return { matrix, catVals, bucketKeys, groupCol };
+}
+
+function runTimeSeries(rows, totalBefore) {
+  const timeCol = document.getElementById('cfgTimeCol').value;
+  const granularity = document.getElementById('cfgGranularity').value;
+  const splitCol = document.getElementById('cfgSplitCol').value;
+  const { table, valueCols } = computeTimeSeriesResult(rows, { timeCol, granularity, splitCol, metrics: METRICS });
   renderKpis([
     { label: 'Toplam Satır', value: fmtInt(totalBefore) },
     { label: 'Filtre Sonrası', value: fmtInt(rows.length) },
-    { label: 'Zaman Dilimi Sayısı', value: fmtInt(bucketKeys.length) }
+    { label: 'Zaman Dilimi Sayısı', value: fmtInt(table.length) }
   ]);
-
   document.getElementById('resultTitle').textContent = 'Zaman Serisi — ' + GRANULARITY_LABELS[granularity] + ' Bazında';
   renderLineChart(table.map(r => r.Zaman), valueCols.map(c => ({ label: c, data: table.map(r => r[c]) })));
   renderResultTable(['Zaman', ...valueCols], table);
@@ -1691,26 +1738,12 @@ function runCategory(rows, totalBefore) {
   const groupCol = document.getElementById('cfgGroupCol').value;
   const sortDir = document.getElementById('cfgSortDir').value;
   const topN = parseInt(document.getElementById('cfgTopN').value) || 20;
-
-  const groups = groupRows(rows, r => r[groupCol]);
-  let table = Array.from(groups.entries()).map(([key, subset]) => {
-    const row = { [groupCol]: key };
-    METRICS.forEach(m => { row[metricHeaderName(m)] = aggregate(subset.map(r => r[m.col]), m.agg); });
-    return row;
-  });
-
-  const sortCol = Object.keys(table[0] || {}).find(c => c !== groupCol);
-  if (sortCol) table.sort((a, b) => sortDir === 'desc' ? b[sortCol] - a[sortCol] : a[sortCol] - b[sortCol]);
-  table = table.slice(0, topN);
-
-  const valueCols = Object.keys(table[0] || {}).filter(c => c !== groupCol);
-
+  const { table, valueCols, totalGroups } = computeCategoryResult(rows, { groupCol, metrics: METRICS, sortDir, topN });
   renderKpis([
     { label: 'Toplam Satır', value: fmtInt(totalBefore) },
     { label: 'Filtre Sonrası', value: fmtInt(rows.length) },
-    { label: 'Kategori Sayısı', value: fmtInt(groups.size) }
+    { label: 'Kategori Sayısı', value: fmtInt(totalGroups) }
   ]);
-
   document.getElementById('resultTitle').textContent = 'Kategori Kırılımı — ' + groupCol;
   const chartType = document.getElementById('cfgChartType').value;
   if (chartType === 'pie' && valueCols.length === 1) {
@@ -1728,33 +1761,11 @@ function runPivot(rows, totalBefore) {
   const granularity = document.getElementById('cfgGranularity').value;
   const valCol = document.getElementById('cfgPivotCol').value;
   const agg = document.getElementById('cfgPivotAgg').value;
-
-  const withBucket = rows.map(r => {
-    const d = toJsDate(r[timeCol]);
-    return { ...r, __bucket: d ? bucketLabel(d, granularity) : null, __bucketSort: d ? bucketSortKey(d, granularity) : null };
-  }).filter(r => r.__bucket !== null);
-
-  const bucketMap = new Map();
-  withBucket.forEach(r => { if (!bucketMap.has(r.__bucket)) bucketMap.set(r.__bucket, r.__bucketSort); });
-  const bucketKeys = Array.from(bucketMap.keys()).sort((a, b) => bucketMap.get(a) - bucketMap.get(b));
-
-  const catVals = Array.from(new Set(withBucket.map(r => r[groupCol]).filter(v => v !== null && v !== undefined)));
-
-  const matrix = catVals.map(cat => {
-    const row = { [groupCol]: cat };
-    bucketKeys.forEach(bk => {
-      const subset = withBucket.filter(r => r[groupCol] === cat && r.__bucket === bk);
-      row[bk] = aggregate(subset.map(r => r[valCol]), agg);
-    });
-    return row;
-  });
-
+  const { matrix, catVals, bucketKeys } = computePivotResult(rows, { groupCol, timeCol, granularity, valCol, agg });
   renderKpis([
-    { label: 'Toplam Satır', value: fmtInt(totalBefore) },
-    { label: 'Filtre Sonrası', value: fmtInt(rows.length) },
+    { label: 'Toplam Satır', value: fmtInt(rows.length) },
     { label: 'Kategori × Zaman', value: fmtInt(catVals.length) + ' × ' + fmtInt(bucketKeys.length) }
   ]);
-
   document.getElementById('resultTitle').textContent = 'Pivot — ' + groupCol + ' × ' + GRANULARITY_LABELS[granularity];
   document.getElementById('chart-wrap').classList.add('hidden');
   renderPivotTable(groupCol, bucketKeys, matrix);
@@ -1956,54 +1967,399 @@ function applyTemplate(tpl) {
   goToStep(3);
 }
 
+
 // ============================================================
-// BUILD OFFLINE TOOL
+// NLQ ENGINE — kural tabanlı, AI/model yok
 // ============================================================
-document.getElementById('buildOfflineBtn').addEventListener('click', async () => {
-  const errEl = document.getElementById('offlineError');
-  errEl.style.display = 'none';
-  const btn = document.getElementById('buildOfflineBtn');
-  const origText = btn.textContent;
-  btn.textContent = 'Hazırlanıyor...';
-  btn.disabled = true;
-  try {
-    const preset = {
-      name: 'kisisel-analiz-araci',
-      columnTypes: Object.fromEntries(Object.entries(COLUMN_TYPES).map(([k, v]) => [k, v.type])),
-      mode: MODE,
-      filters: FILTERS,
-      formulas: FORMULAS,
-      metrics: METRICS,
-      modeConfig: readModeConfigValues()
-    };
-    let html;
-    try {
-      const resp = await fetch('genel-analiz-araci-cevrimdisi.html');
-      if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      html = await resp.text();
-    } catch (e) {
-      errEl.textContent = 'Bu özellik sadece deploy edilmiş siteden çalışır (file:// protokolü desteklenmez).';
-      errEl.style.display = 'block';
-      return;
-    }
-    const newHtml = html.replace(
-      'const EMBEDDED_PRESET = null; // build sirasinda JSON.stringify(preset) ile degistirilir',
-      'const EMBEDDED_PRESET = ' + JSON.stringify(preset) + ';'
-    );
-    if (newHtml === html) {
-      errEl.textContent = 'Çevrimdışı dosyada yer tutucu bulunamadı — genel-analiz-araci-cevrimdisi.html güncellenmeli.';
-      errEl.style.display = 'block';
-      return;
-    }
-    const blob = new Blob([newHtml], { type: 'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'kisisel-analiz-araci.html'; a.click();
-    URL.revokeObjectURL(url);
-  } finally {
-    btn.textContent = origText;
-    btn.disabled = false;
+let LAST_NLQ_QUERY = null;
+let NLQ_CHART_INSTANCE = null;
+
+// ── Türkçe normalize ────────────────────────────────────────
+function nlqNorm(s) {
+  return String(s).toLowerCase()
+    .replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s')
+    .replace(/ı/g,'i').replace(/ö/g,'o').replace(/ç/g,'c')
+    .replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+}
+// Word-boundary includes with Turkish suffix tolerance:
+// - exact word match (space-delimited) always works
+// - for keywords ≥4 chars, also match as word prefix (handles -i/-da/-de suffixes)
+// - for short English words like "top","min","max" only exact match (avoids "top"→"toplam")
+function nlqIncludes(haystack, needle) {
+  if (!needle) return false;
+  if (needle.includes(' ')) return haystack.includes(needle);   // multi-word: substring ok
+  const padded = ' ' + haystack + ' ';
+  if (padded.includes(' ' + needle + ' ')) return true;          // exact word match
+  if (needle.length >= 4) {                                       // Turkish suffix tolerance
+    return haystack.split(' ').some(w => w.startsWith(needle));
   }
+  return false;
+}
+
+// ── Levenshtein (edit distance) ─────────────────────────────
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  if (!m) return n; if (!n) return m;
+  const dp = Array.from({length:m+1}, (_,i) => Array.from({length:n+1}, (_,j) => j===0?i:i===0?j:0));
+  for (let i=1;i<=m;i++) for(let j=1;j<=n;j++)
+    dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+// ── Keyword maps ────────────────────────────────────────────
+const NLQ_AGG_MAP = [
+  { agg:'sum',            words:['toplam','toplamı','sum','total','hepsinin toplami','genel toplam','toplam ne kadar','kac para','ne kadar'] },
+  { agg:'avg',            words:['ortalama','ortalamasi','avg','average','ortalama ne kadar','ortalama deger'] },
+  { agg:'max',            words:['en yuksek','maksimum','max','en fazla','en buyuk','highest','maximum','en cok','en yuksek nedir','zirve'] },
+  { agg:'min',            words:['en dusuk','minimum','min','en az','en kucuk','lowest','minimum','en dusuk nedir'] },
+  { agg:'count',          words:['kac tane','sayisi','adedi','count','kac adet','kac kayit','kac satir'] },
+  { agg:'count_distinct', words:['farkli kac','kac farkli','distinct','benzersiz','unique'] },
+];
+const NLQ_TOP_WORDS   = ['en cok satan','en fazla satan','en yuksek satisa sahip','top','best selling','en iyi','siralamada','en cok'];
+const NLQ_BOT_WORDS   = ['en az satan','en dusuk satisa sahip','bottom','worst','en kotu','en dusuk performans'];
+const NLQ_TIME_WORDS  = ['trend','zaman icinde','degisimi','zaman serisi','time series','degisim','zamanla','boyunca','sureci'];
+const NLQ_GRAN_MAP    = [
+  { g:'hour',  words:['saatlik','saat bazinda','saatte'] },
+  { g:'day',   words:['gunluk','gun bazinda','gunde','gunluk degisim'] },
+  { g:'week',  words:['haftalik','hafta bazinda','haftada'] },
+  { g:'month', words:['aylik','ay bazinda','ayda','aylik degisim','aylik trend'] },
+];
+const NLQ_GROUPBY_WORDS = ['gore','bazinda','kirilimlari','kirilimu','grupla','gruplandır','by','per','group by','kırılımı'];
+const NLQ_SHOW_WORDS    = ['goster','listele','listesi','sirala','ranking','hangi','nedir','nelerdir'];
+
+// ── Column finder ───────────────────────────────────────────
+function nlqFindCol(queryWords, colTypes, typeFilter) {
+  const headers = Object.keys(colTypes).filter(h => !typeFilter || colTypes[h].type === typeFilter);
+  if (!headers.length) return { found: null, ambiguous: false };
+  const qn = nlqNorm(queryWords.join ? queryWords.join(' ') : queryWords);
+  const words = qn.split(' ').filter(w => w.length > 1);
+
+  // 1. Exact
+  const exact = headers.filter(h => nlqNorm(h) === qn);
+  if (exact.length === 1) return { found: exact[0], ambiguous: false };
+  if (exact.length > 1)   return { found: exact, ambiguous: true };
+
+  // 2. Substring — any query word appears in header or vice versa
+  const sub = headers.filter(h => {
+    const hn = nlqNorm(h);
+    return words.some(w => w.length > 2 && (hn.includes(w) || w.includes(hn)));
+  });
+  if (sub.length === 1) return { found: sub[0], ambiguous: false };
+  if (sub.length > 1)   return { found: sub, ambiguous: true };
+
+  // 3. Levenshtein (tolerance ≤ 2, only for words ≥ 4 chars)
+  const lev = headers
+    .map(h => ({ h, d: Math.min(...words.map(w => w.length >= 4 ? levenshtein(nlqNorm(h), w) : 99)) }))
+    .filter(x => x.d <= 2)
+    .sort((a,b) => a.d - b.d);
+  if (lev.length === 1) return { found: lev[0].h, ambiguous: false };
+  if (lev.length > 1)   return { found: lev.map(x=>x.h), ambiguous: true };
+
+  return { found: null, ambiguous: false };
+}
+
+// ── Main parser ─────────────────────────────────────────────
+function nlqParse(rawQuery) {
+  const q   = rawQuery.trim();
+  const qn  = nlqNorm(q);
+  const qws = qn.split(' ').filter(w => w.length > 0);
+
+  // ── Operation detection ──────────────────────────────────
+  let operation = 'aggregate', sort = null, limit = null;
+  if (NLQ_TOP_WORDS.some(w => nlqIncludes(qn, nlqNorm(w)))) {
+    operation = 'top'; sort = 'desc';
+    const nm = qn.match(/\d+/); limit = nm ? parseInt(nm[0]) : 10;
+  } else if (NLQ_BOT_WORDS.some(w => nlqIncludes(qn, nlqNorm(w)))) {
+    operation = 'bottom'; sort = 'asc';
+    const nm = qn.match(/\d+/); limit = nm ? parseInt(nm[0]) : 10;
+  } else if (NLQ_TIME_WORDS.some(w => nlqIncludes(qn, nlqNorm(w)))) {
+    operation = 'time_series';
+  }
+
+  // ── Aggregation ──────────────────────────────────────────
+  let aggregation = 'sum';
+  for (const entry of NLQ_AGG_MAP) {
+    if (entry.words.some(w => nlqIncludes(qn, nlqNorm(w)))) { aggregation = entry.agg; break; }
+  }
+  const needsNumMetric = !['count','count_distinct'].includes(aggregation);
+
+  // ── Metric column ────────────────────────────────────────
+  const numCols = Object.keys(COLUMN_TYPES).filter(h => COLUMN_TYPES[h].type === 'number');
+  let metric = null;
+
+  // Direct name match in query
+  for (const h of numCols) {
+    const hn = nlqNorm(h);
+    const hnWs = hn.split(' ');
+    if (hnWs.every(w => qn.includes(w)) || qn.includes(hn)) { metric = h; break; }
+  }
+
+  // Fuzzy match via finder
+  if (!metric && needsNumMetric) {
+    const res = nlqFindCol(qws, COLUMN_TYPES, 'number');
+    if (res.ambiguous) return { status:'clarify', question:'Hangi sayısal kolonu kullanayım?', options: Array.isArray(res.found)?res.found:[res.found], field:'metric' };
+    if (res.found) metric = res.found;
+  }
+
+  // Default: single numeric col
+  if (!metric && needsNumMetric) {
+    if (numCols.length === 1) metric = numCols[0];
+    else if (numCols.length > 1) return { status:'clarify', question:'Hangi ölçümü kullanayım?', options: numCols, field:'metric' };
+    else return { status:'not_understood', message:'Sayısal bir kolon bulunamadı. Kolon tiplerini Adım 2\'de kontrol et.' };
+  }
+  if (!metric && !needsNumMetric) metric = numCols[0] || HEADERS[0];
+
+  // ── GroupBy column ────────────────────────────────────────
+  const hasGbWord  = NLQ_GROUPBY_WORDS.some(w => nlqIncludes(qn, nlqNorm(w)));
+  const hasShowW   = NLQ_SHOW_WORDS.some(w => nlqIncludes(qn, nlqNorm(w)));
+  const catTypes   = ['category','text','id'];
+  const catCols    = Object.keys(COLUMN_TYPES).filter(h => catTypes.includes(COLUMN_TYPES[h].type));
+  let groupBy = null;
+
+  if (hasGbWord || operation === 'top' || operation === 'bottom' || hasShowW) {
+    // Try name match
+    for (const h of catCols) {
+      const hn = nlqNorm(h);
+      if (hn.split(' ').every(w => qn.includes(w)) || qn.includes(hn)) { groupBy = h; break; }
+    }
+    // Fuzzy
+    if (!groupBy) {
+      const res = nlqFindCol(qws, COLUMN_TYPES, null);
+      const catRes = nlqFindCol(qws, Object.fromEntries(catCols.map(h=>[h,COLUMN_TYPES[h]])), null);
+      if (catRes.found && !catRes.ambiguous) groupBy = Array.isArray(catRes.found) ? null : catRes.found;
+      else if (catRes.ambiguous) return { status:'clarify', question:'Hangi kolona göre gruplandırayım?', options: Array.isArray(catRes.found)?catRes.found:[catRes.found], field:'groupBy' };
+    }
+    // Default: single cat col
+    if (!groupBy && (hasGbWord || operation === 'top' || operation === 'bottom')) {
+      if (catCols.length === 1) groupBy = catCols[0];
+      else if (catCols.length > 1 && (operation === 'top' || operation === 'bottom'))
+        return { status:'clarify', question:'Hangi kolona göre sıralayayım?', options: catCols, field:'groupBy' };
+    }
+  }
+
+  // ── Time series: timeCol + granularity ───────────────────
+  let timeCol = null, granularity = 'month';
+  if (operation === 'time_series') {
+    const dateCols = Object.keys(COLUMN_TYPES).filter(h => COLUMN_TYPES[h].type === 'date');
+    if (!dateCols.length) return { status:'not_understood', message:'Tarih kolonu bulunamadı.' };
+    if (dateCols.length === 1) timeCol = dateCols[0];
+    else {
+      for (const h of dateCols) { if (qn.includes(nlqNorm(h))) { timeCol = h; break; } }
+      if (!timeCol) return { status:'clarify', question:'Hangi tarih kolonunu kullanalım?', options: dateCols, field:'timeCol' };
+    }
+    for (const entry of NLQ_GRAN_MAP) {
+      if (entry.words.some(w => nlqIncludes(qn, nlqNorm(w)))) { granularity = entry.g; break; }
+    }
+  }
+
+  // ── Filters ───────────────────────────────────────────────
+  const filters = [];
+
+  // Numeric threshold: "1000'den fazla" / "1000 üzerinde"
+  const aboveRx = /(\d[\d.,]*)[\s'']*(?:\w*\s*)?(uzerin|fazla|buyuk|yuksek|above|over|more|greater)/g;
+  const belowRx = /(\d[\d.,]*)[\s'']*(?:\w*\s*)?(altind|azind|kucuk|dusuk|below|under|less)/g;
+  let mx;
+  while ((mx = aboveRx.exec(qn)) !== null) {
+    const num = parseFloat(mx[1].replace(',','.'));
+    if (!isNaN(num) && metric) filters.push({ col: metric, op: 'gte', val: String(num) });
+  }
+  while ((mx = belowRx.exec(qn)) !== null) {
+    const num = parseFloat(mx[1].replace(',','.'));
+    if (!isNaN(num) && metric) filters.push({ col: metric, op: 'lte', val: String(num) });
+  }
+
+  // Category value match: check samples of every cat col
+  for (const col of catCols) {
+    const samples = COLUMN_TYPES[col].samples || [];
+    for (const sample of samples) {
+      const sn = nlqNorm(sample);
+      if (sn.length > 1 && qn.includes(sn) && !filters.some(f => f.col === col)) {
+        filters.push({ col, op: 'eq', val: sample });
+      }
+    }
+  }
+  // Also: Location patterns "X'da/de/ta/te/için"
+  const locRx = /([A-ZÇĞİÖŞÜa-zçğıöşü][a-zçğıöşü]{2,})['']?(?:da|de|ta|te|daki|deki|için)/g;
+  while ((mx = locRx.exec(q)) !== null) {
+    const cand = nlqNorm(mx[1]);
+    for (const col of catCols) {
+      const samps = COLUMN_TYPES[col].samples || [];
+      const matched = samps.find(s => nlqNorm(s) === cand || nlqNorm(s).includes(cand));
+      if (matched && !filters.some(f => f.col === col)) filters.push({ col, op: 'eq', val: matched });
+    }
+  }
+
+  return {
+    status: 'ok',
+    query: { operation, aggregation, metric, groupBy, filters, sort, limit, timeCol, granularity, _raw: rawQuery }
+  };
+}
+
+// ── Executor ────────────────────────────────────────────────
+function nlqExecute(sq) {
+  let rows = applyRowFormulas(RAW_ROWS, FORMULAS);
+  if (sq.filters.length) rows = applyFilters(rows, sq.filters);
+  if (!rows.length) return { error: 'Filtrelerden sonra hiç satır kalmadı.' };
+
+  const AGG_MAP_LOCAL = { sum:'sum',avg:'avg',max:'max',min:'min',count:'count',count_distinct:'count_distinct' };
+  const agg = AGG_MAP_LOCAL[sq.aggregation] || 'sum';
+
+  // Single scalar
+  if (sq.operation === 'aggregate' && !sq.groupBy) {
+    const val = aggregate(rows.map(r => r[sq.metric]), agg);
+    return { type: 'scalar', label: (AGG_LABELS[agg]||sq.aggregation) + ' — ' + sq.metric, value: val };
+  }
+
+  // Time series
+  if (sq.operation === 'time_series') {
+    const metrics = [{ col: sq.metric, agg }];
+    const result = computeTimeSeriesResult(rows, { timeCol: sq.timeCol, granularity: sq.granularity, splitCol: null, metrics });
+    return { type: 'timeseries', ...result, granularity: sq.granularity, metric: sq.metric };
+  }
+
+  // Category / top / bottom
+  const groupCol = sq.groupBy || Object.keys(COLUMN_TYPES).find(h => ['category','text'].includes(COLUMN_TYPES[h].type));
+  if (!groupCol) return { error: 'Gruplama kolonu bulunamadı.' };
+  const metrics = [{ col: sq.metric, agg }];
+  const topN = sq.limit || (sq.operation === 'aggregate' ? 50 : 10);
+  const sortDir = sq.sort || (sq.operation === 'bottom' ? 'asc' : 'desc');
+  const result = computeCategoryResult(rows, { groupCol, metrics, sortDir, topN });
+  return { type: 'category', ...result, groupCol };
+}
+
+// ── Explanation builder ─────────────────────────────────────
+function nlqExplain(sq) {
+  const aggLabel = AGG_LABELS[sq.aggregation] || sq.aggregation;
+  let parts = ['<strong>' + sq.metric + '</strong> ' + aggLabel];
+  if (sq.groupBy) parts.push('<strong>' + sq.groupBy + '</strong>\'a göre');
+  if (sq.operation === 'top')   parts.push('ilk ' + (sq.limit||10) + ' (büyükten küçüğe)');
+  if (sq.operation === 'bottom') parts.push('son ' + (sq.limit||10) + ' (küçükten büyüğe)');
+  if (sq.operation === 'time_series') parts.push(GRANULARITY_LABELS[sq.granularity] + ' bazında zaman serisi');
+  if (sq.filters.length) {
+    const fs = sq.filters.map(f => '<strong>' + f.col + '</strong> ' + (f.op==='eq'?'=':f.op) + ' ' + f.val).join(', ');
+    parts.push('filtre: ' + fs);
+  }
+  return 'Şunu anladım: ' + parts.join(', ') + '.';
+}
+
+// ── Render NLQ result ───────────────────────────────────────
+function nlqRenderResult(result, explanation, rawQuery) {
+  const fb = document.getElementById('nlqFeedback');
+  let html = '<div class="nlq-explanation">' + explanation + '</div>';
+
+  if (result.error) {
+    fb.innerHTML = html + '<div class="nlq-error">' + result.error + '</div>';
+    return;
+  }
+
+  if (result.type === 'scalar') {
+    const displayVal = typeof result.value === 'number' ? fmt(result.value, Number.isInteger(result.value)?0:2) : result.value;
+    html += `<div class="nlq-result-wrap"><div class="nlq-kpi-single"><div class="nlq-kpi-label">${result.label}</div><div class="nlq-kpi-value">${displayVal}</div></div></div>`;
+    fb.innerHTML = html;
+    return;
+  }
+
+  if (result.type === 'timeseries') {
+    html += '<div class="nlq-result-wrap"><div id="nlqResultChart"><canvas id="nlqCanvas" height="120"></canvas></div></div>';
+    const thead = ['Zaman', result.valueCols[0]].map(h=>`<th>${h}</th>`).join('');
+    const tbody = result.table.map(r=>`<tr><td style="text-align:left">${r.Zaman}</td><td>${fmt(r[result.valueCols[0]],1)}</td></tr>`).join('');
+    html += `<div style="overflow-x:auto;margin-top:12px"><table class="resulttable"><thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody></table></div>`;
+    fb.innerHTML = html;
+    if (NLQ_CHART_INSTANCE) NLQ_CHART_INSTANCE.destroy();
+    NLQ_CHART_INSTANCE = new Chart(document.getElementById('nlqCanvas').getContext('2d'), {
+      type: 'line',
+      data: { labels: result.table.map(r=>r.Zaman), datasets: [{ label: result.valueCols[0], data: result.table.map(r=>r[result.valueCols[0]]), borderColor: CHART_COLORS[0], backgroundColor: CHART_COLORS[0], borderWidth:2, tension:.3, pointRadius:2 }] },
+      options: chartOptions()
+    });
+    return;
+  }
+
+  if (result.type === 'category') {
+    const gc = result.groupCol, vc = result.valueCols[0];
+    html += '<div class="nlq-result-wrap"><div id="nlqResultChart"><canvas id="nlqCanvas" height="120"></canvas></div></div>';
+    const thead = [gc, vc].map(h=>`<th>${h}</th>`).join('');
+    const tbody = result.table.map(r=>`<tr><td style="text-align:left">${r[gc]??'–'}</td><td>${fmt(r[vc],Number.isInteger(r[vc])?0:1)}</td></tr>`).join('');
+    html += `<div style="overflow-x:auto;margin-top:12px"><table class="resulttable"><thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody></table></div>`;
+    fb.innerHTML = html;
+    if (NLQ_CHART_INSTANCE) NLQ_CHART_INSTANCE.destroy();
+    NLQ_CHART_INSTANCE = new Chart(document.getElementById('nlqCanvas').getContext('2d'), {
+      type: 'bar',
+      data: { labels: result.table.map(r=>String(r[gc])), datasets: [{ label: vc, data: result.table.map(r=>r[vc]), backgroundColor: CHART_COLORS[0], borderRadius:2 }] },
+      options: chartOptions()
+    });
+    return;
+  }
+
+  fb.innerHTML = html;
+}
+
+// ── Clarification UI ────────────────────────────────────────
+function nlqShowClarify(parseResult, rawQuery) {
+  const fb = document.getElementById('nlqFeedback');
+  const optsHtml = parseResult.options.map(o =>
+    `<button class="nlq-opt-btn" data-field="${parseResult.field}" data-val="${o}">${o}</button>`
+  ).join('');
+  fb.innerHTML = `<div class="nlq-clarify"><div class="nlq-clarify-q">${parseResult.question}</div><div class="nlq-clarify-opts">${optsHtml}</div></div>`;
+  fb.querySelectorAll('.nlq-opt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Re-parse with clarified term injected into query
+      const clarified = rawQuery + ' ' + btn.dataset.val;
+      nlqAsk(clarified, true);
+    });
+  });
+}
+
+// ── Main ask handler ────────────────────────────────────────
+function nlqAsk(rawQuery, isClarify) {
+  if (!rawQuery.trim()) return;
+  const fb = document.getElementById('nlqFeedback');
+
+  // Follow-up: if query looks like just a filter addition ("peki X için?")
+  // and we have a LAST_NLQ_QUERY, try injecting filter onto it
+  let parseResult;
+  const isFollowUp = LAST_NLQ_QUERY && !isClarify &&
+    /^peki|^ya|^sadece|^bir de|^o zaman/i.test(rawQuery.trim());
+
+  if (isFollowUp) {
+    // Build a combined query from last query + new filter phrase
+    const combined = LAST_NLQ_QUERY._raw + ' ' + rawQuery;
+    parseResult = nlqParse(combined);
+    if (parseResult.status === 'ok') {
+      // Use last query's operation/metric, just add new filters
+      parseResult.query.operation = LAST_NLQ_QUERY.operation;
+      parseResult.query.metric    = LAST_NLQ_QUERY.metric;
+      parseResult.query.groupBy   = LAST_NLQ_QUERY.groupBy;
+    }
+  } else {
+    parseResult = nlqParse(rawQuery);
+  }
+
+  if (parseResult.status === 'clarify') {
+    nlqShowClarify(parseResult, rawQuery);
+    return;
+  }
+
+  if (parseResult.status === 'not_understood') {
+    fb.innerHTML = `<div class="nlq-error">${parseResult.message}<br><span style="color:var(--dim)">Desteklenen kalıplar: "toplam X", "en çok satan N Y", "X'e göre ortalama Z", "aylık Z trendi"</span></div>`;
+    return;
+  }
+
+  const sq = parseResult.query;
+  try {
+    const result = nlqExecute(sq);
+    const explanation = nlqExplain(sq);
+    nlqRenderResult(result, explanation, rawQuery);
+    if (!result.error) LAST_NLQ_QUERY = sq;
+  } catch(err) {
+    fb.innerHTML = '<div class="nlq-error">Hata: ' + err.message + '</div>';
+  }
+}
+
+document.getElementById('nlqAskBtn').addEventListener('click', () => {
+  nlqAsk(document.getElementById('nlqInput').value);
+});
+document.getElementById('nlqInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') nlqAsk(document.getElementById('nlqInput').value);
 });
 
 // ============================================================

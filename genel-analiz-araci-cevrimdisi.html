@@ -253,6 +253,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 // ============================================================
 // STATE
 // ============================================================
+const EMBEDDED_PRESET = null; // build sirasinda JSON.stringify(preset) ile degistirilir
 let RAW_ROWS = [];        // orijinal satırlar (obje dizisi, ham excel değerleri)
 let HEADERS = [];         // orijinal kolon başlıkları
 let COLUMN_TYPES = {};    // { headerName: {type, samples, overridden} }
@@ -368,12 +369,17 @@ function loadSheet(sheetName) {
     if (rows.length > 100000) msg += ' Büyük bir dosya — tarayıcı biraz yavaşlayabilir.';
     setStatus(msg);
 
-    renderPreview();
-    renderMapTable();
-    goToStep(2);
-    if (PENDING_TEMPLATE) {
-      applyTemplate(PENDING_TEMPLATE);
-      PENDING_TEMPLATE = null;
+    if (EMBEDDED_PRESET) {
+      applyTemplate(EMBEDDED_PRESET);
+      runAnalysis();
+    } else {
+      renderPreview();
+      renderMapTable();
+      goToStep(2);
+      if (PENDING_TEMPLATE) {
+        applyTemplate(PENDING_TEMPLATE);
+        PENDING_TEMPLATE = null;
+      }
     }
   } catch (err) {
     console.error(err);

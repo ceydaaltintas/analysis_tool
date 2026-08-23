@@ -181,6 +181,56 @@
 
   /* ── hidden utility ────────────────────────────────── */
   .hidden{display:none!important;}
+
+  /* ── mode selector cards ───────────────────────────── */
+  .mode-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  @media(max-width:640px){.mode-cards{grid-template-columns:1fr;}}
+  .mode-card{border:1.5px solid var(--line);border-radius:var(--radius);padding:18px 20px;cursor:pointer;transition:border-color .15s,background .15s;background:var(--panel2);user-select:none;}
+  .mode-card:hover{border-color:rgba(73,183,172,.4);background:rgba(73,183,172,.04);}
+  .mode-card.active{border-color:var(--teal);background:rgba(73,183,172,.08);}
+  .mode-card-icon{width:30px;height:30px;border-radius:7px;margin-bottom:11px;display:flex;align-items:center;justify-content:center;background:var(--teal-soft);}
+  .mode-card-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;margin-bottom:4px;}
+  .mode-card-desc{font-size:11.5px;color:var(--dim);line-height:1.5;}
+
+  /* ── ab badge ──────────────────────────────────────── */
+  .ab-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;flex-shrink:0;}
+  .ab-badge.a{background:rgba(73,183,172,.15);border:1px solid rgba(73,183,172,.4);color:var(--teal);}
+  .ab-badge.b{background:rgba(224,164,88,.15);border:1px solid rgba(224,164,88,.4);color:var(--amber);}
+
+  /* ── mini dropzone (second file) ──────────────────── */
+  .dz-mini{border:1.5px dashed rgba(231,233,236,.18);border-radius:var(--radius);padding:28px 20px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:radial-gradient(ellipse at 50% 60%,rgba(73,183,172,.04),transparent 70%);}
+  .dz-mini:hover,.dz-mini.drag{border-color:var(--teal);background:rgba(73,183,172,.06);}
+  .dz-mini.loaded{border-color:var(--teal);border-style:solid;}
+  .dz-mini .dz-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;margin-bottom:4px;}
+  .dz-mini .dz-sub{font-size:12px;color:var(--dim);}
+  .dz-mini .hint{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--teal);background:var(--teal-soft);border:1px solid rgba(73,183,172,.2);border-radius:4px;padding:3px 8px;margin-top:8px;}
+
+  /* ── join config ───────────────────────────────────── */
+  .join-summary{background:rgba(73,183,172,.08);border:1px solid rgba(73,183,172,.25);border-radius:6px;padding:12px 16px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--teal);margin-top:14px;line-height:1.7;}
+  .col-check-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+  .col-check-item{display:flex;align-items:center;gap:6px;font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--dim);cursor:pointer;}
+  .col-check-item input{accent-color:var(--teal);cursor:pointer;}
+  .col-check-item:hover{color:var(--text);}
+
+  /* ── dual column mapping ───────────────────────────── */
+  .dual-map{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;}
+  @media(max-width:768px){.dual-map{grid-template-columns:1fr;}}
+  .dual-map-panel{border:1px solid var(--line);border-radius:var(--radius);padding:18px;background:var(--panel2);}
+  .dual-map-title{display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:14px;}
+
+  /* ── compare dual dropdowns ────────────────────────── */
+  .cmp-row{display:flex;gap:14px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
+  .cmp-row label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--dim);min-width:130px;}
+  .cmp-pair{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .cmp-pair-item{display:flex;align-items:center;gap:5px;}
+
+  /* ── compare result diff ───────────────────────────── */
+  .diff-pos{color:var(--teal);}
+  .diff-neg{color:var(--danger);}
+  .diff-neu{color:var(--dim);}
+  .result-ab-legend{display:flex;gap:20px;margin-bottom:14px;flex-wrap:wrap;}
+  .result-ab-label{display:flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);}
+  .result-ab-label span{width:28px;height:3px;border-radius:2px;display:inline-block;}
 </style>
 </head>
 <body>
@@ -223,21 +273,100 @@
 
   <!-- STEP 1: UPLOAD -->
   <div class="step active" id="step1">
-    <div class="panel">
-      <div class="panel-header"><div class="panel-num">1</div><h2>Veriyi Yükle</h2></div>
-      <p class="section-note">Excel (.xlsx, .xls) veya CSV dosyanı yükle. İlk satır başlık olarak okunur.</p>
-      <div id="dropzone">
-        <div class="dz-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 4L12 16M12 4L8 8M12 4L16 8" stroke="#49B7AC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M4 17V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V17" stroke="#49B7AC" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
+
+    <!-- Mode selector -->
+    <div class="panel" style="margin-bottom:16px;">
+      <div class="panel-header"><div class="panel-num">1</div><h2>Nasıl Kullanmak İstiyorsun?</h2></div>
+      <p class="section-note" style="margin-bottom:16px;">Tek dosya analizi, iki dosyayı birleştirme veya karşılaştırma modunu seç.</p>
+      <div class="mode-cards">
+        <div class="mode-card active" data-filemode="single">
+          <div class="mode-card-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="2" width="10" height="12" rx="1.5" stroke="#49B7AC" stroke-width="1.4"/><path d="M5 6h6M5 9h4" stroke="#49B7AC" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="mode-card-title">Tek Dosya</div>
+          <div class="mode-card-desc">Tek bir Excel veya CSV yükle, analiz et.</div>
         </div>
-        <p class="dz-title">Dosyayı buraya sürükle</p>
-        <p class="dz-sub">ya da tıklayarak dosya seç</p>
-        <span class="hint">.xlsx &nbsp;·&nbsp; .xls &nbsp;·&nbsp; .csv</span>
-        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+        <div class="mode-card" data-filemode="join">
+          <div class="mode-card-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="6" height="8" rx="1" stroke="#49B7AC" stroke-width="1.4"/><rect x="9" y="4" width="6" height="8" rx="1" stroke="#49B7AC" stroke-width="1.4"/><path d="M7 8h2" stroke="#49B7AC" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <div class="mode-card-title">İki Dosyayı Birleştir</div>
+          <div class="mode-card-desc">Ortak kolon üzerinden eşleştir (VLOOKUP mantığı) — tek veri seti üretir.</div>
+        </div>
+        <div class="mode-card" data-filemode="compare">
+          <div class="mode-card-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="6" height="10" rx="1" stroke="#49B7AC" stroke-width="1.4"/><rect x="9" y="3" width="6" height="10" rx="1" stroke="#49B7AC" stroke-width="1.4"/><path d="M4 7h2M10 7h2M4 10h2M10 10h2" stroke="#49B7AC" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="mode-card-title">İki Dosyayı Karşılaştır</div>
+          <div class="mode-card-desc">Aynı analizi iki ayrı veri setine uygula, sonuçları yan yana gör.</div>
+        </div>
       </div>
+    </div>
+
+    <!-- File upload panel -->
+    <div class="panel">
+      <div class="panel-header"><div class="panel-num">2</div><h2 id="uploadPanelTitle">Dosyayı Yükle</h2></div>
+      <p class="section-note" id="uploadPanelNote">Excel (.xlsx, .xls) veya CSV dosyanı yükle. İlk satır başlık olarak okunur.</p>
+
+      <!-- Single mode dropzone -->
+      <div id="singleDropzoneWrap">
+        <div id="dropzone">
+          <div class="dz-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 4L12 16M12 4L8 8M12 4L16 8" stroke="#49B7AC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V17" stroke="#49B7AC" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <p class="dz-title">Dosyayı buraya sürükle</p>
+          <p class="dz-sub">ya da tıklayarak dosya seç</p>
+          <span class="hint">.xlsx &nbsp;·&nbsp; .xls &nbsp;·&nbsp; .csv</span>
+          <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+        </div>
+      </div>
+
+      <!-- Dual mode dropzones (join/compare) -->
+      <div id="dualDropzoneWrap" class="hidden" style="display:none;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <span class="ab-badge a">A</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);" id="fileALabel">Dosya A — Ana veri</span>
+            </div>
+            <div class="dz-mini" id="dropzoneA">
+              <p class="dz-title">Dosya A'yı sürükle</p>
+              <p class="dz-sub">ya da tıkla</p>
+              <span class="hint">.xlsx · .xls · .csv</span>
+              <input type="file" id="fileInputA" accept=".xlsx,.xls,.csv" style="display:none;">
+            </div>
+            <div id="statusA" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);margin-top:8px;min-height:16px;"></div>
+            <div id="sheetSelectRowA" class="hidden" style="margin-top:10px;">
+              <label style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;">Sayfa seç</label>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <select id="sheetSelectA" style="min-width:160px;"></select>
+                <button class="btn small primary" id="loadSheetBtnA">Yükle</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <span class="ab-badge b">B</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);" id="fileBLabel">Dosya B — İkinci veri</span>
+            </div>
+            <div class="dz-mini" id="dropzoneB">
+              <p class="dz-title">Dosya B'yi sürükle</p>
+              <p class="dz-sub">ya da tıkla</p>
+              <span class="hint">.xlsx · .xls · .csv</span>
+              <input type="file" id="fileInputB" accept=".xlsx,.xls,.csv" style="display:none;">
+            </div>
+            <div id="statusB" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--amber);margin-top:8px;min-height:16px;"></div>
+            <div id="sheetSelectRowB" class="hidden" style="margin-top:10px;">
+              <label style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;">Sayfa seç</label>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <select id="sheetSelectB" style="min-width:160px;"></select>
+                <button class="btn small primary" id="loadSheetBtnB">Yükle</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div id="status"></div>
       <div id="sheetSelectRow" class="hidden" style="margin-top:16px;">
         <label style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);display:block;margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase;">Dosyada birden fazla sayfa var — hangisini kullanalım?</label>
@@ -251,6 +380,40 @@
         <input type="file" id="templateInput" accept=".json">
       </div>
     </div>
+
+    <!-- Join config panel (shown after both files loaded in join mode) -->
+    <div class="panel hidden" id="joinConfigPanel">
+      <div class="panel-header"><div class="panel-num" style="background:var(--amber-soft);border-color:rgba(224,164,88,.3);color:var(--amber);">3</div><h2>Birleştirme Ayarı</h2></div>
+      <p class="section-note">Hangi kolon üzerinden eşleştirilsin? Dosya B'den hangi kolonlar Dosya A'ya ekleneceğini seç.</p>
+      <div class="form-row">
+        <label>Dosya A — Anahtar Kolon</label>
+        <select id="joinKeyA" style="min-width:200px;"></select>
+      </div>
+      <div class="form-row">
+        <label>Dosya B — Anahtar Kolon</label>
+        <select id="joinKeyB" style="min-width:200px;"></select>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;">Dosya B'den Getirilecek Kolonlar</div>
+        <div class="col-check-list" id="joinColChecks"></div>
+      </div>
+      <div class="btn-row" style="margin-top:20px;">
+        <button class="btn primary" id="runJoinBtn">Birleştir ve Devam Et →</button>
+      </div>
+      <div id="joinResult" style="margin-top:12px;"></div>
+    </div>
+
+    <!-- Compare proceed button (shown after both files loaded in compare mode) -->
+    <div class="panel hidden" id="compareReadyPanel">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;margin-bottom:4px;">Her iki dosya yüklendi</div>
+          <div style="font-size:12.5px;color:var(--dim);" id="compareReadyNote">Kolon tiplerini kontrol et, ardından analizi kur.</div>
+        </div>
+        <button class="btn primary" id="compareToStep2Btn">Kolonları Tanı →</button>
+      </div>
+    </div>
+
     <div class="panel hidden" id="previewPanel">
       <div class="preview-panel-head">
         <h2>Veri Önizleme</h2>
@@ -265,7 +428,19 @@
     <div class="panel">
       <div class="panel-header"><div class="panel-num">2</div><h2>Kolonları Tanı</h2></div>
       <p class="section-note">Her kolonun tipini otomatik tahmin ettim. Yanlış görünen varsa dropdown'dan düzelt.</p>
+      <!-- single mode -->
       <table class="maptable" id="mapTable"></table>
+      <!-- compare mode -->
+      <div class="hidden dual-map" id="dualMapTable">
+        <div class="dual-map-panel">
+          <div class="dual-map-title"><span class="ab-badge a">A</span><span id="dualMapTitleA">Dosya A</span></div>
+          <table class="maptable" id="mapTableA"></table>
+        </div>
+        <div class="dual-map-panel">
+          <div class="dual-map-title"><span class="ab-badge b">B</span><span id="dualMapTitleB">Dosya B</span></div>
+          <table class="maptable" id="mapTableB"></table>
+        </div>
+      </div>
       <div class="btn-row">
         <button class="btn primary" id="toStep3Btn">Devam Et →</button>
         <button class="btn ghost" id="backTo1Btn">← Geri</button>
@@ -359,6 +534,18 @@ let FORMULAS = [];        // [{name, expr}]
 let CHART_INSTANCE = null;
 let LAST_RESULT = null;   // { table: [...], headers: [...] } for CSV export
 
+// ── two-file state ──────────────────────────────────────────
+let FILE_MODE = 'single';   // 'single' | 'join' | 'compare'
+let RAW_ROWS_B = [];
+let HEADERS_B = [];
+let COLUMN_TYPES_B = {};
+let WB_A = null;
+let WB_B = null;
+let FILE_A_NAME = '';
+let FILE_B_NAME = '';
+let METRICS_B = [];         // parallel to METRICS for compare mode, [{col}]
+let MODE_CONFIG_B = {};     // compare-side column selections
+
 const TYPE_LABELS = { date: 'TARİH', number: 'SAYI', category: 'KATEGORİ', text: 'METİN', id: 'KİMLİK' };
 const AGG_LABELS = { sum: 'Toplam', avg: 'Ortalama', count: 'Sayı', count_distinct: 'Farklı Sayı', min: 'Min', max: 'Max' };
 const GRANULARITY_LABELS = { hour: 'Saat', day: 'Gün', week: 'Hafta', month: 'Ay' };
@@ -398,6 +585,52 @@ function goToStep(n) {
 }
 
 // ============================================================
+// MODE CARD SELECTOR
+// ============================================================
+document.querySelectorAll('.mode-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    FILE_MODE = card.dataset.filemode;
+
+    const single = document.getElementById('singleDropzoneWrap');
+    const dual   = document.getElementById('dualDropzoneWrap');
+    const joinCfg = document.getElementById('joinConfigPanel');
+    const cmpReady = document.getElementById('compareReadyPanel');
+
+    if (FILE_MODE === 'single') {
+      single.style.display = '';
+      dual.style.display = 'none';
+      joinCfg.classList.add('hidden');
+      cmpReady.classList.add('hidden');
+      document.getElementById('uploadPanelTitle').textContent = 'Dosyayı Yükle';
+      document.getElementById('uploadPanelNote').textContent = 'Excel (.xlsx, .xls) veya CSV dosyanı yükle. İlk satır başlık olarak okunur.';
+    } else {
+      single.style.display = 'none';
+      dual.style.display = '';
+      dual.classList.remove('hidden');
+      joinCfg.classList.add('hidden');
+      cmpReady.classList.add('hidden');
+      if (FILE_MODE === 'join') {
+        document.getElementById('uploadPanelTitle').textContent = 'İki Dosyayı Yükle';
+        document.getElementById('uploadPanelNote').textContent = 'Dosya A ana veridir, Dosya B\'den kolon(lar) getirilir.';
+        document.getElementById('fileALabel').textContent = 'Dosya A — Ana veri';
+        document.getElementById('fileBLabel').textContent = 'Dosya B — Eklenecek kolonlar';
+      } else {
+        document.getElementById('uploadPanelTitle').textContent = 'İki Dosyayı Yükle';
+        document.getElementById('uploadPanelNote').textContent = 'Her iki dosyaya aynı analiz uygulanır, sonuçlar yan yana karşılaştırılır.';
+        document.getElementById('fileALabel').textContent = 'Dosya A';
+        document.getElementById('fileBLabel').textContent = 'Dosya B';
+      }
+      // reset B loaded state
+      RAW_ROWS_B = []; HEADERS_B = []; WB_B = null; FILE_B_NAME = '';
+      document.getElementById('dropzoneB').classList.remove('loaded');
+      document.getElementById('statusB').textContent = '';
+    }
+  });
+});
+
+// ============================================================
 // FILE UPLOAD
 // ============================================================
 const dropzone = document.getElementById('dropzone');
@@ -411,6 +644,165 @@ dropzone.addEventListener('drop', e => {
   if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
 });
 fileInput.addEventListener('change', e => { if (e.target.files.length) handleFile(e.target.files[0]); });
+
+// ── dual dropzones ──────────────────────────────────────────
+function setupDualDropzone(dzId, inputId, handler) {
+  const dz = document.getElementById(dzId);
+  const inp = document.getElementById(inputId);
+  dz.addEventListener('click', () => inp.click());
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if (e.dataTransfer.files.length) handler(e.dataTransfer.files[0]); });
+  inp.addEventListener('change', e => { if (e.target.files.length) handler(e.target.files[0]); });
+}
+setupDualDropzone('dropzoneA', 'fileInputA', handleFileA);
+setupDualDropzone('dropzoneB', 'fileInputB', handleFileB);
+
+function handleFileA(file) {
+  FILE_A_NAME = file.name;
+  document.getElementById('statusA').textContent = 'Okunuyor: ' + file.name + ' ...';
+  document.getElementById('sheetSelectRowA').classList.add('hidden');
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array', cellDates: true });
+      WB_A = wb;
+      if (wb.SheetNames.length > 1) {
+        const sel = document.getElementById('sheetSelectA');
+        sel.innerHTML = wb.SheetNames.map(n => `<option value="${n}">${n}</option>`).join('');
+        document.getElementById('sheetSelectRowA').classList.remove('hidden');
+        document.getElementById('statusA').textContent = wb.SheetNames.length + ' sayfa — birini seç.';
+        document.getElementById('loadSheetBtnA').onclick = () => loadSheetA(sel.value);
+      } else {
+        loadSheetA(wb.SheetNames[0]);
+      }
+    } catch(err) { document.getElementById('statusA').textContent = 'Hata: ' + err.message; }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function loadSheetA(sheetName) {
+  const rows = XLSX.utils.sheet_to_json(WB_A.Sheets[sheetName], { defval: null, raw: true });
+  if (!rows.length) { document.getElementById('statusA').textContent = 'Satır bulunamadı.'; return; }
+  RAW_ROWS = rows; HEADERS = Object.keys(rows[0]);
+  COLUMN_TYPES = detectColumnTypes(RAW_ROWS, HEADERS);
+  document.getElementById('statusA').textContent = '✓ ' + rows.length.toLocaleString('tr-TR') + ' satır, ' + HEADERS.length + ' kolon';
+  document.getElementById('dropzoneA').classList.add('loaded');
+  checkBothFilesLoaded();
+}
+
+function handleFileB(file) {
+  FILE_B_NAME = file.name;
+  document.getElementById('statusB').textContent = 'Okunuyor: ' + file.name + ' ...';
+  document.getElementById('sheetSelectRowB').classList.add('hidden');
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array', cellDates: true });
+      WB_B = wb;
+      if (wb.SheetNames.length > 1) {
+        const sel = document.getElementById('sheetSelectB');
+        sel.innerHTML = wb.SheetNames.map(n => `<option value="${n}">${n}</option>`).join('');
+        document.getElementById('sheetSelectRowB').classList.remove('hidden');
+        document.getElementById('statusB').textContent = wb.SheetNames.length + ' sayfa — birini seç.';
+        document.getElementById('loadSheetBtnB').onclick = () => loadSheetB(sel.value);
+      } else {
+        loadSheetB(wb.SheetNames[0]);
+      }
+    } catch(err) { document.getElementById('statusB').textContent = 'Hata: ' + err.message; }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function loadSheetB(sheetName) {
+  const rows = XLSX.utils.sheet_to_json(WB_B.Sheets[sheetName], { defval: null, raw: true });
+  if (!rows.length) { document.getElementById('statusB').textContent = 'Satır bulunamadı.'; return; }
+  RAW_ROWS_B = rows; HEADERS_B = Object.keys(rows[0]);
+  COLUMN_TYPES_B = detectColumnTypes(RAW_ROWS_B, HEADERS_B);
+  document.getElementById('statusB').textContent = '✓ ' + rows.length.toLocaleString('tr-TR') + ' satır, ' + HEADERS_B.length + ' kolon';
+  document.getElementById('dropzoneB').classList.add('loaded');
+  checkBothFilesLoaded();
+}
+
+function checkBothFilesLoaded() {
+  if (!RAW_ROWS.length || !RAW_ROWS_B.length) return;
+  if (FILE_MODE === 'join') {
+    showJoinConfig();
+  } else if (FILE_MODE === 'compare') {
+    document.getElementById('compareReadyPanel').classList.remove('hidden');
+    document.getElementById('compareReadyNote').textContent =
+      FILE_A_NAME + ' (' + RAW_ROWS.length.toLocaleString('tr-TR') + ' satır) ve ' +
+      FILE_B_NAME + ' (' + RAW_ROWS_B.length.toLocaleString('tr-TR') + ' satır) yüklendi.';
+  }
+}
+
+// ── join config ─────────────────────────────────────────────
+function showJoinConfig() {
+  const panel = document.getElementById('joinConfigPanel');
+  panel.classList.remove('hidden');
+  const keyAEl = document.getElementById('joinKeyA');
+  const keyBEl = document.getElementById('joinKeyB');
+  keyAEl.innerHTML = HEADERS.map(h => `<option value="${h}">${h}</option>`).join('');
+  keyBEl.innerHTML = HEADERS_B.map(h => `<option value="${h}">${h}</option>`).join('');
+  // render B col checkboxes (exclude the key col which changes on select)
+  renderJoinColChecks();
+  keyBEl.addEventListener('change', renderJoinColChecks);
+}
+
+function renderJoinColChecks() {
+  const keyB = document.getElementById('joinKeyB').value;
+  const bringCols = HEADERS_B.filter(h => h !== keyB);
+  document.getElementById('joinColChecks').innerHTML = bringCols.map(h =>
+    `<label class="col-check-item"><input type="checkbox" value="${h}" checked> ${h}</label>`
+  ).join('');
+}
+
+document.getElementById('runJoinBtn').addEventListener('click', () => {
+  const keyA = document.getElementById('joinKeyA').value;
+  const keyB = document.getElementById('joinKeyB').value;
+  const checks = document.getElementById('joinColChecks').querySelectorAll('input:checked');
+  const bringCols = Array.from(checks).map(c => c.value);
+  if (!bringCols.length) { document.getElementById('joinResult').innerHTML = '<div style="color:var(--danger);font-family:IBM Plex Mono,monospace;font-size:11.5px;">En az bir kolon seç.</div>'; return; }
+
+  const { merged, duplicateKeys, unmatchedCount } = joinDatasets(RAW_ROWS, keyA, RAW_ROWS_B, keyB, bringCols);
+  RAW_ROWS = merged;
+  HEADERS = Object.keys(merged[0] || {});
+  COLUMN_TYPES = detectColumnTypes(RAW_ROWS, HEADERS);
+
+  let summary = merged.length.toLocaleString('tr-TR') + ' satır işlendi.';
+  if (unmatchedCount) summary += ' · ' + unmatchedCount + ' satırda eşleşme bulunamadı (boş geldi).';
+  if (duplicateKeys) summary += ' · ' + duplicateKeys + ' anahtarda birden fazla eşleşme vardı (son satır kullanıldı).';
+  document.getElementById('joinResult').innerHTML = '<div class="join-summary">' + summary + '</div>';
+
+  setTimeout(() => {
+    renderMapTable();
+    goToStep(2);
+  }, 700);
+});
+
+function joinDatasets(rowsA, keyColA, rowsB, keyColB, bringCols) {
+  const lookup = new Map();
+  let duplicateKeys = 0;
+  rowsB.forEach(r => {
+    const k = String(r[keyColB] ?? '');
+    if (lookup.has(k)) duplicateKeys++;
+    lookup.set(k, r);
+  });
+  const renamedBringCols = bringCols.map(c => (rowsA[0] && c in rowsA[0]) ? c + '_dosya2' : c);
+  const merged = rowsA.map(rowA => {
+    const match = lookup.get(String(rowA[keyColA] ?? ''));
+    const extra = {};
+    bringCols.forEach((origCol, i) => { extra[renamedBringCols[i]] = match ? match[origCol] : null; });
+    return { ...rowA, ...extra };
+  });
+  const unmatchedCount = merged.filter(r => renamedBringCols.every(c => r[c] === null)).length;
+  return { merged, duplicateKeys, unmatchedCount };
+}
+
+document.getElementById('compareToStep2Btn').addEventListener('click', () => {
+  renderMapTable();
+  goToStep(2);
+});
 
 document.getElementById('templateLink').addEventListener('click', () => document.getElementById('templateInput').click());
 document.getElementById('templateInput').addEventListener('change', e => {
@@ -553,30 +945,50 @@ function detectColumnTypes(rows, headers) {
 // ============================================================
 // STEP 2: COLUMN MAPPING TABLE
 // ============================================================
-function renderMapTable() {
-  const rowsHtml = HEADERS.map(h => {
-    const info = COLUMN_TYPES[h];
+function buildMapTableHtml(headers, colTypes, tableId, ctRef) {
+  const rowsHtml = headers.map(h => {
+    const info = colTypes[h];
     const badge = `<span class="type-badge ${info.type}">${TYPE_LABELS[info.type]}</span>`;
     const options = Object.keys(TYPE_LABELS).map(t => `<option value="${t}" ${t === info.type ? 'selected' : ''}>${TYPE_LABELS[t]}</option>`).join('');
-    return `
-      <tr>
-        <td class="col-name">${h}</td>
-        <td class="col-samples">${info.samples.join(' · ') || '—'}</td>
-        <td>${badge}</td>
-        <td><select class="type-override" data-col="${h}">${options}</select></td>
-      </tr>`;
+    return `<tr>
+      <td class="col-name">${h}</td>
+      <td class="col-samples">${info.samples.join(' · ') || '—'}</td>
+      <td>${badge}</td>
+      <td><select class="type-override" data-col="${h}" data-tableid="${tableId}">${options}</select></td>
+    </tr>`;
   }).join('');
-  document.getElementById('mapTable').innerHTML = `
-    <thead><tr><th>Kolon</th><th>Örnek Değerler</th><th>Algılanan Tip</th><th>Düzelt</th></tr></thead>
-    <tbody>${rowsHtml}</tbody>
-  `;
-  document.querySelectorAll('.type-override').forEach(sel => {
-    sel.addEventListener('change', () => {
-      COLUMN_TYPES[sel.dataset.col].type = sel.value;
-      COLUMN_TYPES[sel.dataset.col].overridden = true;
-      renderMapTable();
+  return `<thead><tr><th>Kolon</th><th>Örnek</th><th>Tip</th><th>Düzelt</th></tr></thead><tbody>${rowsHtml}</tbody>`;
+}
+
+function renderMapTable() {
+  if (FILE_MODE === 'compare') {
+    document.getElementById('mapTable').innerHTML = '';
+    document.getElementById('mapTable').classList.add('hidden');
+    const dual = document.getElementById('dualMapTable');
+    dual.classList.remove('hidden');
+    dual.style.display = 'grid';
+    document.getElementById('dualMapTitleA').textContent = FILE_A_NAME || 'Dosya A';
+    document.getElementById('dualMapTitleB').textContent = FILE_B_NAME || 'Dosya B';
+    document.getElementById('mapTableA').innerHTML = buildMapTableHtml(HEADERS, COLUMN_TYPES, 'A', COLUMN_TYPES);
+    document.getElementById('mapTableB').innerHTML = buildMapTableHtml(HEADERS_B, COLUMN_TYPES_B, 'B', COLUMN_TYPES_B);
+    document.querySelectorAll('#mapTableA .type-override').forEach(sel => {
+      sel.addEventListener('change', () => { COLUMN_TYPES[sel.dataset.col].type = sel.value; COLUMN_TYPES[sel.dataset.col].overridden = true; });
     });
-  });
+    document.querySelectorAll('#mapTableB .type-override').forEach(sel => {
+      sel.addEventListener('change', () => { COLUMN_TYPES_B[sel.dataset.col].type = sel.value; COLUMN_TYPES_B[sel.dataset.col].overridden = true; });
+    });
+  } else {
+    document.getElementById('dualMapTable').style.display = 'none';
+    document.getElementById('mapTable').classList.remove('hidden');
+    document.getElementById('mapTable').innerHTML = buildMapTableHtml(HEADERS, COLUMN_TYPES, 'single', COLUMN_TYPES);
+    document.querySelectorAll('#mapTable .type-override').forEach(sel => {
+      sel.addEventListener('change', () => {
+        COLUMN_TYPES[sel.dataset.col].type = sel.value;
+        COLUMN_TYPES[sel.dataset.col].overridden = true;
+        renderMapTable();
+      });
+    });
+  }
 }
 
 document.getElementById('backTo1Btn').addEventListener('click', () => goToStep(1));
@@ -598,6 +1010,9 @@ function colsByType(type) { return HEADERS.filter(h => COLUMN_TYPES[h].type === 
 function allValueCols() { return HEADERS.filter(h => COLUMN_TYPES[h].type === 'number').concat(FORMULAS.map(f => f.name)); }
 function allGroupCols() { return HEADERS.filter(h => ['category', 'text', 'id'].includes(COLUMN_TYPES[h].type)); }
 function allDateCols() { return HEADERS.filter(h => COLUMN_TYPES[h].type === 'date'); }
+function allValueColsB() { return HEADERS_B.filter(h => COLUMN_TYPES_B[h] && COLUMN_TYPES_B[h].type === 'number'); }
+function allGroupColsB() { return HEADERS_B.filter(h => COLUMN_TYPES_B[h] && ['category','text','id'].includes(COLUMN_TYPES_B[h].type)); }
+function allDateColsB() { return HEADERS_B.filter(h => COLUMN_TYPES_B[h] && COLUMN_TYPES_B[h].type === 'date'); }
 
 function metricRowHtml(idx, agg = 'sum', col = '') {
   const valOptions = allValueCols().map(c => `<option value="${c}" ${c === col ? 'selected' : ''}>${c}</option>`).join('');
@@ -612,12 +1027,60 @@ function metricRowHtml(idx, agg = 'sum', col = '') {
     </div>`;
 }
 
+function cmpPair(label, idA, optsA, idB, optsB) {
+  return `<div class="cmp-row">
+    <label>${label}</label>
+    <div class="cmp-pair">
+      <div class="cmp-pair-item"><span class="ab-badge a" style="width:18px;height:18px;font-size:10px;">A</span><select id="${idA}">${optsA}</select></div>
+      <div class="cmp-pair-item"><span class="ab-badge b" style="width:18px;height:18px;font-size:10px;">B</span><select id="${idB}">${optsB}</select></div>
+    </div>
+  </div>`;
+}
+
 function renderModeConfig() {
   const container = document.getElementById('modeConfig');
-  const dateOpts = allDateCols().map(c => `<option value="${c}">${c}</option>`).join('');
+  const dateOpts  = allDateCols().map(c => `<option value="${c}">${c}</option>`).join('');
   const groupOpts = allGroupCols().map(c => `<option value="${c}">${c}</option>`).join('');
-  const granOpts = Object.keys(GRANULARITY_LABELS).map(g => `<option value="${g}">${GRANULARITY_LABELS[g]}</option>`).join('');
+  const granOpts  = Object.keys(GRANULARITY_LABELS).map(g => `<option value="${g}">${GRANULARITY_LABELS[g]}</option>`).join('');
 
+  if (FILE_MODE === 'compare') {
+    const dateOptsB  = allDateColsB().map(c => `<option value="${c}">${c}</option>`).join('');
+    const groupOptsB = allGroupColsB().map(c => `<option value="${c}">${c}</option>`).join('');
+
+    if (MODE === 'timeseries') {
+      container.innerHTML =
+        cmpPair('Zaman Kolonu', 'cfgTimeCol', dateOpts, 'cfgTimeColB', dateOptsB) +
+        `<div class="form-row"><label>Zaman Dilimi</label><select id="cfgGranularity">${granOpts}</select></div>` +
+        `<div id="metricList"></div><span class="add-link" id="addMetricLink">+ metrik ekle</span>`;
+    } else if (MODE === 'category') {
+      container.innerHTML =
+        cmpPair('Kategori Kolonu', 'cfgGroupCol', groupOpts, 'cfgGroupColB', groupOptsB) +
+        `<div class="form-row"><label>Sırala</label><select id="cfgSortDir"><option value="desc">Büyükten küçüğe</option><option value="asc">Küçükten büyüğe</option></select></div>` +
+        `<div class="form-row"><label>İlk N</label><input type="number" id="cfgTopN" value="20" min="1" style="width:80px"></div>` +
+        `<div id="metricList"></div><span class="add-link" id="addMetricLink">+ metrik ekle</span>`;
+    } else if (MODE === 'pivot') {
+      container.innerHTML =
+        cmpPair('Satırlar (Kategori)', 'cfgGroupCol', groupOpts, 'cfgGroupColB', groupOptsB) +
+        cmpPair('Kolonlar (Zaman)', 'cfgTimeCol', dateOpts, 'cfgTimeColB', dateOptsB) +
+        `<div class="form-row"><label>Zaman Dilimi</label><select id="cfgGranularity">${granOpts}</select></div>` +
+        cmpPair('Değer', 'cfgPivotCol', allValueCols().map(c=>`<option>${c}</option>`).join(''), 'cfgPivotColB', allValueColsB().map(c=>`<option>${c}</option>`).join('')) +
+        `<div class="form-row"><label>İşlem</label><select id="cfgPivotAgg">${Object.keys(AGG_LABELS).map(a=>`<option value="${a}">${AGG_LABELS[a]}</option>`).join('')}</select></div>`;
+    }
+
+    if (MODE !== 'pivot') {
+      METRICS = METRICS.length ? METRICS : [{ col: allValueCols()[0] || '', agg: 'sum' }];
+      METRICS_B = METRICS_B.length ? METRICS_B : [{ col: allValueColsB()[0] || '' }];
+      renderMetricListCompare();
+      document.getElementById('addMetricLink').addEventListener('click', () => {
+        METRICS.push({ col: allValueCols()[0] || '', agg: 'sum' });
+        METRICS_B.push({ col: allValueColsB()[0] || '' });
+        renderMetricListCompare();
+      });
+    }
+    return;
+  }
+
+  // ── single / join mode (original) ──
   if (MODE === 'timeseries') {
     container.innerHTML = `
       <div class="form-row"><label>Zaman Kolonu</label><select id="cfgTimeCol">${dateOpts}</select></div>
@@ -653,6 +1116,29 @@ function renderModeConfig() {
       renderMetricList();
     });
   }
+}
+
+function metricRowCompareHtml(idx, m, mb) {
+  const aOpts = allValueCols().map(c => `<option value="${c}" ${c===m.col?'selected':''}>${c}</option>`).join('');
+  const bOpts = allValueColsB().map(c => `<option value="${c}" ${c===(mb&&mb.col)?'selected':''}>${c}</option>`).join('');
+  const aggOpts = Object.keys(AGG_LABELS).map(a => `<option value="${a}" ${a===m.agg?'selected':''}>${AGG_LABELS[a]}</option>`).join('');
+  return `<div class="metric-row" data-idx="${idx}">
+    <label>İşlem</label><select class="metric-agg">${aggOpts}</select>
+    <span class="ab-badge a" style="width:18px;height:18px;font-size:10px;">A</span><select class="metric-col">${aOpts}</select>
+    <span class="ab-badge b" style="width:18px;height:18px;font-size:10px;">B</span><select class="metric-colb">${bOpts}</select>
+    <button class="remove-btn metric-remove" title="kaldır">✕</button>
+  </div>`;
+}
+
+function renderMetricListCompare() {
+  const el = document.getElementById('metricList');
+  el.innerHTML = METRICS.map((m, i) => metricRowCompareHtml(i, m, METRICS_B[i])).join('');
+  el.querySelectorAll('.metric-row').forEach((row, i) => {
+    row.querySelector('.metric-col').addEventListener('change', e => { METRICS[i].col = e.target.value; });
+    row.querySelector('.metric-colb').addEventListener('change', e => { METRICS_B[i] = METRICS_B[i] || {}; METRICS_B[i].col = e.target.value; });
+    row.querySelector('.metric-agg').addEventListener('change', e => { METRICS[i].agg = e.target.value; });
+    row.querySelector('.metric-remove').addEventListener('click', () => { METRICS.splice(i,1); METRICS_B.splice(i,1); renderMetricListCompare(); });
+  });
 }
 
 let METRICS = [];
@@ -922,11 +1408,15 @@ document.getElementById('runBtn').addEventListener('click', runAnalysis);
 
 function validateBeforeRun() {
   const problems = [];
+  const isCompare = FILE_MODE === 'compare';
   if (MODE === 'timeseries') {
-    if (!document.getElementById('cfgTimeCol').value) problems.push('Zaman kolonu seçilmedi.');
+    if (!document.getElementById('cfgTimeCol').value) problems.push('Zaman kolonu seçilmedi (Dosya A).');
+    if (isCompare && !document.getElementById('cfgTimeColB').value) problems.push('Zaman kolonu seçilmedi (Dosya B).');
     if (!METRICS.length || METRICS.some(m => !m.col)) problems.push('En az bir metrik seçilmeli.');
+    if (isCompare && METRICS_B.some(m => !m || !m.col)) problems.push('Dosya B için metrik kolonları seçilmeli.');
   } else if (MODE === 'category') {
-    if (!document.getElementById('cfgGroupCol').value) problems.push('Kategori kolonu seçilmedi.');
+    if (!document.getElementById('cfgGroupCol').value) problems.push('Kategori kolonu seçilmedi (Dosya A).');
+    if (isCompare && !document.getElementById('cfgGroupColB').value) problems.push('Kategori kolonu seçilmedi (Dosya B).');
     if (!METRICS.length || METRICS.some(m => !m.col)) problems.push('En az bir metrik seçilmeli.');
   } else if (MODE === 'pivot') {
     if (!document.getElementById('cfgGroupCol').value) problems.push('Satır (kategori) kolonu seçilmedi.');
@@ -958,22 +1448,193 @@ function runAnalysis() {
   if (problems.length) { showRunError('Devam edemiyorum:\n• ' + problems.join('\n• ')); return; }
   showRunError('');
 
+  if (FILE_MODE === 'compare') { runCompare(); return; }
+
   try {
     let rows = applyRowFormulas(RAW_ROWS, FORMULAS);
     const totalBefore = rows.length;
     rows = applyFilters(rows, FILTERS);
-
     if (rows.length === 0) { showRunError('Filtrelerden sonra hiç satır kalmadı. Filtreleri gözden geçir.'); return; }
-
     if (MODE === 'timeseries') runTimeSeries(rows, totalBefore);
     else if (MODE === 'category') runCategory(rows, totalBefore);
     else if (MODE === 'pivot') runPivot(rows, totalBefore);
-
     goToStep(4);
   } catch (err) {
     console.error('Analiz hatası:', err);
     showRunError('Analiz çalıştırılırken hata oluştu: ' + err.message);
   }
+}
+
+// ============================================================
+// COMPARE MODE
+// ============================================================
+function runCompare() {
+  try {
+    const granularity = document.getElementById('cfgGranularity') ? document.getElementById('cfgGranularity').value : 'month';
+    const rowsA = applyFilters(applyRowFormulas(RAW_ROWS, FORMULAS), FILTERS);
+    const rowsB = applyFilters(RAW_ROWS_B, []);
+
+    if (!rowsA.length) { showRunError('Dosya A\'da filtreden sonra satır kalmadı.'); return; }
+    if (!rowsB.length) { showRunError('Dosya B\'de satır bulunamadı.'); return; }
+
+    let tableA, tableB, keyCol;
+
+    if (MODE === 'timeseries') {
+      const timeColA = document.getElementById('cfgTimeCol').value;
+      const timeColB = document.getElementById('cfgTimeColB').value;
+      ({ table: tableA, keyCol } = buildTimeSeriesTable(rowsA, timeColA, granularity, METRICS, 'Zaman'));
+      ({ table: tableB } = buildTimeSeriesTable(rowsB, timeColB, granularity, METRICS_B, 'Zaman'));
+    } else if (MODE === 'category') {
+      const groupColA = document.getElementById('cfgGroupCol').value;
+      const groupColB = document.getElementById('cfgGroupColB').value;
+      const topN = parseInt(document.getElementById('cfgTopN').value) || 20;
+      const sortDir = document.getElementById('cfgSortDir').value;
+      ({ table: tableA, keyCol } = buildCategoryTable(rowsA, groupColA, METRICS, topN, sortDir));
+      ({ table: tableB } = buildCategoryTable(rowsB, groupColB, METRICS_B, topN, sortDir));
+    } else if (MODE === 'pivot') {
+      showRunError('Pivot modu karşılaştırma desteklenmiyor. Zaman Serisi veya Kategori kullan.');
+      return;
+    }
+
+    renderCompareResult(tableA, tableB, keyCol, rowsA.length, rowsB.length, granularity);
+    goToStep(4);
+  } catch (err) {
+    console.error('Karşılaştırma hatası:', err);
+    showRunError('Karşılaştırma çalıştırılırken hata oluştu: ' + err.message);
+  }
+}
+
+function buildTimeSeriesTable(rows, timeCol, granularity, metrics, keyName) {
+  const withBucket = rows.map(r => {
+    const d = toJsDate(r[timeCol]);
+    return { ...r, __bucket: d ? bucketLabel(d, granularity) : null, __bucketSort: d ? bucketSortKey(d, granularity) : null };
+  }).filter(r => r.__bucket !== null);
+  if (!withBucket.length) throw new Error('"' + timeCol + '" kolonu tarih olarak okunamadı.');
+  const bucketGroups = groupRows(withBucket, r => r.__bucket);
+  const bucketKeys = Array.from(bucketGroups.keys()).sort((a,b) => bucketGroups.get(a)[0].__bucketSort - bucketGroups.get(b)[0].__bucketSort);
+  const table = bucketKeys.map(bk => {
+    const row = { [keyName]: bk };
+    const subset = bucketGroups.get(bk);
+    metrics.forEach(m => { row[m.col] = aggregate(subset.map(r => r[m.col]), m.agg); });
+    return row;
+  });
+  return { table, keyCol: keyName };
+}
+
+function buildCategoryTable(rows, groupCol, metrics, topN, sortDir) {
+  const groups = groupRows(rows, r => r[groupCol]);
+  let table = Array.from(groups.entries()).map(([key, subset]) => {
+    const row = { [groupCol]: key };
+    metrics.forEach(m => { row[m.col] = aggregate(subset.map(r => r[m.col]), m.agg); });
+    return row;
+  });
+  const sortColName = metrics[0] ? metrics[0].col : null;
+  if (sortColName) table.sort((a,b) => sortDir === 'desc' ? b[sortColName] - a[sortColName] : a[sortColName] - b[sortColName]);
+  return { table: table.slice(0, topN), keyCol: groupCol };
+}
+
+function renderCompareResult(tableA, tableB, keyCol, countA, countB, granularity) {
+  // Build lookup maps by key
+  const mapA = new Map(tableA.map(r => [String(r[keyCol]), r]));
+  const mapB = new Map(tableB.map(r => [String(r[keyCol]), r]));
+  const allKeys = Array.from(new Set([...mapA.keys(), ...mapB.keys()]));
+
+  // For timeseries, preserve sort order from A then add B-only keys
+  const sortedKeys = [
+    ...tableA.map(r => String(r[keyCol])),
+    ...Array.from(mapB.keys()).filter(k => !mapA.has(k))
+  ];
+  const orderedKeys = sortedKeys.length === allKeys.length ? sortedKeys : allKeys;
+
+  // Metric column names
+  const metricColsA = METRICS.map(m => m.col);
+  const metricColsB = METRICS_B.map(m => m ? m.col : '');
+
+  // KPIs
+  renderKpis([
+    { label: FILE_A_NAME || 'Dosya A', value: fmtInt(countA) + ' satır' },
+    { label: FILE_B_NAME || 'Dosya B', value: fmtInt(countB) + ' satır' },
+    { label: 'Ortak Anahtar', value: fmtInt(orderedKeys.filter(k => mapA.has(k) && mapB.has(k)).length) }
+  ]);
+
+  const modeLabel = MODE === 'timeseries' ? GRANULARITY_LABELS[granularity] + ' Bazında' : 'Kategori Kırılımı';
+  document.getElementById('resultTitle').textContent = 'Karşılaştırma — ' + modeLabel;
+
+  // Legend
+  const legendHtml = `<div class="result-ab-legend">
+    <div class="result-ab-label"><span style="background:${CHART_COLORS[0]}"></span>${FILE_A_NAME||'Dosya A'}</div>
+    <div class="result-ab-label"><span style="background:${CHART_COLORS[1]};border-top:2px dashed ${CHART_COLORS[1]};height:0;margin:auto 0"></span>${FILE_B_NAME||'Dosya B'}</div>
+  </div>`;
+
+  // Chart: one dataset pair per metric
+  document.getElementById('chart-wrap').classList.remove('hidden');
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  if (CHART_INSTANCE) CHART_INSTANCE.destroy();
+  const chartDatasets = [];
+  metricColsA.forEach((colA, i) => {
+    const colB = metricColsB[i] || colA;
+    chartDatasets.push({
+      label: (FILE_A_NAME||'A') + ' — ' + colA,
+      data: orderedKeys.map(k => { const r = mapA.get(k); return r ? r[colA] : null; }),
+      borderColor: CHART_COLORS[i*2 % CHART_COLORS.length],
+      backgroundColor: CHART_COLORS[i*2 % CHART_COLORS.length],
+      borderWidth: 2, tension: 0.3, pointRadius: 2
+    });
+    chartDatasets.push({
+      label: (FILE_B_NAME||'B') + ' — ' + colB,
+      data: orderedKeys.map(k => { const r = mapB.get(k); return r ? r[colB] : null; }),
+      borderColor: CHART_COLORS[(i*2+1) % CHART_COLORS.length],
+      backgroundColor: CHART_COLORS[(i*2+1) % CHART_COLORS.length],
+      borderWidth: 2, tension: 0.3, pointRadius: 2,
+      borderDash: [5, 4]
+    });
+  });
+  CHART_INSTANCE = new Chart(ctx, {
+    type: MODE === 'category' ? 'bar' : 'line',
+    data: { labels: orderedKeys, datasets: chartDatasets },
+    options: chartOptions()
+  });
+
+  // Comparison table with diff%
+  const headers = [keyCol];
+  metricColsA.forEach((colA, i) => {
+    const colB = metricColsB[i] || colA;
+    const label = colA === colB ? colA : colA + ' / ' + colB;
+    headers.push('A — ' + label, 'B — ' + label, 'Fark %');
+  });
+
+  const tableRows = orderedKeys.map(k => {
+    const rA = mapA.get(k), rB = mapB.get(k);
+    const row = { [keyCol]: k };
+    metricColsA.forEach((colA, i) => {
+      const colB = metricColsB[i] || colA;
+      const label = colA === colB ? colA : colA + ' / ' + colB;
+      const vA = rA ? rA[colA] : null;
+      const vB = rB ? rB[colB] : null;
+      row['A — ' + label] = vA;
+      row['B — ' + label] = vB;
+      row['Fark %'] = (vA !== null && vB !== null && vA !== 0) ? ((vB - vA) / Math.abs(vA)) * 100 : null;
+    });
+    return row;
+  });
+
+  // Render table with diff coloring
+  const thead = headers.map(h => `<th>${h}</th>`).join('');
+  const tbody = tableRows.map(row => `<tr>${headers.map(h => {
+    const v = row[h];
+    if (h === keyCol) return `<td style="text-align:left">${v ?? '–'}</td>`;
+    if (h.startsWith('Fark %')) {
+      if (v === null) return `<td class="diff-neu">–</td>`;
+      const cls = v > 0 ? 'diff-pos' : v < 0 ? 'diff-neg' : 'diff-neu';
+      return `<td class="${cls}">${(v > 0 ? '+' : '') + fmt(v, 1)}%</td>`;
+    }
+    return `<td>${v === null ? '<span style="color:var(--dim)">—</span>' : fmt(v, Number.isInteger(v)?0:1)}</td>`;
+  }).join('')}</tr>`).join('');
+
+  document.getElementById('resultTableWrap').innerHTML =
+    legendHtml + `<div style="overflow-x:auto"><table class="resulttable"><thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody></table></div>`;
+
+  LAST_RESULT = { headers, table: tableRows };
 }
 
 function metricHeaderName(m) { return `${m.col} (${AGG_LABELS[m.agg]})`; }
@@ -1350,9 +2011,24 @@ document.getElementById('buildOfflineBtn').addEventListener('click', async () =>
 // ============================================================
 document.getElementById('backTo3Btn').addEventListener('click', () => goToStep(3));
 document.getElementById('resetBtn').addEventListener('click', () => {
-  RAW_ROWS = []; HEADERS = []; COLUMN_TYPES = {}; FILTERS = []; FORMULAS = []; METRICS = [];
+  RAW_ROWS = []; HEADERS = []; COLUMN_TYPES = {};
+  RAW_ROWS_B = []; HEADERS_B = []; COLUMN_TYPES_B = {};
+  WB_A = null; WB_B = null; FILE_A_NAME = ''; FILE_B_NAME = '';
+  FILTERS = []; FORMULAS = []; METRICS = []; METRICS_B = [];
+  FILE_MODE = 'single';
   MODE = 'timeseries';
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.mode === 'timeseries'));
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.toggle('active', c.dataset.filemode === 'single'));
+  document.getElementById('singleDropzoneWrap').style.display = '';
+  document.getElementById('dualDropzoneWrap').style.display = 'none';
+  document.getElementById('joinConfigPanel').classList.add('hidden');
+  document.getElementById('compareReadyPanel').classList.add('hidden');
+  document.getElementById('dropzoneA').classList.remove('loaded');
+  document.getElementById('dropzoneB').classList.remove('loaded');
+  document.getElementById('statusA').textContent = '';
+  document.getElementById('statusB').textContent = '';
+  document.getElementById('mapTable').classList.remove('hidden');
+  document.getElementById('dualMapTable').style.display = 'none';
   setStatus('');
   fileInput.value = '';
   goToStep(1);

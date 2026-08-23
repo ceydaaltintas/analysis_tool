@@ -1255,14 +1255,33 @@ function renderFormulaList() {
       errEl.textContent = v.ok ? '' : v.message;
       row.style.borderColor = v.ok ? 'var(--line)' : 'var(--danger)';
     };
-    row.querySelector('.formula-name').addEventListener('input', e => { FORMULAS[i].name = e.target.value; });
+    row.querySelector('.formula-name').addEventListener('input', e => {
+      const oldName = FORMULAS[i].name;
+      const newName = e.target.value;
+      FORMULAS[i].name = newName;
+      METRICS.forEach(m => { if (m.col === oldName) m.col = newName; });
+      document.querySelectorAll('.metric-col, #cfgPivotCol').forEach(sel => {
+        sel.querySelectorAll('option').forEach(opt => {
+          if (opt.value === oldName) { opt.value = newName; opt.textContent = newName; }
+        });
+      });
+    });
     row.querySelector('.formula-expr').addEventListener('input', e => { FORMULAS[i].expr = e.target.value; check(); });
-    row.querySelector('.formula-remove').addEventListener('click', () => { FORMULAS.splice(i, 1); renderFormulaList(); renderModeConfig(); });
+    row.querySelector('.formula-remove').addEventListener('click', () => {
+      const removedName = FORMULAS[i].name;
+      FORMULAS.splice(i, 1);
+      const mi = METRICS.findIndex(m => m.col === removedName);
+      if (mi >= 0) METRICS.splice(mi, 1);
+      renderFormulaList();
+      renderModeConfig();
+    });
     check();
   });
 }
 document.getElementById('addFormulaLink').addEventListener('click', () => {
-  FORMULAS.push({ name: 'yeni_alan' + (FORMULAS.length + 1), expr: '' });
+  const newName = 'yeni_alan' + (FORMULAS.length + 1);
+  FORMULAS.push({ name: newName, expr: '' });
+  if (MODE !== 'pivot') METRICS.push({ col: newName, agg: 'sum' });
   renderFormulaList();
   renderModeConfig();
 });
@@ -1355,7 +1374,17 @@ function toJsDate(v) {
   if (typeof v === 'string') {
     const s = v.trim().replace(/\u00A0/g, ' ').replace(/\s+/g, ' ');
     if (!s) return null;
-    if (/^\d{4}-\d{1,2}-\d{1,2}/.test(s)) { const d = new Date(s.replace(' ', 'T')); if (!isNaN(d.getTime())) return d; }
+    if (/^\d{4}-\d{1,2}-\d{1,2}/.test(s)) {
+      const dateOnly = /^\d{4}-\d{1,2}-\d{1,2}$/.test(s);
+      if (dateOnly) {
+        const [yr, mo, dy] = s.split('-').map(Number);
+        const d = new Date(yr, mo - 1, dy);
+        if (!isNaN(d.getTime())) return d;
+      } else {
+        const d = new Date(s.replace(' ', 'T'));
+        if (!isNaN(d.getTime())) return d;
+      }
+    }
 
     // DD/MM/YYYY or DD.MM.YYYY, optional HH:MM:SS
     let m = s.match(/^(\d{1,2})[.\/](\d{1,2})[.\/](\d{2,4})(?:[ ,T]+(\d{1,2}):(\d{2})(?::(\d{2}))?(?:[.,]\d+)?)?$/);

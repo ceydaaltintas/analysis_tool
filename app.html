@@ -1086,7 +1086,7 @@ function renderModeConfig() {
   const container = document.getElementById('modeConfig');
   const dateOpts  = allDateCols().map(c => `<option value="${c}">${c}</option>`).join('');
   const groupOpts = allGroupCols().map(c => `<option value="${c}">${c}</option>`).join('');
-  const granOpts  = Object.keys(GRANULARITY_LABELS).map(g => `<option value="${g}">${GRANULARITY_LABELS[g]}</option>`).join('');
+  const granOpts  = Object.keys(GRANULARITY_LABELS).map(g => `<option value="${g}" ${g === 'month' ? 'selected' : ''}>${GRANULARITY_LABELS[g]}</option>`).join('');
 
   if (FILE_MODE === 'compare') {
     const dateOptsB  = allDateColsB().map(c => `<option value="${c}">${c}</option>`).join('');
@@ -1204,7 +1204,8 @@ function renderMetricList() {
 const OP_LABELS = { eq: '=', neq: '≠', gt: '>', lt: '<', gte: '≥', lte: '≤', contains: 'içerir', empty: 'boş', notempty: 'boş değil' };
 
 function filterRowHtml(idx, f) {
-  const colOpts = HEADERS.map(c => `<option value="${c}" ${c === f.col ? 'selected' : ''}>${c}</option>`).join('');
+  const filterCols = HEADERS.concat(FORMULAS.map(f => f.name));
+  const colOpts = filterCols.map(c => `<option value="${c}" ${c === f.col ? 'selected' : ''}>${c}</option>`).join('');
   const opOpts = Object.keys(OP_LABELS).map(o => `<option value="${o}" ${o === f.op ? 'selected' : ''}>${OP_LABELS[o]}</option>`).join('');
   const needsVal = !['empty', 'notempty'].includes(f.op);
   return `
@@ -1239,7 +1240,7 @@ function formulaRowHtml(idx, f) {
     <div class="formula-row" data-idx="${idx}" style="flex-wrap:wrap;">
       <input type="text" class="formula-name" value="${f.name || ''}" placeholder="alan adı" style="width:140px">
       <span style="color:var(--dim)">=</span>
-      <input type="text" class="formula-expr" value="${f.expr || ''}" placeholder="{kolon_a} / {kolon_b} * 100  ·  IF({x}>10, 1, 0)  ·  ROUND({x}, 2)" style="width:380px">
+      <input type="text" class="formula-expr" value="${f.expr || ''}" placeholder="{Satış} * 0.18  ·  {Adet} > 5 ? 'çok' : 'az'  ·  Math.round({Fiyat} / {Adet})" style="width:380px">
       <button class="remove-btn formula-remove">✕</button>
       <div class="formula-error" style="width:100%;color:var(--danger);font-size:11.5px;font-family:'IBM Plex Mono',monospace;display:none;"></div>
     </div>`;

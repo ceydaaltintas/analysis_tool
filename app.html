@@ -225,7 +225,7 @@
   }
   #chart-wrap{position:relative;height:340px;}
   @media(max-width:768px){#chart-wrap{height:240px;}}
-  .dual-map-panel{border:1px solid var(--line);border-radius:var(--radius);padding:18px;background:var(--panel2);}
+  .dual-map-panel{border:1px solid var(--line);border-radius:var(--radius);padding:18px;background:var(--panel2);min-width:0;}
   .dual-map-title{display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:14px;}
 
   /* ── compare dual dropdowns ────────────────────────── */
@@ -469,7 +469,7 @@
       <!-- single mode -->
       <div style="overflow-x:auto"><table class="maptable" id="mapTable"></table></div>
       <!-- compare mode -->
-      <div class="hidden dual-map" id="dualMapTable">
+      <div style="overflow-x:auto"><div class="hidden dual-map" id="dualMapTable">
         <div class="dual-map-panel">
           <div class="dual-map-title"><span class="ab-badge a">A</span><span id="dualMapTitleA">Dosya A</span></div>
           <div style="overflow-x:auto"><table class="maptable" id="mapTableA"></table></div>
@@ -478,7 +478,7 @@
           <div class="dual-map-title"><span class="ab-badge b">B</span><span id="dualMapTitleB">Dosya B</span></div>
           <div style="overflow-x:auto"><table class="maptable" id="mapTableB"></table></div>
         </div>
-      </div>
+      </div></div>
       <div class="btn-row">
         <button class="btn primary" id="toStep3Btn" data-i18n="continue_btn">Devam Et →</button>
         <button class="btn ghost" id="backTo1Btn" data-i18n="back_btn">← Geri</button>

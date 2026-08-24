@@ -220,11 +220,12 @@ footer a:hover{color:var(--teal);border-color:var(--teal);}
     <div class="logo-icon">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="9.5" width="3" height="5" rx="1" fill="#04140F"/><rect x="6.5" y="5.5" width="3" height="9" rx="1" fill="#04140F"/><rect x="11.5" y="1.5" width="3" height="13" rx="1" fill="#04140F"/></svg>
     </div>
-    Veri Analiz Atölyesi
+    <span data-i18n="logo_name">Veri Analiz Atölyesi</span>
   </div>
   <div style="display:flex;align-items:center;gap:20px">
-    <a href="rehber.html" style="font-size:13.5px;font-family:'Inter',sans-serif;font-weight:500;color:var(--dim);transition:color .15s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--dim)'">Nasıl Çalışır</a>
-    <a href="app.html" class="nav-btn">Kullan →</a>
+    <a href="rehber.html" data-i18n="nav_how" style="font-size:13.5px;font-family:'Inter',sans-serif;font-weight:500;color:var(--dim);transition:color .15s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--dim)'">Nasıl Çalışır</a>
+    <a href="app.html" class="nav-btn" data-i18n="nav_use">Kullan →</a>
+    <button id="langToggle" style="font-size:12px;font-family:'IBM Plex Mono',monospace;padding:4px 10px;border-radius:4px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;letter-spacing:.04em;">EN</button>
   </div>
 </nav>
 
@@ -232,21 +233,21 @@ footer a:hover{color:var(--teal);border-color:var(--teal);}
 <div class="hero-wrap">
   <div class="hero-inner">
     <div class="hero-left">
-      <h1>Veriyi yükle,<br><em>analizini</em><br>saniyede kur.</h1>
-      <p class="hero-sub">Kolonlarını otomatik tanır. Zaman serisi, kategori kırılımı ya da pivot kurar. Kod yok, kurulum yok — verin asla tarayıcının dışına çıkmaz.</p>
+      <h1 data-i18n-html="hero_h1">Veriyi yükle,<br><em>analizini</em><br>saniyede kur.</h1>
+      <p class="hero-sub" data-i18n="hero_sub">Kolonlarını otomatik tanır. Zaman serisi, kategori kırılımı ya da pivot kurar. Kod yok, kurulum yok — verin asla tarayıcının dışına çıkmaz.</p>
       <div class="hero-cta">
         <a href="app.html" class="btn-primary">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2.5L13 8L3 13.5V2.5Z" fill="currentColor"/></svg>
-          Hemen Başla
+          <span data-i18n="hero_cta_primary">Hemen Başla</span>
         </a>
-        <a href="rehber.html" class="btn-secondary">Nasıl Çalışır →</a>
+        <a href="rehber.html" class="btn-secondary" data-i18n="hero_cta_secondary">Nasıl Çalışır →</a>
       </div>
       <div class="hero-trust">
-        <div class="hero-trust-item"><span class="check">✓</span> Sunucusuz</div>
+        <div class="hero-trust-item"><span class="check">&#10003;</span> <span data-i18n="trust_1">Sunucusuz</span></div>
         <div class="hero-trust-sep"></div>
-        <div class="hero-trust-item"><span class="check">✓</span> Excel &amp; CSV</div>
+        <div class="hero-trust-item"><span class="check">&#10003;</span> Excel &amp; CSV</div>
         <div class="hero-trust-sep"></div>
-        <div class="hero-trust-item"><span class="check">✓</span> Çevrimdışı sürüm</div>
+        <div class="hero-trust-item"><span class="check">&#10003;</span> <span data-i18n="trust_2">Çevrimdışı sürüm</span></div>
       </div>
     </div>
 
@@ -254,26 +255,26 @@ footer a:hover{color:var(--teal);border-color:var(--teal);}
     <div class="chart-card">
       <div class="chart-topbar">
         <div class="chart-dots"><span></span><span></span><span></span></div>
-        <div class="chart-title">SATIŞ ANALİZİ — AYLIK TREND</div>
+        <div class="chart-title" data-i18n="chart_title">SATIŞ ANALİZİ — AYLIK TREND</div>
       </div>
       <div class="chart-kpis">
         <div class="chart-kpi">
-          <div class="chart-kpi-label">Toplam Satır</div>
+          <div class="chart-kpi-label" data-i18n="kpi_rows">Toplam Satır</div>
           <div class="chart-kpi-val t">84.291</div>
         </div>
         <div class="chart-kpi">
-          <div class="chart-kpi-label">Kategori</div>
+          <div class="chart-kpi-label" data-i18n="kpi_cats">Kategori</div>
           <div class="chart-kpi-val">8</div>
         </div>
         <div class="chart-kpi">
-          <div class="chart-kpi-label">Büyüme</div>
+          <div class="chart-kpi-label" data-i18n="kpi_growth">Büyüme</div>
           <div class="chart-kpi-val a">+23%</div>
         </div>
       </div>
       <canvas id="heroChart" height="160"></canvas>
       <div class="chart-legend">
-        <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#4EC9BC"></div>Gelir</div>
-        <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#E8B462"></div>Hedef</div>
+        <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#4EC9BC"></div><span data-i18n="legend_revenue">Gelir</span></div>
+        <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#E8B462"></div><span data-i18n="legend_target">Hedef</span></div>
       </div>
     </div>
   </div>
@@ -283,24 +284,24 @@ footer a:hover{color:var(--teal);border-color:var(--teal);}
 
 <!-- HOW IT WORKS -->
 <div class="section" id="nasil-calisir">
-  <p class="section-tag">Süreç</p>
-  <h2 class="section-h">Üç adımda kurulan analiz</h2>
-  <p class="section-p">Kolon eşleme, formül, filtre — hepsi tek akışta, kod yazmadan.</p>
+  <p class="section-tag" data-i18n="how_tag">Süreç</p>
+  <h2 class="section-h" data-i18n="how_h">Üç adımda kurulan analiz</h2>
+  <p class="section-p" data-i18n="how_p">Kolon eşleme, formül, filtre — hepsi tek akışta, kod yazmadan.</p>
   <div class="steps-grid">
     <div class="step-item">
       <div class="step-num-big">01</div>
-      <h3>Dosyayı yükle</h3>
-      <p>Excel ya da CSV dosyanı sürükle bırak. İlk satır başlık olarak okunur, birden fazla sayfa varsa seçersin.</p>
+      <h3 data-i18n="step1_h">Dosyayı yükle</h3>
+      <p data-i18n="step1_p">Excel ya da CSV dosyanı sürükle bırak. İlk satır başlık olarak okunur, birden fazla sayfa varsa seçersin.</p>
     </div>
     <div class="step-item">
       <div class="step-num-big">02</div>
-      <h3>Kolonları onayla</h3>
-      <p>Her kolonun tipini (tarih, sayı, kategori) otomatik tahmin eder. Yanlış görüneni tek tıkla düzeltirsin.</p>
+      <h3 data-i18n="step2_h">Kolonları onayla</h3>
+      <p data-i18n="step2_p">Her kolonun tipini (tarih, sayı, kategori) otomatik tahmin eder. Yanlış görüneni tek tıkla düzeltirsin.</p>
     </div>
     <div class="step-item">
       <div class="step-num-big">03</div>
-      <h3>Sonucu görselleştir</h3>
-      <p>Zaman serisi, kategori kırılımı ya da pivot seç. Filtre ekle, formül yaz, grafikle gör, indir.</p>
+      <h3 data-i18n="step3_h">Sonucu görselleştir</h3>
+      <p data-i18n="step3_p">Zaman serisi, kategori kırılımı ya da pivot seç. Filtre ekle, formül yaz, grafikle gör, indir.</p>
     </div>
   </div>
 </div>
@@ -309,23 +310,23 @@ footer a:hover{color:var(--teal);border-color:var(--teal);}
 
 <!-- TRUST -->
 <div class="section" id="guven">
-  <p class="section-tag">Güvenlik</p>
-  <h2 class="section-h">Verin bu sayfadan hiç ayrılmaz</h2>
-  <p class="section-p">Hassas veriyle çalışan ekipler için tasarlandı — bankacılık, hukuk, operasyon.</p>
+  <p class="section-tag" data-i18n="trust_tag">Güvenlik</p>
+  <h2 class="section-h" data-i18n="trust_h">Verin bu sayfadan hiç ayrılmaz</h2>
+  <p class="section-p" data-i18n="trust_p">Hassas veriyle çalışan ekipler için tasarlandı — bankacılık, hukuk, operasyon.</p>
   <div class="trust-row">
     <div class="trust-card">
       <div class="trust-icon">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2L3 6V11C3 15.42 6.53 19.55 11 20C15.47 19.55 19 15.42 19 11V6L11 2Z" stroke="#4EC9BC" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.5 11L10 13.5L14.5 9" stroke="#4EC9BC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <h3>Sunucuya hiçbir satır gitmez</h3>
-      <p>Excel'ini yüklediğin an itibarıyla tüm işlem senin cihazında, JavaScript ile yapılır. Ağ trafiğini izlesen bile veri çıkışı göremezsin.</p>
+      <h3 data-i18n="trust_card1_h">Sunucuya hiçbir satır gitmez</h3>
+      <p data-i18n="trust_card1_p">Excel'ini yüklediğin an itibarıyla tüm işlem senin cihazında, JavaScript ile yapılır. Ağ trafiğini izlesen bile veri çıkışı göremezsin.</p>
     </div>
     <div class="trust-card">
       <div class="trust-icon">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 11H5M17 11H19M11 3V5M11 17V19" stroke="#4EC9BC" stroke-width="1.6" stroke-linecap="round"/><circle cx="11" cy="11" r="5" stroke="#4EC9BC" stroke-width="1.6"/><path d="M8 11L10.5 13.5L15 9" stroke="#4EC9BC" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <h3>İnternet olmadan da çalışır</h3>
-      <p>Analizini web'de kur, sonra tek tıkla kendine özel, önceden yapılandırılmış bir çevrimdışı araç indir — ekibine dağıt, internet gerekmeden kullansınlar.</p>
+      <h3 data-i18n="trust_card2_h">İnternet olmadan da çalışır</h3>
+      <p data-i18n="trust_card2_p">Analizini web'de kur, sonra tek tıkla kendine özel, önceden yapılandırılmış bir çevrimdışı araç indir — ekibine dağıt, internet gerekmeden kullansınlar.</p>
     </div>
   </div>
 </div>
@@ -334,50 +335,50 @@ footer a:hover{color:var(--teal);border-color:var(--teal);}
 
 <!-- FEATURES -->
 <div class="section" id="ozellikler">
-  <p class="section-tag">Özellikler</p>
-  <h2 class="section-h">Excel'in yapamadığını yapar</h2>
+  <p class="section-tag" data-i18n="feat_tag">Özellikler</p>
+  <h2 class="section-h" data-i18n="feat_h">Excel'in yapamadığını yapar</h2>
   <div class="feat-grid">
     <div class="feat-item">
-      <div class="feat-tag">Otomatik</div>
-      <h4>Kolon tespiti</h4>
-      <p>Tarih, sayı, kategori, metin — her kolonun tipini örnek verilerden tahmin eder.</p>
+      <div class="feat-tag" data-i18n="feat1_tag">Otomatik</div>
+      <h4 data-i18n="feat1_h">Kolon tespiti</h4>
+      <p data-i18n="feat1_p">Tarih, sayı, kategori, metin — her kolonun tipini örnek verilerden tahmin eder.</p>
     </div>
     <div class="feat-item">
-      <div class="feat-tag">Grafik</div>
-      <h4>Zaman serisi</h4>
-      <p>Saat, gün, hafta ya da ay bazında trend çıkar, birden fazla metriği aynı grafikte göster.</p>
+      <div class="feat-tag" data-i18n="feat2_tag">Grafik</div>
+      <h4 data-i18n="feat2_h">Zaman serisi</h4>
+      <p data-i18n="feat2_p">Saat, gün, hafta ya da ay bazında trend çıkar, birden fazla metriği aynı grafikte göster.</p>
     </div>
     <div class="feat-item">
-      <div class="feat-tag">Tablo</div>
-      <h4>Pivot & ısı haritası</h4>
-      <p>Kategori × zaman kırılımını renkli yoğunluk tablosu olarak gör.</p>
+      <div class="feat-tag" data-i18n="feat3_tag">Tablo</div>
+      <h4 data-i18n="feat3_h">Pivot &amp; ısı haritası</h4>
+      <p data-i18n="feat3_p">Kategori × zaman kırılımını renkli yoğunluk tablosu olarak gör.</p>
     </div>
     <div class="feat-item">
-      <div class="feat-tag">Hesaplama</div>
-      <h4>Formül dili</h4>
-      <p>ROUND, ABS, IF, MIN, MAX ile hesaplanan alanlar tanımla — Excel formülüne benzer sözdizimi.</p>
+      <div class="feat-tag" data-i18n="feat4_tag">Hesaplama</div>
+      <h4 data-i18n="feat4_h">Formül dili</h4>
+      <p data-i18n="feat4_p">ROUND, ABS, IF, MIN, MAX ile hesaplanan alanlar tanımla — Excel formülüne benzer sözdizimi.</p>
     </div>
     <div class="feat-item">
-      <div class="feat-tag">Kişisel</div>
-      <h4>Çevrimdışı araç</h4>
-      <p>Analizini kaydet, tek tıkla internet gerektirmeyen kişisel HTML aracına dönüştür.</p>
+      <div class="feat-tag" data-i18n="feat5_tag">Kişisel</div>
+      <h4 data-i18n="feat5_h">Çevrimdışı araç</h4>
+      <p data-i18n="feat5_p">Analizini kaydet, tek tıkla internet gerektirmeyen kişisel HTML aracına dönüştür.</p>
     </div>
     <div class="feat-item">
       <div class="feat-tag">Export</div>
-      <h4>Excel & CSV</h4>
-      <p>Sonuç tablosunu doğrudan indir, sıralanabilir, filtrelenebilir.</p>
+      <h4>Excel &amp; CSV</h4>
+      <p data-i18n="feat6_p">Sonuç tablosunu doğrudan indir, sıralanabilir, filtrelenebilir.</p>
     </div>
   </div>
 </div>
 
 <!-- FINAL CTA BAND -->
 <div class="cta-band">
-  <h2>İlk analizini şimdi kur</h2>
-  <p>Kayıt yok, kurulum yok. Excel'ini aç ve bırak.</p>
+  <h2 data-i18n="cta_h">İlk analizini şimdi kur</h2>
+  <p data-i18n="cta_p">Kayıt yok, kurulum yok. Excel'ini aç ve bırak.</p>
   <div class="cta-band-btns">
     <a href="app.html" class="btn-primary">
       <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 2L12.5 7.5L2.5 13V2Z" fill="currentColor"/></svg>
-      Hemen Başla
+      <span data-i18n="cta_btn">Hemen Başla</span>
     </a>
   </div>
 </div>
@@ -386,24 +387,170 @@ footer a:hover{color:var(--teal);border-color:var(--teal);}
 <footer>
   <div class="f-left">
     <span class="f-dot"></span>
-    <span>Veri Analiz Atölyesi — Tüm hesaplama tarayıcında yapılır</span>
+    <span data-i18n="footer_text">Veri Analiz Atölyesi — Tüm hesaplama tarayıcında yapılır</span>
   </div>
 </footer>
 
 <script>
+// ── i18n ──────────────────────────────────────────────
+let LANG = localStorage.getItem('lang') || 'tr';
+
+const STRINGS = {
+  tr: {
+    logo_name: 'Veri Analiz Atölyesi',
+    nav_how: 'Nasıl Çalışır',
+    nav_use: 'Kullan →',
+    hero_h1: 'Veriyi yükle,<br><em>analizini</em><br>saniyede kur.',
+    hero_sub: 'Kolonlarını otomatik tanır. Zaman serisi, kategori kırılımı ya da pivot kurar. Kod yok, kurulum yok — verin asla tarayıcının dışına çıkmaz.',
+    hero_cta_primary: 'Hemen Başla',
+    hero_cta_secondary: 'Nasıl Çalışır →',
+    trust_1: 'Sunucusuz',
+    trust_2: 'Çevrimdışı sürüm',
+    chart_title: 'SATIŞ ANALİZİ — AYLIK TREND',
+    kpi_rows: 'Toplam Satır',
+    kpi_cats: 'Kategori',
+    kpi_growth: 'Büyüme',
+    legend_revenue: 'Gelir',
+    legend_target: 'Hedef',
+    how_tag: 'Süreç',
+    how_h: 'Üç adımda kurulan analiz',
+    how_p: 'Kolon eşleme, formül, filtre — hepsi tek akışta, kod yazmadan.',
+    step1_h: 'Dosyayı yükle',
+    step1_p: 'Excel ya da CSV dosyanı sürükle bırak. İlk satır başlık olarak okunur, birden fazla sayfa varsa seçersin.',
+    step2_h: 'Kolonları onayla',
+    step2_p: 'Her kolonun tipini (tarih, sayı, kategori) otomatik tahmin eder. Yanlış görüneni tek tıkla düzeltirsin.',
+    step3_h: 'Sonucu görselleştir',
+    step3_p: 'Zaman serisi, kategori kırılımı ya da pivot seç. Filtre ekle, formül yaz, grafikle gör, indir.',
+    trust_tag: 'Güvenlik',
+    trust_h: 'Verin bu sayfadan hiç ayrılmaz',
+    trust_p: 'Hassas veriyle çalışan ekipler için tasarlandı — bankacılık, hukuk, operasyon.',
+    trust_card1_h: 'Sunucuya hiçbir satır gitmez',
+    trust_card1_p: 'Excel\'ini yüklediğin an itibarıyla tüm işlem senin cihazında, JavaScript ile yapılır. Ağ trafiğini izlesen bile veri çıkışı göremezsin.',
+    trust_card2_h: 'İnternet olmadan da çalışır',
+    trust_card2_p: 'Analizini web\'de kur, sonra tek tıkla kendine özel, önceden yapılandırılmış bir çevrimdışı araç indir — ekibine dağıt, internet gerekmeden kullansınlar.',
+    feat_tag: 'Özellikler',
+    feat_h: 'Excel\'in yapamadığını yapar',
+    feat1_tag: 'Otomatik',
+    feat1_h: 'Kolon tespiti',
+    feat1_p: 'Tarih, sayı, kategori, metin — her kolonun tipini örnek verilerden tahmin eder.',
+    feat2_tag: 'Grafik',
+    feat2_h: 'Zaman serisi',
+    feat2_p: 'Saat, gün, hafta ya da ay bazında trend çıkar, birden fazla metriği aynı grafikte göster.',
+    feat3_tag: 'Tablo',
+    feat3_h: 'Pivot & ısı haritası',
+    feat3_p: 'Kategori × zaman kırılımını renkli yoğunluk tablosu olarak gör.',
+    feat4_tag: 'Hesaplama',
+    feat4_h: 'Formül dili',
+    feat4_p: 'ROUND, ABS, IF, MIN, MAX ile hesaplanan alanlar tanımla — Excel formülüne benzer sözdizimi.',
+    feat5_tag: 'Kişisel',
+    feat5_h: 'Çevrimdışı araç',
+    feat5_p: 'Analizini kaydet, tek tıkla internet gerektirmeyen kişisel HTML aracına dönüştür.',
+    feat6_p: 'Sonuç tablosunu doğrudan indir, sıralanabilir, filtrelenebilir.',
+    cta_h: 'İlk analizini şimdi kur',
+    cta_p: 'Kayıt yok, kurulum yok. Excel\'ini aç ve bırak.',
+    cta_btn: 'Hemen Başla',
+    footer_text: 'Veri Analiz Atölyesi — Tüm hesaplama tarayıcında yapılır',
+    chart_revenue: 'Gelir',
+    chart_target: 'Hedef',
+  },
+  en: {
+    logo_name: 'Data Analysis Tool',
+    nav_how: 'How It Works',
+    nav_use: 'Use →',
+    hero_h1: 'Upload data,<br><em>instant</em><br>analysis.',
+    hero_sub: 'Auto-detects columns. Builds time series, category breakdowns or pivots. No code, no setup — your data never leaves the browser.',
+    hero_cta_primary: 'Get Started',
+    hero_cta_secondary: 'How It Works →',
+    trust_1: 'Server-free',
+    trust_2: 'Offline mode',
+    chart_title: 'SALES ANALYSIS — MONTHLY TREND',
+    kpi_rows: 'Total Rows',
+    kpi_cats: 'Categories',
+    kpi_growth: 'Growth',
+    legend_revenue: 'Revenue',
+    legend_target: 'Target',
+    how_tag: 'Process',
+    how_h: 'Analysis in three steps',
+    how_p: 'Column mapping, formulas, filters — all in one flow, no coding.',
+    step1_h: 'Upload the file',
+    step1_p: 'Drag and drop your Excel or CSV. First row is read as the header; if multiple sheets exist, you choose.',
+    step2_h: 'Confirm columns',
+    step2_p: 'Auto-detects type (date, number, category). Fix any in one click.',
+    step3_h: 'Visualize results',
+    step3_p: 'Choose time series, category breakdown or pivot. Add filters, write formulas, view charts, export.',
+    trust_tag: 'Privacy',
+    trust_h: 'Your data never leaves this page',
+    trust_p: 'Built for teams working with sensitive data — finance, legal, operations.',
+    trust_card1_h: 'Not a single row goes to any server',
+    trust_card1_p: 'From the moment you upload your file, all processing happens on your device via JavaScript. Monitor network traffic — you\'ll see zero data leaving.',
+    trust_card2_h: 'Works without internet',
+    trust_card2_p: 'Set up your analysis on the web, then download a self-contained offline HTML tool with one click — share with your team, no internet needed.',
+    feat_tag: 'Features',
+    feat_h: 'Does what Excel can\'t',
+    feat1_tag: 'Auto',
+    feat1_h: 'Column detection',
+    feat1_p: 'Date, number, category, text — infers each column\'s type from sample values.',
+    feat2_tag: 'Chart',
+    feat2_h: 'Time series',
+    feat2_p: 'Plot trends by hour, day, week or month. Show multiple metrics on the same chart.',
+    feat3_tag: 'Table',
+    feat3_h: 'Pivot & heatmap',
+    feat3_p: 'See category × time breakdowns as a color-coded density table.',
+    feat4_tag: 'Formula',
+    feat4_h: 'Formula engine',
+    feat4_p: 'Define calculated fields with ROUND, ABS, IF, MIN, MAX — familiar Excel-like syntax.',
+    feat5_tag: 'Personal',
+    feat5_h: 'Offline tool',
+    feat5_p: 'Save your analysis and export it as a standalone offline HTML tool with one click.',
+    feat6_p: 'Download the result table directly — sortable and filterable.',
+    cta_h: 'Set up your first analysis now',
+    cta_p: 'No sign-up, no install. Just drop your Excel file.',
+    cta_btn: 'Get Started',
+    footer_text: 'Data Analysis Tool — All computation runs in your browser',
+    chart_revenue: 'Revenue',
+    chart_target: 'Target',
+  }
+};
+
+function t(key) { return (STRINGS[LANG] || STRINGS.tr)[key] || key; }
+
+function applyLang() {
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+  document.querySelectorAll('[data-i18n-html]').forEach(el => el.innerHTML = t(el.dataset.i18nHtml));
+  const btn = document.getElementById('langToggle');
+  if (btn) btn.textContent = LANG === 'tr' ? 'EN' : 'TR';
+
+  if (window.heroChartInstance) {
+    window.heroChartInstance.data.labels = LANG === 'en'
+      ? ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+      : ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+    window.heroChartInstance.data.datasets[0].label = t('chart_revenue');
+    window.heroChartInstance.data.datasets[1].label = t('chart_target');
+    window.heroChartInstance.update();
+  }
+}
+
+document.getElementById('langToggle').addEventListener('click', () => {
+  LANG = LANG === 'tr' ? 'en' : 'tr';
+  localStorage.setItem('lang', LANG);
+  applyLang();
+});
+
 // animated hero chart
 const ctx = document.getElementById('heroChart').getContext('2d');
-const months = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
 const data1 = [38,44,41,55,60,58,72,68,74,80,76,92];
 const data2 = [50,50,55,55,60,65,65,70,75,75,80,85];
 
-new Chart(ctx, {
+window.heroChartInstance = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: months,
+    labels: LANG === 'en'
+      ? ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+      : ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],
     datasets: [
       {
-        label: 'Gelir',
+        label: t('chart_revenue'),
         data: data1,
         borderColor: '#4EC9BC',
         backgroundColor: 'rgba(78,201,188,0.08)',
@@ -415,7 +562,7 @@ new Chart(ctx, {
         fill: true,
       },
       {
-        label: 'Hedef',
+        label: t('chart_target'),
         data: data2,
         borderColor: '#E8B462',
         borderWidth: 1.5,
@@ -458,6 +605,9 @@ new Chart(ctx, {
     }
   }
 });
+
+// Apply language on load (after chart is created)
+applyLang();
 </script>
 </body>
 </html>

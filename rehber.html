@@ -248,13 +248,14 @@ footer a:hover{text-decoration:underline}
 
 <!-- NAV -->
 <nav>
-  <a href="/" class="nav-brand"><span class="nav-dot"></span>Analiz Aracı</a>
+  <a href="/" class="nav-brand"><span class="nav-dot"></span><span data-i18n="brand">Analiz Aracı</span></a>
   <div class="nav-links">
-    <a href="#nasil">Nasıl Çalışır</a>
-    <a href="#formul">Formüller</a>
-    <a href="#nlq">Doğal Dil</a>
-    <a href="#iki-dosya">İki Dosya</a>
-    <a href="app.html" class="btn-cta">Aracı Aç →</a>
+    <a href="#nasil" data-i18n="nav_how">Nasıl Çalışır</a>
+    <a href="#formul" data-i18n="nav_formulas">Formüller</a>
+    <a href="#nlq" data-i18n="nav_nlq">Doğal Dil</a>
+    <a href="#iki-dosya" data-i18n="nav_twofiles">İki Dosya</a>
+    <a href="app.html" class="btn-cta" data-i18n="nav_cta">Aracı Aç →</a>
+    <button id="langToggle" style="font-size:12px;font-family:'IBM Plex Mono',monospace;padding:4px 10px;border-radius:4px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;letter-spacing:.04em;margin-left:4px;">EN</button>
   </div>
 </nav>
 
@@ -266,21 +267,21 @@ footer a:hover{text-decoration:underline}
   </div>
   <div class="hero-badge">
     <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="4" fill="#49B7AC"/></svg>
-    Tarayıcında çalışır · Veri hiçbir yere gönderilmez
+    <span data-i18n="hero_badge">Tarayıcında çalışır · Veri hiçbir yere gönderilmez</span>
   </div>
-  <h1>Verinizi <span>analiz edin</span>,<br>hiçbir şey kurmadan.</h1>
-  <p>Excel veya CSV dosyanızı sürükleyip bırakın. Saniyeler içinde zaman serisi grafikleri, kategori dağılımları, pivot tablolar ve doğal dil sorguları elde edin.</p>
+  <h1 data-i18n-html="hero_h1">Verinizi <span>analiz edin</span>,<br>hiçbir şey kurmadan.</h1>
+  <p data-i18n="hero_p">Excel veya CSV dosyanızı sürükleyip bırakın. Saniyeler içinde zaman serisi grafikleri, kategori dağılımları, pivot tablolar ve doğal dil sorguları elde edin.</p>
   <div class="hero-btns">
     <a href="app.html" class="btn-primary">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M7 9l-3-3M7 9l3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Hemen Başla
+      <span data-i18n="hero_cta_primary">Hemen Başla</span>
     </a>
-    <a href="#nasil" class="btn-secondary">Nasıl çalışır? ↓</a>
+    <a href="#nasil" class="btn-secondary" data-i18n="hero_cta_secondary">Nasıl çalışır? ↓</a>
   </div>
   <div class="hero-stats">
-    <div class="hero-stat"><span>0</span><small>Kurulum gerektirmez</small></div>
-    <div class="hero-stat"><span>100%</span><small>Tarayıcıda hesaplanır</small></div>
-    <div class="hero-stat"><span>5+</span><small>Analiz modu</small></div>
+    <div class="hero-stat"><span>0</span><small data-i18n="stat_1">Kurulum gerektirmez</small></div>
+    <div class="hero-stat"><span>100%</span><small data-i18n="stat_2">Tarayıcıda hesaplanır</small></div>
+    <div class="hero-stat"><span>5+</span><small data-i18n="stat_3">Analiz modu</small></div>
   </div>
 </div>
 
@@ -289,9 +290,9 @@ footer a:hover{text-decoration:underline}
 <!-- NASIL ÇALIŞIR -->
 <section id="nasil">
   <div class="reveal">
-    <div class="section-label">Adım adım</div>
-    <h2 class="section-title">4 adımda analiz</h2>
-    <p class="section-sub">Karmaşık kurulum yok. Dosyanızı yükleyin, analiz tipini seçin, sonuçları görün.</p>
+    <div class="section-label" data-i18n="steps_label">Adım adım</div>
+    <h2 class="section-title" data-i18n="steps_title">4 adımda analiz</h2>
+    <p class="section-sub" data-i18n="steps_sub">Karmaşık kurulum yok. Dosyanızı yükleyin, analiz tipini seçin, sonuçları görün.</p>
   </div>
   <div class="steps">
     <div class="step-card reveal reveal-delay-1">
@@ -299,8 +300,8 @@ footer a:hover{text-decoration:underline}
       <div class="step-icon">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v10M10 12l-4-4M10 12l4-4" stroke="#49B7AC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 14v1a2 2 0 002 2h10a2 2 0 002-2v-1" stroke="#49B7AC" stroke-width="1.5" stroke-linecap="round"/></svg>
       </div>
-      <h3>Dosya Yükle</h3>
-      <p>Excel (.xlsx, .xls) veya CSV dosyanızı sürükleyip bırakın. Birden fazla sayfa varsa hangisini kullanacağınızı seçin.</p>
+      <h3 data-i18n="step1_h">Dosya Yükle</h3>
+      <p data-i18n="step1_p">Excel (.xlsx, .xls) veya CSV dosyanızı sürükleyip bırakın. Birden fazla sayfa varsa hangisini kullanacağınızı seçin.</p>
       <div class="step-connector"></div>
     </div>
     <div class="step-card reveal reveal-delay-2">
@@ -308,8 +309,8 @@ footer a:hover{text-decoration:underline}
       <div class="step-icon">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1.5" stroke="#49B7AC" stroke-width="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5" stroke="#49B7AC" stroke-width="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5" stroke="#49B7AC" stroke-width="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5" stroke="#49B7AC" stroke-width="1.5"/></svg>
       </div>
-      <h3>Sütun Türlerini Onayla</h3>
-      <p>Araç sütunları otomatik algılar: tarih, sayı, metin. İsterseniz manuel olarak değiştirebilirsiniz.</p>
+      <h3 data-i18n="step2_h">Sütun Türlerini Onayla</h3>
+      <p data-i18n="step2_p">Araç sütunları otomatik algılar: tarih, sayı, metin. İsterseniz manuel olarak değiştirebilirsiniz.</p>
       <div class="step-connector"></div>
     </div>
     <div class="step-card reveal reveal-delay-3">
@@ -317,8 +318,8 @@ footer a:hover{text-decoration:underline}
       <div class="step-icon">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10h14M3 6h9M3 14h5" stroke="#49B7AC" stroke-width="1.5" stroke-linecap="round"/><circle cx="15" cy="14" r="3" stroke="#49B7AC" stroke-width="1.5"/><path d="M17.5 16.5l1.5 1.5" stroke="#49B7AC" stroke-width="1.5" stroke-linecap="round"/></svg>
       </div>
-      <h3>Analiz Tipini Seç</h3>
-      <p>Zaman serisi, kategori dağılımı veya pivot tablo — analiz modunu seçin, metrikleri ve gruplamayı belirleyin.</p>
+      <h3 data-i18n="step3_h">Analiz Tipini Seç</h3>
+      <p data-i18n="step3_p">Zaman serisi, kategori dağılımı veya pivot tablo — analiz modunu seçin, metrikleri ve gruplamayı belirleyin.</p>
       <div class="step-connector"></div>
     </div>
     <div class="step-card reveal reveal-delay-4">
@@ -326,8 +327,8 @@ footer a:hover{text-decoration:underline}
       <div class="step-icon">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 14l4-4 3 3 5-7" stroke="#49B7AC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <h3>Sonuçları Gör & İndir</h3>
-      <p>Grafik, KPI kartları ve tablo anında oluşturulur. Excel veya CSV olarak indirin ya da doğal dille soru sorun.</p>
+      <h3 data-i18n="step4_h">Sonuçları Gör &amp; İndir</h3>
+      <p data-i18n="step4_p">Grafik, KPI kartları ve tablo anında oluşturulur. Excel veya CSV olarak indirin ya da doğal dille soru sorun.</p>
     </div>
   </div>
 </section>
@@ -338,14 +339,14 @@ footer a:hover{text-decoration:underline}
 <section>
   <div class="demo-wrap reveal">
     <div class="demo-content">
-      <div class="section-label">Adım 1</div>
-      <h3>Dosya yükleme</h3>
-      <p>Excel veya CSV dosyanızı sürükleyip bırakın ya da tıklayarak seçin. Araç otomatik olarak sütun türlerini algılar ve tarih, sayı, metin kolonlarını ayırt eder.</p>
+      <div class="section-label" data-i18n="demo_upload_label">Adım 1</div>
+      <h3 data-i18n="demo_upload_h">Dosya yükleme</h3>
+      <p data-i18n="demo_upload_p">Excel veya CSV dosyanızı sürükleyip bırakın ya da tıklayarak seçin. Araç otomatik olarak sütun türlerini algılar ve tarih, sayı, metin kolonlarını ayırt eder.</p>
       <ul class="feature-list">
-        <li><span>.xlsx, .xls ve .csv</span> formatları desteklenir</li>
-        <li>Birden fazla Excel sayfası varsa <span>sayfa seçimi</span> gösterilir</li>
-        <li>Binlerce satır bile <span>saniyeler içinde</span> işlenir</li>
-        <li>Sütun türleri <span>manuel olarak değiştirilebilir</span></li>
+        <li><span>.xlsx, .xls ve .csv</span> <span data-i18n="upload_feat1_suffix">formatları desteklenir</span></li>
+        <li><span data-i18n="upload_feat2_prefix">Birden fazla Excel sayfası varsa</span> <span data-i18n="upload_feat2_key">sayfa seçimi</span> <span data-i18n="upload_feat2_suffix">gösterilir</span></li>
+        <li><span data-i18n="upload_feat3_prefix">Binlerce satır bile</span> <span data-i18n="upload_feat3_key">saniyeler içinde</span> <span data-i18n="upload_feat3_suffix">işlenir</span></li>
+        <li><span data-i18n="upload_feat4_prefix">Sütun türleri</span> <span data-i18n="upload_feat4_key">manuel olarak değiştirilebilir</span></li>
       </ul>
     </div>
     <div>
@@ -359,14 +360,14 @@ footer a:hover{text-decoration:underline}
         <div class="mock-body">
           <div class="dropzone-demo" id="dzDemo">
             <svg class="dz-icon" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="rgba(73,183,172,.1)"/><path d="M20 12v12M20 24l-5-5M20 24l5-5" stroke="#49B7AC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 30h16" stroke="#49B7AC" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <div class="dz-text">Dosyayı buraya sürükleyin</div>
-            <div class="dz-hint">veya tıklayarak seçin · xlsx, xls, csv</div>
+            <div class="dz-text" data-i18n="dz_text">Dosyayı buraya sürükleyin</div>
+            <div class="dz-hint" data-i18n="dz_hint">veya tıklayarak seçin · xlsx, xls, csv</div>
           </div>
           <div id="fileLoaded" style="display:none">
             <div class="file-pill">
               <span class="ext">XLSX</span>
               <span style="font-size:13px;color:var(--text)">satis_2024.xlsx</span>
-              <span style="font-size:11px;color:var(--muted);margin-left:4px">3.248 satır</span>
+              <span style="font-size:11px;color:var(--muted);margin-left:4px">3.248 <span data-i18n="rows_label">satır</span></span>
             </div>
             <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:6px" id="colPills"></div>
           </div>
@@ -381,21 +382,21 @@ footer a:hover{text-decoration:underline}
 <!-- ANALİZ MOD DEMO -->
 <section>
   <div class="reveal">
-    <div class="section-label">Adım 3</div>
-    <h2 class="section-title">3 farklı analiz modu</h2>
-    <p class="section-sub">Verinizin yapısına göre doğru modu seçin. Her mod, farklı soruları yanıtlar.</p>
+    <div class="section-label" data-i18n="modes_label">Adım 3</div>
+    <h2 class="section-title" data-i18n="modes_title">3 farklı analiz modu</h2>
+    <p class="section-sub" data-i18n="modes_sub">Verinizin yapısına göre doğru modu seçin. Her mod, farklı soruları yanıtlar.</p>
   </div>
 
   <!-- TIME SERIES -->
   <div class="demo-wrap reveal" style="margin-top:0">
     <div class="demo-content">
-      <h3>Zaman Serisi</h3>
-      <p>Bir tarih sütununu eksene alarak metriklerin zaman içindeki değişimini izleyin. Günlük, haftalık, aylık granülarite.</p>
+      <h3 data-i18n="ts_h">Zaman Serisi</h3>
+      <p data-i18n="ts_p">Bir tarih sütununu eksene alarak metriklerin zaman içindeki değişimini izleyin. Günlük, haftalık, aylık granülarite.</p>
       <ul class="feature-list">
-        <li><span>Birden fazla metrik</span> aynı grafikte</li>
-        <li>Kategori bazında <span>ayrıştırma (split)</span></li>
-        <li>Otomatik <span>toplam / ortalama / max</span> KPI kartları</li>
-        <li>Dönem bazında <span>büyüme hesabı</span></li>
+        <li><span data-i18n="ts_feat1_key">Birden fazla metrik</span> <span data-i18n="ts_feat1_suffix">aynı grafikte</span></li>
+        <li><span data-i18n="ts_feat2_prefix">Kategori bazında</span> <span data-i18n="ts_feat2_key">ayrıştırma (split)</span></li>
+        <li><span data-i18n="ts_feat3_prefix">Otomatik</span> <span data-i18n="ts_feat3_key">toplam / ortalama / max</span> <span data-i18n="ts_feat3_suffix">KPI kartları</span></li>
+        <li><span data-i18n="ts_feat4_prefix">Dönem bazında</span> <span data-i18n="ts_feat4_key">büyüme hesabı</span></li>
       </ul>
     </div>
     <div class="reveal reveal-delay-1">
@@ -404,25 +405,28 @@ footer a:hover{text-decoration:underline}
           <div class="mock-dot" style="background:#E2685C"></div>
           <div class="mock-dot" style="background:#E0A458;margin-left:4px"></div>
           <div class="mock-dot" style="background:#4CAF85;margin-left:4px"></div>
-          <div class="mock-url">Zaman Serisi Analizi</div>
+          <div class="mock-url" data-i18n="ts_mock_url">Zaman Serisi Analizi</div>
         </div>
         <div class="mock-body">
           <div class="kpi-row">
-            <div class="kpi"><div class="kpi-label">TOPLAM SATIŞ</div><div class="kpi-val teal" id="kpi1">—</div><div class="kpi-change">↑ %14.2</div></div>
-            <div class="kpi"><div class="kpi-label">ORTALAMA</div><div class="kpi-val amber" id="kpi2">—</div><div class="kpi-change">↑ %8.7</div></div>
-            <div class="kpi"><div class="kpi-label">EN YÜKSEK</div><div class="kpi-val blue" id="kpi3">—</div><div class="kpi-change">Ağustos</div></div>
+            <div class="kpi"><div class="kpi-label" data-i18n="kpi1_label">TOPLAM SATIŞ</div><div class="kpi-val teal" id="kpi1">—</div><div class="kpi-change">&#8593; %14.2</div></div>
+            <div class="kpi"><div class="kpi-label" data-i18n="kpi2_label">ORTALAMA</div><div class="kpi-val amber" id="kpi2">—</div><div class="kpi-change">&#8593; %8.7</div></div>
+            <div class="kpi"><div class="kpi-label" data-i18n="kpi3_label">EN YÜKSEK</div><div class="kpi-val blue" id="kpi3">—</div><div class="kpi-change" data-i18n="kpi3_sub">Ağustos</div></div>
           </div>
           <div class="chart-demo">
-            <div class="chart-title-row"><span class="chart-title">Aylık Satış</span><span class="chart-badge">aylık</span></div>
+            <div class="chart-title-row">
+              <span class="chart-title" data-i18n="ts_chart_title">Aylık Satış</span>
+              <span class="chart-badge" data-i18n="ts_chart_badge">aylık</span>
+            </div>
             <div class="bars" id="tsBars">
-              <div class="bar-wrap"><div class="bar-val" id="bv1">—</div><div class="bar teal" id="b1" style="height:0px"></div><div class="bar-label">Oca</div></div>
-              <div class="bar-wrap"><div class="bar-val" id="bv2">—</div><div class="bar teal" id="b2" style="height:0px"></div><div class="bar-label">Şub</div></div>
-              <div class="bar-wrap"><div class="bar-val" id="bv3">—</div><div class="bar teal" id="b3" style="height:0px"></div><div class="bar-label">Mar</div></div>
-              <div class="bar-wrap"><div class="bar-val" id="bv4">—</div><div class="bar teal" id="b4" style="height:0px"></div><div class="bar-label">Nis</div></div>
-              <div class="bar-wrap"><div class="bar-val" id="bv5">—</div><div class="bar teal" id="b5" style="height:0px"></div><div class="bar-label">May</div></div>
-              <div class="bar-wrap"><div class="bar-val" id="bv6">—</div><div class="bar teal" id="b6" style="height:0px"></div><div class="bar-label">Haz</div></div>
-              <div class="bar-wrap"><div class="bar-val" id="bv7">—</div><div class="bar amber" id="b7" style="height:0px"></div><div class="bar-label">Tem</div></div>
-              <div class="bar-wrap"><div class="bar-val" id="bv8">—</div><div class="bar amber" id="b8" style="height:0px"></div><div class="bar-label">Ağu</div></div>
+              <div class="bar-wrap"><div class="bar-val" id="bv1">—</div><div class="bar teal" id="b1" style="height:0px"></div><div class="bar-label" data-i18n="month_1">Oca</div></div>
+              <div class="bar-wrap"><div class="bar-val" id="bv2">—</div><div class="bar teal" id="b2" style="height:0px"></div><div class="bar-label" data-i18n="month_2">Şub</div></div>
+              <div class="bar-wrap"><div class="bar-val" id="bv3">—</div><div class="bar teal" id="b3" style="height:0px"></div><div class="bar-label" data-i18n="month_3">Mar</div></div>
+              <div class="bar-wrap"><div class="bar-val" id="bv4">—</div><div class="bar teal" id="b4" style="height:0px"></div><div class="bar-label" data-i18n="month_4">Nis</div></div>
+              <div class="bar-wrap"><div class="bar-val" id="bv5">—</div><div class="bar teal" id="b5" style="height:0px"></div><div class="bar-label" data-i18n="month_5">May</div></div>
+              <div class="bar-wrap"><div class="bar-val" id="bv6">—</div><div class="bar teal" id="b6" style="height:0px"></div><div class="bar-label" data-i18n="month_6">Haz</div></div>
+              <div class="bar-wrap"><div class="bar-val" id="bv7">—</div><div class="bar amber" id="b7" style="height:0px"></div><div class="bar-label" data-i18n="month_7">Tem</div></div>
+              <div class="bar-wrap"><div class="bar-val" id="bv8">—</div><div class="bar amber" id="b8" style="height:0px"></div><div class="bar-label" data-i18n="month_8">Ağu</div></div>
             </div>
           </div>
         </div>
@@ -433,13 +437,13 @@ footer a:hover{text-decoration:underline}
   <!-- CATEGORY -->
   <div class="demo-wrap reverse reveal" style="margin-top:48px">
     <div class="demo-content">
-      <h3>Kategori Dağılımı</h3>
-      <p>Bir metin sütununu (şehir, ürün, müşteri...) gruplama ekseni olarak seçin. En yüksek veya en düşük N grubu filtreleyin.</p>
+      <h3 data-i18n="cat_h">Kategori Dağılımı</h3>
+      <p data-i18n="cat_p">Bir metin sütununu (şehir, ürün, müşteri...) gruplama ekseni olarak seçin. En yüksek veya en düşük N grubu filtreleyin.</p>
       <ul class="feature-list">
-        <li><span>Toplam, ortalama, adet, max</span> agregasyon seçenekleri</li>
-        <li>Azalan / artan <span>sıralama</span></li>
-        <li><span>Top N</span> filtresi ile gürültüyü azaltın</li>
-        <li>Sonuç tablosu <span>Excel'e aktarılabilir</span></li>
+        <li><span data-i18n="cat_feat1_key">Toplam, ortalama, adet, max</span> <span data-i18n="cat_feat1_suffix">agregasyon seçenekleri</span></li>
+        <li><span data-i18n="cat_feat2_prefix">Azalan / artan</span> <span data-i18n="cat_feat2_key">sıralama</span></li>
+        <li><span data-i18n="cat_feat3_key">Top N</span> <span data-i18n="cat_feat3_suffix">filtresi ile gürültüyü azaltın</span></li>
+        <li><span data-i18n="cat_feat4_prefix">Sonuç tablosu</span> <span data-i18n="cat_feat4_key">Excel'e aktarılabilir</span></li>
       </ul>
     </div>
     <div class="reveal reveal-delay-1">
@@ -448,12 +452,17 @@ footer a:hover{text-decoration:underline}
           <div class="mock-dot" style="background:#E2685C"></div>
           <div class="mock-dot" style="background:#E0A458;margin-left:4px"></div>
           <div class="mock-dot" style="background:#4CAF85;margin-left:4px"></div>
-          <div class="mock-url">Kategori Analizi · Şehir bazında</div>
+          <div class="mock-url" data-i18n="cat_mock_url">Kategori Analizi · Şehir bazında</div>
         </div>
         <div class="mock-body">
-          <div style="font-size:11.5px;color:var(--dim);font-family:'IBM Plex Mono',monospace;margin-bottom:8px">Şehir bazında toplam satış (Top 5)</div>
+          <div style="font-size:11.5px;color:var(--dim);font-family:'IBM Plex Mono',monospace;margin-bottom:8px" data-i18n="cat_table_title">Şehir bazında toplam satış (Top 5)</div>
           <table class="result-table">
-            <thead><tr><th>#</th><th>Şehir</th><th>Toplam Satış</th><th>Pay %</th></tr></thead>
+            <thead><tr>
+              <th>#</th>
+              <th data-i18n="cat_col_city">Şehir</th>
+              <th data-i18n="cat_col_sales">Toplam Satış</th>
+              <th data-i18n="cat_col_pct">Pay %</th>
+            </tr></thead>
             <tbody id="catTable">
               <tr><td>1</td><td>İstanbul</td><td class="num" id="ct1">—</td><td>—</td></tr>
               <tr><td>2</td><td>Ankara</td><td class="num" id="ct2">—</td><td>—</td></tr>
@@ -480,28 +489,28 @@ footer a:hover{text-decoration:underline}
 <!-- FORMÜL SECTION -->
 <section id="formul">
   <div class="reveal">
-    <div class="section-label">Gelişmiş özellik</div>
-    <h2 class="section-title">Hesaplanmış sütunlar</h2>
-    <p class="section-sub">Mevcut sütunlardan yeni kolonlar türetin. Formüller JavaScript tabanlıdır, örneklerle başlamak çok kolay.</p>
+    <div class="section-label" data-i18n="formula_label">Gelişmiş özellik</div>
+    <h2 class="section-title" data-i18n="formula_title">Hesaplanmış sütunlar</h2>
+    <p class="section-sub" data-i18n="formula_sub">Mevcut sütunlardan yeni kolonlar türetin. Formüller JavaScript tabanlıdır, örneklerle başlamak çok kolay.</p>
   </div>
   <div class="formula-grid">
     <div class="formula-card reveal reveal-delay-1">
       <div class="formula-tag">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2v6" stroke="#6C8CFF" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Kâr Hesabı
+        <span data-i18n="fc1_tag">Kâr Hesabı</span>
       </div>
-      <h4>Brüt Kâr Marjı</h4>
-      <p>Gelir ve maliyet sütunlarından kâr marjı hesaplayın.</p>
+      <h4 data-i18n="fc1_h">Brüt Kâr Marjı</h4>
+      <p data-i18n="fc1_p">Gelir ve maliyet sütunlarından kâr marjı hesaplayın.</p>
       <div class="code-block"><span class="comment">// Gelir ve maliyetten kâr marjı</span>
 (<span class="fn">Gelir</span> - <span class="fn">Maliyet</span>) / <span class="fn">Gelir</span> * 100</div>
     </div>
     <div class="formula-card reveal reveal-delay-2">
       <div class="formula-tag">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2v6" stroke="#6C8CFF" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Kategori
+        <span data-i18n="fc2_tag">Kategori</span>
       </div>
-      <h4>Koşullu Etiket</h4>
-      <p>Sayısal değere göre metin etiketi atayın.</p>
+      <h4 data-i18n="fc2_h">Koşullu Etiket</h4>
+      <p data-i18n="fc2_p">Sayısal değere göre metin etiketi atayın.</p>
       <div class="code-block"><span class="fn">Satış</span> &gt;= 10000
   ? <span class="str">'Yüksek'</span>
   : <span class="fn">Satış</span> &gt;= 5000
@@ -511,19 +520,19 @@ footer a:hover{text-decoration:underline}
     <div class="formula-card reveal reveal-delay-3">
       <div class="formula-tag">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2v6" stroke="#6C8CFF" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Metin İşleme
+        <span data-i18n="fc3_tag">Metin İşleme</span>
       </div>
-      <h4>Sütun Birleştirme</h4>
-      <p>İki metin sütununu birleştirerek yeni bir anahtar oluşturun.</p>
+      <h4 data-i18n="fc3_h">Sütun Birleştirme</h4>
+      <p data-i18n="fc3_p">İki metin sütununu birleştirerek yeni bir anahtar oluşturun.</p>
       <div class="code-block"><span class="fn">Şehir</span> + <span class="str">' - '</span> + <span class="fn">Kategori</span></div>
     </div>
     <div class="formula-card reveal reveal-delay-4">
       <div class="formula-tag">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2v6" stroke="#6C8CFF" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Tarih İşleme
+        <span data-i18n="fc4_tag">Tarih İşleme</span>
       </div>
-      <h4>Yıl Çıkarma</h4>
-      <p>Tarih sütunundan yıl, ay veya çeyrek bilgisi türetin.</p>
+      <h4 data-i18n="fc4_h">Yıl Çıkarma</h4>
+      <p data-i18n="fc4_p">Tarih sütunundan yıl, ay veya çeyrek bilgisi türetin.</p>
       <div class="code-block"><span class="comment">// new Date() ile tarih işleme</span>
 new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn">getFullYear</span>()</div>
     </div>
@@ -532,13 +541,10 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
   <div class="reveal" style="margin-top:24px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 24px">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
       <div style="width:8px;height:8px;border-radius:50%;background:var(--amber)"></div>
-      <span style="font-size:13px;font-weight:600">Formül ipucu</span>
+      <span style="font-size:13px;font-weight:600" data-i18n="formula_tip_title">Formül ipucu</span>
     </div>
-    <p style="font-size:13.5px;color:var(--muted);line-height:1.7">
-      Sütun adlarını doğrudan kullanabilirsiniz. <code style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:var(--bg);padding:1px 6px;border-radius:4px;color:var(--teal)">Math.round()</code>,
-      <code style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:var(--bg);padding:1px 6px;border-radius:4px;color:var(--teal)">Math.abs()</code>,
-      <code style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:var(--bg);padding:1px 6px;border-radius:4px;color:var(--teal)">parseFloat()</code> gibi JavaScript fonksiyonları kullanabilirsiniz.
-      Hatalı formüller satırı atlamaz, <code style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:var(--bg);padding:1px 6px;border-radius:4px;color:var(--danger)">null</code> döner.
+    <p style="font-size:13.5px;color:var(--muted);line-height:1.7" data-i18n="formula_tip_p">
+      Sütun adlarını doğrudan kullanabilirsiniz. Math.round(), Math.abs(), parseFloat() gibi JavaScript fonksiyonları kullanabilirsiniz. Hatalı formüller satırı atlamaz, null döner.
     </p>
   </div>
 </section>
@@ -549,23 +555,23 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
 <section id="nlq">
   <div class="demo-wrap reveal">
     <div class="demo-content">
-      <div class="section-label">Yapay zeka yok · Kural tabanlı</div>
-      <h3>Doğal dille soru sor</h3>
-      <p>Analiz tamamlandıktan sonra veriniz hakkında Türkçe veya İngilizce soru sorabilirsiniz. Hiçbir API çağrısı yapılmaz, veri tarayıcınızdan çıkmaz.</p>
+      <div class="section-label" data-i18n="nlq_label">Yapay zeka yok · Kural tabanlı</div>
+      <h3 data-i18n="nlq_h">Doğal dille soru sor</h3>
+      <p data-i18n="nlq_p">Analiz tamamlandıktan sonra veriniz hakkında Türkçe veya İngilizce soru sorabilirsiniz. Hiçbir API çağrısı yapılmaz, veri tarayıcınızdan çıkmaz.</p>
       <ul class="feature-list">
-        <li>Türkçe ve İngilizce <span>anahtar kelime haritası</span></li>
-        <li>Sütun adlarında <span>yazım hatası toleransı</span></li>
-        <li>Belirsiz sorularda <span>netleştirme seçenekleri</span></li>
-        <li>Takip soruları ile <span>konuşma bağlamı</span></li>
+        <li><span data-i18n="nlq_feat1_prefix">Türkçe ve İngilizce</span> <span data-i18n="nlq_feat1_key">anahtar kelime haritası</span></li>
+        <li><span data-i18n="nlq_feat2_prefix">Sütun adlarında</span> <span data-i18n="nlq_feat2_key">yazım hatası toleransı</span></li>
+        <li><span data-i18n="nlq_feat3_prefix">Belirsiz sorularda</span> <span data-i18n="nlq_feat3_key">netleştirme seçenekleri</span></li>
+        <li><span data-i18n="nlq_feat4_prefix">Takip soruları ile</span> <span data-i18n="nlq_feat4_key">konuşma bağlamı</span></li>
       </ul>
       <div style="margin-top:20px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px">
-        <div style="font-size:11px;color:var(--dim);font-family:'IBM Plex Mono',monospace;margin-bottom:10px">Örnek sorgular</div>
+        <div style="font-size:11px;color:var(--dim);font-family:'IBM Plex Mono',monospace;margin-bottom:10px" data-i18n="nlq_examples_label">Örnek sorgular</div>
         <div style="display:flex;flex-direction:column;gap:6px">
-          <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding:6px 10px;background:var(--bg);border-radius:6px">"<span style="color:var(--teal)">İstanbul'un toplam satışı ne kadar?</span>"</div>
-          <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding:6px 10px;background:var(--bg);border-radius:6px">"<span style="color:var(--teal)">Şehirlere göre ortalama sipariş değeri</span>"</div>
-          <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding:6px 10px;background:var(--bg);border-radius:6px">"<span style="color:var(--teal)">En çok satan 5 ürün</span>"</div>
-          <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding:6px 10px;background:var(--bg);border-radius:6px">"<span style="color:var(--teal)">Aylık satış trendi</span>"</div>
-          <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding:6px 10px;background:var(--bg);border-radius:6px">"<span style="color:var(--amber)">Peki ya sadece Ankara?</span>" <span style="font-size:11px;color:var(--dim)">(takip sorusu)</span></div>
+          <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding:6px 10px;background:var(--bg);border-radius:6px">"<span style="color:var(--teal)" data-i18n="nlq_ex1">İstanbul'un toplam satışı ne kadar?</span>"</div>
+          <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding:6px 10px;background:var(--bg);border-radius:6px">"<span style="color:var(--teal)" data-i18n="nlq_ex2">Şehirlere göre ortalama sipariş değeri</span>"</div>
+          <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding:6px 10px;background:var(--bg);border-radius:6px">"<span style="color:var(--teal)" data-i18n="nlq_ex3">En çok satan 5 ürün</span>"</div>
+          <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding:6px 10px;background:var(--bg);border-radius:6px">"<span style="color:var(--teal)" data-i18n="nlq_ex4">Aylık satış trendi</span>"</div>
+          <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding:6px 10px;background:var(--bg);border-radius:6px">"<span style="color:var(--amber)" data-i18n="nlq_ex5">Peki ya sadece Ankara?</span>" <span style="font-size:11px;color:var(--dim)" data-i18n="nlq_followup">(takip sorusu)</span></div>
         </div>
       </div>
     </div>
@@ -573,13 +579,13 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
       <div class="nlq-demo">
         <div class="nlq-header">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#E0A458" stroke-width="1.2"/><path d="M7 5v1.5c0 .3.2.5.5.5H9" stroke="#E0A458" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="10" r=".6" fill="#E0A458"/></svg>
-          <span style="font-size:13px;font-weight:600">Verin Hakkında Soru Sor</span>
-          <div class="nlq-badge">kural tabanlı · AI yok</div>
+          <span style="font-size:13px;font-weight:600" data-i18n="nlq_panel_title">Verin Hakkında Soru Sor</span>
+          <div class="nlq-badge" data-i18n="nlq_panel_badge">kural tabanlı · AI yok</div>
         </div>
         <div class="nlq-body">
           <div class="nlq-input-wrap">
             <input type="text" class="nlq-input" id="nlqDemoInput" placeholder="Bir şey sor..." readonly>
-            <button class="nlq-ask" onclick="triggerNlq()">Sor</button>
+            <button class="nlq-ask" onclick="triggerNlq()" data-i18n="nlq_ask_btn">Sor</button>
           </div>
           <div id="nlqDemoResult" class="nlq-result" style="display:none">
             <div class="nlq-result-label" id="nlqResLabel"></div>
@@ -587,10 +593,10 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
             <div class="nlq-kpi-sub" id="nlqResSub"></div>
           </div>
           <div class="nlq-examples">
-            <div class="nlq-chip" onclick="setNlq(this.textContent)">toplam satış</div>
-            <div class="nlq-chip" onclick="setNlq(this.textContent)">en çok satan 3 şehir</div>
-            <div class="nlq-chip" onclick="setNlq(this.textContent)">ortalama sipariş</div>
-            <div class="nlq-chip" onclick="setNlq(this.textContent)">aylık trend</div>
+            <div class="nlq-chip" onclick="setNlq(this.textContent)" data-i18n="chip_1">toplam satış</div>
+            <div class="nlq-chip" onclick="setNlq(this.textContent)" data-i18n="chip_2">en çok satan 3 şehir</div>
+            <div class="nlq-chip" onclick="setNlq(this.textContent)" data-i18n="chip_3">ortalama sipariş</div>
+            <div class="nlq-chip" onclick="setNlq(this.textContent)" data-i18n="chip_4">aylık trend</div>
           </div>
         </div>
       </div>
@@ -603,21 +609,21 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
 <!-- İKİ DOSYA -->
 <section id="iki-dosya">
   <div class="reveal">
-    <div class="section-label">Gelişmiş mod</div>
-    <h2 class="section-title">İki dosyayla çalışın</h2>
-    <p class="section-sub">Birleştirme veya karşılaştırma — iki farklı veri kaynağını bir arada analiz edin.</p>
+    <div class="section-label" data-i18n="twofile_label">Gelişmiş mod</div>
+    <h2 class="section-title" data-i18n="twofile_title">İki dosyayla çalışın</h2>
+    <p class="section-sub" data-i18n="twofile_sub">Birleştirme veya karşılaştırma — iki farklı veri kaynağını bir arada analiz edin.</p>
   </div>
 
   <!-- JOIN -->
   <div class="demo-wrap reveal" style="margin-top:0">
     <div class="demo-content">
-      <h3>Birleştirme (Join)</h3>
-      <p>VLOOKUP gibi iki dosyayı ortak anahtar sütun üzerinden birleştirin. Dosya B'den seçtiğiniz kolonlar dosya A'ya eklenir, analiz tek veri seti üzerinden çalışır.</p>
+      <h3 data-i18n="join_h">Birleştirme (Join)</h3>
+      <p data-i18n="join_p">VLOOKUP gibi iki dosyayı ortak anahtar sütun üzerinden birleştirin. Dosya B'den seçtiğiniz kolonlar dosya A'ya eklenir, analiz tek veri seti üzerinden çalışır.</p>
       <ul class="feature-list">
-        <li>Anahtar sütun <span>otomatik önerilir</span></li>
-        <li>Hangi B kolonlarının ekleneceğini <span>seçebilirsiniz</span></li>
-        <li>Çakışan kolon adları <span>otomatik yeniden adlandırılır</span></li>
-        <li>Eşleşmeyen satır sayısı <span>raporlanır</span></li>
+        <li><span data-i18n="join_feat1_prefix">Anahtar sütun</span> <span data-i18n="join_feat1_key">otomatik önerilir</span></li>
+        <li><span data-i18n="join_feat2_prefix">Hangi B kolonlarının ekleneceğini</span> <span data-i18n="join_feat2_key">seçebilirsiniz</span></li>
+        <li><span data-i18n="join_feat3_prefix">Çakışan kolon adları</span> <span data-i18n="join_feat3_key">otomatik yeniden adlandırılır</span></li>
+        <li><span data-i18n="join_feat4_prefix">Eşleşmeyen satır sayısı</span> <span data-i18n="join_feat4_key">raporlanır</span></li>
       </ul>
     </div>
     <div class="reveal reveal-delay-1">
@@ -626,14 +632,14 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
           <div class="mock-dot" style="background:#E2685C"></div>
           <div class="mock-dot" style="background:#E0A458;margin-left:4px"></div>
           <div class="mock-dot" style="background:#4CAF85;margin-left:4px"></div>
-          <div class="mock-url">Birleştirme Modu</div>
+          <div class="mock-url" data-i18n="join_mock_url">Birleştirme Modu</div>
         </div>
         <div class="mock-body">
           <div class="twofile-demo">
             <div class="file-box">
               <div class="file-box-label"><div class="ab-badge a">A</div><span style="font-size:12px;color:var(--muted)">siparişler.xlsx</span></div>
               <div class="col-list">
-                <div class="col-item key">🔑 sipariş_id</div>
+                <div class="col-item key">&#128273; sipariş_id</div>
                 <div class="col-item">müşteri_adı</div>
                 <div class="col-item">tutar</div>
                 <div class="col-item">tarih</div>
@@ -647,7 +653,7 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
             <div class="file-box">
               <div class="file-box-label"><div class="ab-badge b">B</div><span style="font-size:12px;color:var(--muted)">müşteriler.xlsx</span></div>
               <div class="col-list">
-                <div class="col-item key">🔑 sipariş_id</div>
+                <div class="col-item key">&#128273; sipariş_id</div>
                 <div class="col-item">şehir</div>
                 <div class="col-item">segment</div>
                 <div class="col-item">temsilci</div>
@@ -655,7 +661,7 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
             </div>
           </div>
           <div style="margin-top:12px;background:rgba(73,183,172,.06);border:1px solid rgba(73,183,172,.15);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--teal);font-family:'IBM Plex Mono',monospace">
-            ✓ 3.248 satır birleştirildi · 14 eşleşmeyen
+            &#10003; 3.248 <span data-i18n="join_result_text">satır birleştirildi · 14 eşleşmeyen</span>
           </div>
         </div>
       </div>
@@ -665,13 +671,13 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
   <!-- COMPARE -->
   <div class="demo-wrap reverse reveal" style="margin-top:48px">
     <div class="demo-content">
-      <h3>Karşılaştırma (Compare)</h3>
-      <p>İki dosyayı bağımsız olarak aynı analize sokun — sonuçlar yan yana görünür. Yıl bazında, bölge bazında veya varyant bazında karşılaştırma için idealdir.</p>
+      <h3 data-i18n="compare_h">Karşılaştırma (Compare)</h3>
+      <p data-i18n="compare_p">İki dosyayı bağımsız olarak aynı analize sokun — sonuçlar yan yana görünür. Yıl bazında, bölge bazında veya varyant bazında karşılaştırma için idealdir.</p>
       <ul class="feature-list">
-        <li>İki dosya için ayrı ayrı <span>metrik seçimi</span></li>
-        <li><span>Yan yana grafik</span> ile görsel karşılaştırma</li>
-        <li>Otomatik <span>Fark % tablosu</span></li>
-        <li>Aynı analiz ayarları <span>her iki sete uygulanır</span></li>
+        <li><span data-i18n="compare_feat1_prefix">İki dosya için ayrı ayrı</span> <span data-i18n="compare_feat1_key">metrik seçimi</span></li>
+        <li><span data-i18n="compare_feat2_key">Yan yana grafik</span> <span data-i18n="compare_feat2_suffix">ile görsel karşılaştırma</span></li>
+        <li><span data-i18n="compare_feat3_prefix">Otomatik</span> <span data-i18n="compare_feat3_key">Fark % tablosu</span></li>
+        <li><span data-i18n="compare_feat4_prefix">Aynı analiz ayarları</span> <span data-i18n="compare_feat4_key">her iki sete uygulanır</span></li>
       </ul>
     </div>
     <div class="reveal reveal-delay-1">
@@ -680,12 +686,12 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
           <div class="mock-dot" style="background:#E2685C"></div>
           <div class="mock-dot" style="background:#E0A458;margin-left:4px"></div>
           <div class="mock-dot" style="background:#4CAF85;margin-left:4px"></div>
-          <div class="mock-url">Karşılaştırma Modu</div>
+          <div class="mock-url" data-i18n="compare_mock_url">Karşılaştırma Modu</div>
         </div>
         <div class="mock-body">
           <div class="compare-side">
             <div class="compare-box">
-              <div class="compare-box-title"><div class="ab-badge a" style="width:18px;height:18px;font-size:9px">A</div>2023 Satışları</div>
+              <div class="compare-box-title"><div class="ab-badge a" style="width:18px;height:18px;font-size:9px">A</div><span data-i18n="compare_box_a">2023 Satışları</span></div>
               <div class="mini-bars" id="compBarsA">
                 <div class="bar-wrap"><div class="bar teal" id="ca1" style="height:0px"></div><div class="bar-label" style="font-size:9px">Q1</div></div>
                 <div class="bar-wrap"><div class="bar teal" id="ca2" style="height:0px"></div><div class="bar-label" style="font-size:9px">Q2</div></div>
@@ -693,10 +699,10 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
                 <div class="bar-wrap"><div class="bar teal" id="ca4" style="height:0px"></div><div class="bar-label" style="font-size:9px">Q4</div></div>
               </div>
               <div style="margin-top:8px;font-size:18px;font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--teal)" id="compTotalA">—</div>
-              <div style="font-size:10px;color:var(--muted);font-family:'IBM Plex Mono',monospace">Toplam</div>
+              <div style="font-size:10px;color:var(--muted);font-family:'IBM Plex Mono',monospace" data-i18n="total_label">Toplam</div>
             </div>
             <div class="compare-box">
-              <div class="compare-box-title"><div class="ab-badge b" style="width:18px;height:18px;font-size:9px">B</div>2024 Satışları</div>
+              <div class="compare-box-title"><div class="ab-badge b" style="width:18px;height:18px;font-size:9px">B</div><span data-i18n="compare_box_b">2024 Satışları</span></div>
               <div class="mini-bars" id="compBarsB">
                 <div class="bar-wrap"><div class="bar blue" id="cb_1" style="height:0px"></div><div class="bar-label" style="font-size:9px">Q1</div></div>
                 <div class="bar-wrap"><div class="bar blue" id="cb_2" style="height:0px"></div><div class="bar-label" style="font-size:9px">Q2</div></div>
@@ -704,11 +710,16 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
                 <div class="bar-wrap"><div class="bar blue" id="cb_4" style="height:0px"></div><div class="bar-label" style="font-size:9px">Q4</div></div>
               </div>
               <div style="margin-top:8px;font-size:18px;font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--blue)" id="compTotalB">—</div>
-              <div style="font-size:10px;color:var(--muted);font-family:'IBM Plex Mono',monospace">Toplam</div>
+              <div style="font-size:10px;color:var(--muted);font-family:'IBM Plex Mono',monospace" data-i18n="total_label">Toplam</div>
             </div>
           </div>
           <table class="result-table" style="margin-top:12px">
-            <thead><tr><th>Çeyrek</th><th>2023</th><th>2024</th><th>Fark %</th></tr></thead>
+            <thead><tr>
+              <th data-i18n="cmp_col_q">Çeyrek</th>
+              <th>2023</th>
+              <th>2024</th>
+              <th data-i18n="cmp_col_diff">Fark %</th>
+            </tr></thead>
             <tbody>
               <tr><td>Q1</td><td class="num">₺284K</td><td class="num">₺331K</td><td style="color:var(--green);font-family:'IBM Plex Mono',monospace;font-size:12px">+16.5%</td></tr>
               <tr><td>Q2</td><td class="num">₺312K</td><td class="num">₺356K</td><td style="color:var(--green);font-family:'IBM Plex Mono',monospace;font-size:12px">+14.1%</td></tr>
@@ -730,7 +741,7 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
     <div class="privacy-icon">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L3 5v4c0 3.3 2.5 6.4 6 7.2C12.5 15.4 15 12.3 15 9V5L9 2z" stroke="#49B7AC" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5 9l2 2L12 7" stroke="#49B7AC" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
-    <p><strong>Verileriniz tamamen güvende.</strong> Yüklediğiniz dosyalar yalnızca tarayıcınızda işlenir. Hiçbir sunucuya gönderilmez, kaydedilmez. Sayfayı kapattığınızda her şey silinir.</p>
+    <p><strong data-i18n="privacy_strong">Verileriniz tamamen güvende.</strong> <span data-i18n="privacy_p">Yüklediğiniz dosyalar yalnızca tarayıcınızda işlenir. Hiçbir sunucuya gönderilmez, kaydedilmez. Sayfayı kapattığınızda her şey silinir.</span></p>
   </div>
 </section>
 
@@ -738,13 +749,13 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
 
 <!-- CTA -->
 <div class="cta-section reveal">
-  <div class="section-label" style="justify-content:center;display:flex">Hazır mısınız?</div>
-  <h2 class="section-title">Verinizi analiz etmeye başlayın</h2>
-  <p>Kurulum yok, kayıt yok, kredi kartı yok.</p>
+  <div class="section-label" style="justify-content:center;display:flex" data-i18n="cta_label">Hazır mısınız?</div>
+  <h2 class="section-title" data-i18n="cta_title">Verinizi analiz etmeye başlayın</h2>
+  <p data-i18n="cta_p">Kurulum yok, kayıt yok, kredi kartı yok.</p>
   <div class="hero-btns" style="justify-content:center">
     <a href="app.html" class="btn-primary">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M7 9l-3-3M7 9l3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Aracı Aç — Ücretsiz
+      <span data-i18n="cta_btn">Aracı Aç — Ücretsiz</span>
     </a>
   </div>
 </div>
@@ -752,14 +763,318 @@ new <span class="fn">Date</span>(<span class="fn">Tarih</span>).<span class="fn"
 <!-- FOOTER -->
 <footer>
   <div style="margin-bottom:12px">
-    <a href="/">Ana Sayfa</a> &nbsp;·&nbsp;
-    <a href="app.html">Analiz Aracı</a> &nbsp;·&nbsp;
-    <a href="rehber.html">Rehber</a>
+    <a href="/" data-i18n="footer_home">Ana Sayfa</a> &nbsp;·&nbsp;
+    <a href="app.html" data-i18n="footer_app">Analiz Aracı</a> &nbsp;·&nbsp;
+    <a href="rehber.html" data-i18n="footer_guide">Rehber</a>
   </div>
-  <div>Tüm hesaplamalar tarayıcıda yapılır · Veri hiçbir yere gönderilmez</div>
+  <div data-i18n="footer_note">Tüm hesaplamalar tarayıcıda yapılır · Veri hiçbir yere gönderilmez</div>
 </footer>
 
 <script>
+// ── i18n ──────────────────────────────────────────────
+let LANG = localStorage.getItem('lang') || 'tr';
+
+const STRINGS = {
+  tr: {
+    brand: 'Analiz Aracı',
+    nav_how: 'Nasıl Çalışır',
+    nav_formulas: 'Formüller',
+    nav_nlq: 'Doğal Dil',
+    nav_twofiles: 'İki Dosya',
+    nav_cta: 'Aracı Aç →',
+    hero_badge: 'Tarayıcında çalışır · Veri hiçbir yere gönderilmez',
+    hero_h1: 'Verinizi <span>analiz edin</span>,<br>hiçbir şey kurmadan.',
+    hero_p: 'Excel veya CSV dosyanızı sürükleyip bırakın. Saniyeler içinde zaman serisi grafikleri, kategori dağılımları, pivot tablolar ve doğal dil sorguları elde edin.',
+    hero_cta_primary: 'Hemen Başla',
+    hero_cta_secondary: 'Nasıl çalışır? ↓',
+    stat_1: 'Kurulum gerektirmez',
+    stat_2: 'Tarayıcıda hesaplanır',
+    stat_3: 'Analiz modu',
+    steps_label: 'Adım adım',
+    steps_title: '4 adımda analiz',
+    steps_sub: 'Karmaşık kurulum yok. Dosyanızı yükleyin, analiz tipini seçin, sonuçları görün.',
+    step1_h: 'Dosya Yükle',
+    step1_p: 'Excel (.xlsx, .xls) veya CSV dosyanızı sürükleyip bırakın. Birden fazla sayfa varsa hangisini kullanacağınızı seçin.',
+    step2_h: 'Sütun Türlerini Onayla',
+    step2_p: 'Araç sütunları otomatik algılar: tarih, sayı, metin. İsterseniz manuel olarak değiştirebilirsiniz.',
+    step3_h: 'Analiz Tipini Seç',
+    step3_p: 'Zaman serisi, kategori dağılımı veya pivot tablo — analiz modunu seçin, metrikleri ve gruplamayı belirleyin.',
+    step4_h: 'Sonuçları Gör & İndir',
+    step4_p: 'Grafik, KPI kartları ve tablo anında oluşturulur. Excel veya CSV olarak indirin ya da doğal dille soru sorun.',
+    demo_upload_label: 'Adım 1',
+    demo_upload_h: 'Dosya yükleme',
+    demo_upload_p: 'Excel veya CSV dosyanızı sürükleyip bırakın ya da tıklayarak seçin. Araç otomatik olarak sütun türlerini algılar ve tarih, sayı, metin kolonlarını ayırt eder.',
+    upload_feat1_suffix: 'formatları desteklenir',
+    upload_feat2_prefix: 'Birden fazla Excel sayfası varsa',
+    upload_feat2_key: 'sayfa seçimi',
+    upload_feat2_suffix: 'gösterilir',
+    upload_feat3_prefix: 'Binlerce satır bile',
+    upload_feat3_key: 'saniyeler içinde',
+    upload_feat3_suffix: 'işlenir',
+    upload_feat4_prefix: 'Sütun türleri',
+    upload_feat4_key: 'manuel olarak değiştirilebilir',
+    dz_text: 'Dosyayı buraya sürükleyin',
+    dz_hint: 'veya tıklayarak seçin · xlsx, xls, csv',
+    rows_label: 'satır',
+    modes_label: 'Adım 3',
+    modes_title: '3 farklı analiz modu',
+    modes_sub: 'Verinizin yapısına göre doğru modu seçin. Her mod, farklı soruları yanıtlar.',
+    ts_h: 'Zaman Serisi',
+    ts_p: 'Bir tarih sütununu eksene alarak metriklerin zaman içindeki değişimini izleyin. Günlük, haftalık, aylık granülarite.',
+    ts_feat1_key: 'Birden fazla metrik',
+    ts_feat1_suffix: 'aynı grafikte',
+    ts_feat2_prefix: 'Kategori bazında',
+    ts_feat2_key: 'ayrıştırma (split)',
+    ts_feat3_prefix: 'Otomatik',
+    ts_feat3_key: 'toplam / ortalama / max',
+    ts_feat3_suffix: 'KPI kartları',
+    ts_feat4_prefix: 'Dönem bazında',
+    ts_feat4_key: 'büyüme hesabı',
+    ts_mock_url: 'Zaman Serisi Analizi',
+    kpi1_label: 'TOPLAM SATIŞ',
+    kpi2_label: 'ORTALAMA',
+    kpi3_label: 'EN YÜKSEK',
+    kpi3_sub: 'Ağustos',
+    ts_chart_title: 'Aylık Satış',
+    ts_chart_badge: 'aylık',
+    month_1: 'Oca', month_2: 'Şub', month_3: 'Mar', month_4: 'Nis',
+    month_5: 'May', month_6: 'Haz', month_7: 'Tem', month_8: 'Ağu',
+    cat_h: 'Kategori Dağılımı',
+    cat_p: 'Bir metin sütununu (şehir, ürün, müşteri...) gruplama ekseni olarak seçin. En yüksek veya en düşük N grubu filtreleyin.',
+    cat_feat1_key: 'Toplam, ortalama, adet, max',
+    cat_feat1_suffix: 'agregasyon seçenekleri',
+    cat_feat2_prefix: 'Azalan / artan',
+    cat_feat2_key: 'sıralama',
+    cat_feat3_key: 'Top N',
+    cat_feat3_suffix: 'filtresi ile gürültüyü azaltın',
+    cat_feat4_prefix: 'Sonuç tablosu',
+    cat_feat4_key: 'Excel\'e aktarılabilir',
+    cat_mock_url: 'Kategori Analizi · Şehir bazında',
+    cat_table_title: 'Şehir bazında toplam satış (Top 5)',
+    cat_col_city: 'Şehir',
+    cat_col_sales: 'Toplam Satış',
+    cat_col_pct: 'Pay %',
+    formula_label: 'Gelişmiş özellik',
+    formula_title: 'Hesaplanmış sütunlar',
+    formula_sub: 'Mevcut sütunlardan yeni kolonlar türetin. Formüller JavaScript tabanlıdır, örneklerle başlamak çok kolay.',
+    fc1_tag: 'Kâr Hesabı', fc1_h: 'Brüt Kâr Marjı', fc1_p: 'Gelir ve maliyet sütunlarından kâr marjı hesaplayın.',
+    fc2_tag: 'Kategori', fc2_h: 'Koşullu Etiket', fc2_p: 'Sayısal değere göre metin etiketi atayın.',
+    fc3_tag: 'Metin İşleme', fc3_h: 'Sütun Birleştirme', fc3_p: 'İki metin sütununu birleştirerek yeni bir anahtar oluşturun.',
+    fc4_tag: 'Tarih İşleme', fc4_h: 'Yıl Çıkarma', fc4_p: 'Tarih sütunundan yıl, ay veya çeyrek bilgisi türetin.',
+    formula_tip_title: 'Formül ipucu',
+    formula_tip_p: 'Sütun adlarını doğrudan kullanabilirsiniz. Math.round(), Math.abs(), parseFloat() gibi JavaScript fonksiyonları kullanabilirsiniz. Hatalı formüller satırı atlamaz, null döner.',
+    nlq_label: 'Yapay zeka yok · Kural tabanlı',
+    nlq_h: 'Doğal dille soru sor',
+    nlq_p: 'Analiz tamamlandıktan sonra veriniz hakkında Türkçe veya İngilizce soru sorabilirsiniz. Hiçbir API çağrısı yapılmaz, veri tarayıcınızdan çıkmaz.',
+    nlq_feat1_prefix: 'Türkçe ve İngilizce', nlq_feat1_key: 'anahtar kelime haritası',
+    nlq_feat2_prefix: 'Sütun adlarında', nlq_feat2_key: 'yazım hatası toleransı',
+    nlq_feat3_prefix: 'Belirsiz sorularda', nlq_feat3_key: 'netleştirme seçenekleri',
+    nlq_feat4_prefix: 'Takip soruları ile', nlq_feat4_key: 'konuşma bağlamı',
+    nlq_examples_label: 'Örnek sorgular',
+    nlq_ex1: 'İstanbul\'un toplam satışı ne kadar?',
+    nlq_ex2: 'Şehirlere göre ortalama sipariş değeri',
+    nlq_ex3: 'En çok satan 5 ürün',
+    nlq_ex4: 'Aylık satış trendi',
+    nlq_ex5: 'Peki ya sadece Ankara?',
+    nlq_followup: '(takip sorusu)',
+    nlq_panel_title: 'Verin Hakkında Soru Sor',
+    nlq_panel_badge: 'kural tabanlı · AI yok',
+    nlq_ask_btn: 'Sor',
+    chip_1: 'toplam satış', chip_2: 'en çok satan 3 şehir', chip_3: 'ortalama sipariş', chip_4: 'aylık trend',
+    twofile_label: 'Gelişmiş mod',
+    twofile_title: 'İki dosyayla çalışın',
+    twofile_sub: 'Birleştirme veya karşılaştırma — iki farklı veri kaynağını bir arada analiz edin.',
+    join_h: 'Birleştirme (Join)',
+    join_p: 'VLOOKUP gibi iki dosyayı ortak anahtar sütun üzerinden birleştirin. Dosya B\'den seçtiğiniz kolonlar dosya A\'ya eklenir, analiz tek veri seti üzerinden çalışır.',
+    join_feat1_prefix: 'Anahtar sütun', join_feat1_key: 'otomatik önerilir',
+    join_feat2_prefix: 'Hangi B kolonlarının ekleneceğini', join_feat2_key: 'seçebilirsiniz',
+    join_feat3_prefix: 'Çakışan kolon adları', join_feat3_key: 'otomatik yeniden adlandırılır',
+    join_feat4_prefix: 'Eşleşmeyen satır sayısı', join_feat4_key: 'raporlanır',
+    join_mock_url: 'Birleştirme Modu',
+    join_result_text: 'satır birleştirildi · 14 eşleşmeyen',
+    compare_h: 'Karşılaştırma (Compare)',
+    compare_p: 'İki dosyayı bağımsız olarak aynı analize sokun — sonuçlar yan yana görünür. Yıl bazında, bölge bazında veya varyant bazında karşılaştırma için idealdir.',
+    compare_feat1_prefix: 'İki dosya için ayrı ayrı', compare_feat1_key: 'metrik seçimi',
+    compare_feat2_key: 'Yan yana grafik', compare_feat2_suffix: 'ile görsel karşılaştırma',
+    compare_feat3_prefix: 'Otomatik', compare_feat3_key: 'Fark % tablosu',
+    compare_feat4_prefix: 'Aynı analiz ayarları', compare_feat4_key: 'her iki sete uygulanır',
+    compare_mock_url: 'Karşılaştırma Modu',
+    compare_box_a: '2023 Satışları',
+    compare_box_b: '2024 Satışları',
+    total_label: 'Toplam',
+    cmp_col_q: 'Çeyrek',
+    cmp_col_diff: 'Fark %',
+    privacy_strong: 'Verileriniz tamamen güvende.',
+    privacy_p: 'Yüklediğiniz dosyalar yalnızca tarayıcınızda işlenir. Hiçbir sunucuya gönderilmez, kaydedilmez. Sayfayı kapattığınızda her şey silinir.',
+    cta_label: 'Hazır mısınız?',
+    cta_title: 'Verinizi analiz etmeye başlayın',
+    cta_p: 'Kurulum yok, kayıt yok, kredi kartı yok.',
+    cta_btn: 'Aracı Aç — Ücretsiz',
+    footer_home: 'Ana Sayfa',
+    footer_app: 'Analiz Aracı',
+    footer_guide: 'Rehber',
+    footer_note: 'Tüm hesaplamalar tarayıcıda yapılır · Veri hiçbir yere gönderilmez',
+  },
+  en: {
+    brand: 'Analysis Tool',
+    nav_how: 'How It Works',
+    nav_formulas: 'Formulas',
+    nav_nlq: 'Natural Language',
+    nav_twofiles: 'Two Files',
+    nav_cta: 'Open Tool →',
+    hero_badge: 'Runs in browser · Data never sent anywhere',
+    hero_h1: 'Analyze your data,<br><span>without installing</span> anything.',
+    hero_p: 'Drag and drop your Excel or CSV. Get time series charts, category breakdowns, pivot tables and natural language queries in seconds.',
+    hero_cta_primary: 'Get Started',
+    hero_cta_secondary: 'How does it work? ↓',
+    stat_1: 'No installation',
+    stat_2: 'Computed in browser',
+    stat_3: 'Analysis modes',
+    steps_label: 'Step by step',
+    steps_title: 'Analysis in 4 steps',
+    steps_sub: 'No complex setup. Upload your file, select the analysis type, see results.',
+    step1_h: 'Upload File',
+    step1_p: 'Drag and drop your Excel (.xlsx, .xls) or CSV file. If multiple sheets exist, choose which one to use.',
+    step2_h: 'Confirm Column Types',
+    step2_p: 'The tool auto-detects columns: date, number, text. You can override any manually.',
+    step3_h: 'Choose Analysis Type',
+    step3_p: 'Time series, category breakdown or pivot table — pick the mode, set metrics and grouping.',
+    step4_h: 'View & Export Results',
+    step4_p: 'Charts, KPI cards and tables are generated instantly. Download as Excel or CSV, or ask questions in natural language.',
+    demo_upload_label: 'Step 1',
+    demo_upload_h: 'File upload',
+    demo_upload_p: 'Drag and drop your Excel or CSV file, or click to browse. The tool auto-detects column types and distinguishes dates, numbers, and text.',
+    upload_feat1_suffix: 'formats supported',
+    upload_feat2_prefix: 'If the Excel has multiple sheets,',
+    upload_feat2_key: 'sheet selection',
+    upload_feat2_suffix: 'is shown',
+    upload_feat3_prefix: 'Even thousands of rows',
+    upload_feat3_key: 'processed in seconds',
+    upload_feat3_suffix: '',
+    upload_feat4_prefix: 'Column types can be',
+    upload_feat4_key: 'changed manually',
+    dz_text: 'Drag file here',
+    dz_hint: 'or click to browse · xlsx, xls, csv',
+    rows_label: 'rows',
+    modes_label: 'Step 3',
+    modes_title: '3 analysis modes',
+    modes_sub: 'Choose the right mode for your data. Each mode answers different questions.',
+    ts_h: 'Time Series',
+    ts_p: 'Plot metrics over time using a date column as the axis. Daily, weekly, or monthly granularity.',
+    ts_feat1_key: 'Multiple metrics',
+    ts_feat1_suffix: 'on the same chart',
+    ts_feat2_prefix: 'Category-level',
+    ts_feat2_key: 'split / breakdown',
+    ts_feat3_prefix: 'Auto',
+    ts_feat3_key: 'sum / average / max',
+    ts_feat3_suffix: 'KPI cards',
+    ts_feat4_prefix: 'Period-over-period',
+    ts_feat4_key: 'growth calculation',
+    ts_mock_url: 'Time Series Analysis',
+    kpi1_label: 'TOTAL SALES',
+    kpi2_label: 'AVERAGE',
+    kpi3_label: 'HIGHEST',
+    kpi3_sub: 'August',
+    ts_chart_title: 'Monthly Sales',
+    ts_chart_badge: 'monthly',
+    month_1: 'Jan', month_2: 'Feb', month_3: 'Mar', month_4: 'Apr',
+    month_5: 'May', month_6: 'Jun', month_7: 'Jul', month_8: 'Aug',
+    cat_h: 'Category Breakdown',
+    cat_p: 'Select a text column (city, product, customer...) as the grouping axis. Filter to the top or bottom N groups.',
+    cat_feat1_key: 'Sum, average, count, max',
+    cat_feat1_suffix: 'aggregation options',
+    cat_feat2_prefix: 'Descending / ascending',
+    cat_feat2_key: 'sort',
+    cat_feat3_key: 'Top N',
+    cat_feat3_suffix: 'filter to cut noise',
+    cat_feat4_prefix: 'Result table',
+    cat_feat4_key: 'exportable to Excel',
+    cat_mock_url: 'Category Analysis · By city',
+    cat_table_title: 'Total sales by city (Top 5)',
+    cat_col_city: 'City',
+    cat_col_sales: 'Total Sales',
+    cat_col_pct: 'Share %',
+    formula_label: 'Advanced feature',
+    formula_title: 'Calculated columns',
+    formula_sub: 'Derive new columns from existing ones. Formulas are JavaScript-based — easy to start with examples.',
+    fc1_tag: 'Profit', fc1_h: 'Gross Profit Margin', fc1_p: 'Calculate profit margin from revenue and cost columns.',
+    fc2_tag: 'Category', fc2_h: 'Conditional Label', fc2_p: 'Assign a text label based on a numeric value.',
+    fc3_tag: 'Text', fc3_h: 'Column Concatenation', fc3_p: 'Combine two text columns into a new composite key.',
+    fc4_tag: 'Date', fc4_h: 'Extract Year', fc4_p: 'Derive year, month, or quarter from a date column.',
+    formula_tip_title: 'Formula tip',
+    formula_tip_p: 'You can use column names directly. JavaScript functions like Math.round(), Math.abs(), parseFloat() are available. Invalid formulas return null rather than skipping the row.',
+    nlq_label: 'No AI · Rule-based',
+    nlq_h: 'Ask questions in natural language',
+    nlq_p: 'After analysis is complete, ask questions about your data in Turkish or English. No API calls are made — data never leaves your browser.',
+    nlq_feat1_prefix: 'Turkish and English', nlq_feat1_key: 'keyword mapping',
+    nlq_feat2_prefix: 'Column name', nlq_feat2_key: 'typo tolerance',
+    nlq_feat3_prefix: 'Ambiguous queries trigger', nlq_feat3_key: 'clarification prompts',
+    nlq_feat4_prefix: 'Follow-up questions with', nlq_feat4_key: 'conversation context',
+    nlq_examples_label: 'Example queries',
+    nlq_ex1: 'What is the total sales for Istanbul?',
+    nlq_ex2: 'Average order value by city',
+    nlq_ex3: 'Top 5 best-selling products',
+    nlq_ex4: 'Monthly sales trend',
+    nlq_ex5: 'What about only Ankara?',
+    nlq_followup: '(follow-up)',
+    nlq_panel_title: 'Ask About Your Data',
+    nlq_panel_badge: 'rule-based · no AI',
+    nlq_ask_btn: 'Ask',
+    chip_1: 'total sales', chip_2: 'top 3 cities', chip_3: 'average order', chip_4: 'monthly trend',
+    twofile_label: 'Advanced mode',
+    twofile_title: 'Work with two files',
+    twofile_sub: 'Join or compare — analyze two different data sources together.',
+    join_h: 'Join',
+    join_p: 'Merge two files on a common key column, like VLOOKUP. Columns from File B are added to File A; the analysis runs on one merged dataset.',
+    join_feat1_prefix: 'Key column', join_feat1_key: 'auto-suggested',
+    join_feat2_prefix: 'You choose', join_feat2_key: 'which B columns to bring',
+    join_feat3_prefix: 'Conflicting column names', join_feat3_key: 'auto-renamed',
+    join_feat4_prefix: 'Unmatched row count', join_feat4_key: 'reported',
+    join_mock_url: 'Join Mode',
+    join_result_text: 'rows merged · 14 unmatched',
+    compare_h: 'Compare',
+    compare_p: 'Run the same analysis on two files independently — results appear side by side. Ideal for year-over-year, region, or variant comparisons.',
+    compare_feat1_prefix: 'Separate', compare_feat1_key: 'metric selection per file',
+    compare_feat2_key: 'Side-by-side chart', compare_feat2_suffix: 'for visual comparison',
+    compare_feat3_prefix: 'Auto', compare_feat3_key: 'Diff % table',
+    compare_feat4_prefix: 'Same analysis settings', compare_feat4_key: 'applied to both datasets',
+    compare_mock_url: 'Compare Mode',
+    compare_box_a: '2023 Sales',
+    compare_box_b: '2024 Sales',
+    total_label: 'Total',
+    cmp_col_q: 'Quarter',
+    cmp_col_diff: 'Diff %',
+    privacy_strong: 'Your data is completely safe.',
+    privacy_p: 'Uploaded files are processed only in your browser. Nothing is sent to any server or stored. When you close the page, everything is gone.',
+    cta_label: 'Ready?',
+    cta_title: 'Start analyzing your data',
+    cta_p: 'No setup, no sign-up, no credit card.',
+    cta_btn: 'Open Tool — Free',
+    footer_home: 'Home',
+    footer_app: 'Analysis Tool',
+    footer_guide: 'Guide',
+    footer_note: 'All computation runs in the browser · Data never sent anywhere',
+  }
+};
+
+function t(key) { return (STRINGS[LANG] || STRINGS.tr)[key] || key; }
+
+function applyLang() {
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+  document.querySelectorAll('[data-i18n-html]').forEach(el => el.innerHTML = t(el.dataset.i18nHtml));
+  const btn = document.getElementById('langToggle');
+  if (btn) btn.textContent = LANG === 'tr' ? 'EN' : 'TR';
+}
+
+document.getElementById('langToggle').addEventListener('click', () => {
+  LANG = LANG === 'tr' ? 'en' : 'tr';
+  localStorage.setItem('lang', LANG);
+  applyLang();
+});
+
+applyLang();
+
 // ─── SCROLL REVEAL ────────────────────────────────
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
@@ -892,9 +1207,9 @@ const nlqResult = document.getElementById('nlqDemoResult');
 function typeQuery(str, cb) {
   nlqInput.value = '';
   let i = 0;
-  const t = setInterval(() => {
+  const timer = setInterval(() => {
     nlqInput.value += str[i++];
-    if (i >= str.length) { clearInterval(t); setTimeout(cb, 400); }
+    if (i >= str.length) { clearInterval(timer); setTimeout(cb, 400); }
   }, 50);
 }
 function showNlqResult(q) {
@@ -928,12 +1243,11 @@ function runNlqLoop() {
 }
 function setNlq(text) {
   nlqAutoRunning = true;
-  const q = nlqQueries.find(x => x.q.includes(text.replace('en çok satan 3 şehir','şehir'))) || nlqQueries[0];
+  const q = nlqQueries.find(x => x.q.includes(text.replace('en çok satan 3 şehir','şehir').replace('top 3 cities','şehir'))) || nlqQueries[0];
   nlqResult.style.display = 'none';
   typeQuery(text, () => showNlqResult(q));
 }
 function triggerNlq() {
-  const val = nlqInput.value || 'toplam satış ne kadar?';
   showNlqResult(nlqQueries[0]);
 }
 </script>

@@ -560,7 +560,7 @@
 // ============================================================
 // LANGUAGE
 // ============================================================
-let LANG = 'tr';
+let LANG = localStorage.getItem('lang') || 'tr';
 
 const STRINGS = {
   tr: {
@@ -963,6 +963,7 @@ function goToStep(n) {
 // ── Language toggle ─────────────────────────────────────────
 document.getElementById('langToggle').addEventListener('click', () => {
   LANG = LANG === 'tr' ? 'en' : 'tr';
+  localStorage.setItem('lang', LANG);
   document.documentElement.lang = LANG;
   applyLang();
 });

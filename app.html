@@ -1498,11 +1498,11 @@ function renderModeConfig() {
 
     if (MODE !== 'pivot') {
       METRICS = METRICS.length ? METRICS : [{ col: allValueCols()[0] || '', agg: 'sum' }];
-      METRICS_B = METRICS_B.length ? METRICS_B : [{ col: allValueColsB()[0] || '' }];
+      METRICS_B = METRICS_B.length ? METRICS_B : [{ col: allValueColsB()[0] || '', agg: 'sum' }];
       renderMetricListCompare();
       document.getElementById('addMetricLink').addEventListener('click', () => {
         METRICS.push({ col: allValueCols()[0] || '', agg: 'sum' });
-        METRICS_B.push({ col: allValueColsB()[0] || '' });
+        METRICS_B.push({ col: allValueColsB()[0] || '', agg: 'sum' });
         renderMetricListCompare();
       });
     }

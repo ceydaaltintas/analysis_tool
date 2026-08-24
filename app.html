@@ -445,6 +445,9 @@
         <span class="preview-badge" id="previewNote"></span>
       </div>
       <div style="overflow-x:auto;"><table class="resulttable" id="previewTable"></table></div>
+      <div class="btn-row" style="margin-top:16px;">
+        <button class="btn primary" id="previewContinueBtn"><span data-i18n="btn_continue">Devam Et →</span></button>
+      </div>
     </div>
   </div>
 
@@ -920,9 +923,9 @@ function getGranularityLabels() {
   return { hour: 'Saat', day: 'Gün', week: 'Hafta', month: 'Ay' };
 }
 // Proxy objects so existing code using AGG_LABELS[x] etc. still works live
-const TYPE_LABELS = new Proxy({}, { get: (_, k) => getTypeLabels()[k] });
+const TYPE_LABELS = new Proxy({}, { get: (_, k) => getTypeLabels()[k], ownKeys: () => Object.keys(getTypeLabels()), getOwnPropertyDescriptor: (_, k) => ({ enumerable: true, configurable: true, value: getTypeLabels()[k] }) });
 const AGG_LABELS = new Proxy({}, { get: (_, k) => getAggLabels()[k], ownKeys: () => Object.keys(getAggLabels()), getOwnPropertyDescriptor: (_, k) => ({ enumerable: true, configurable: true, value: getAggLabels()[k] }) });
-const GRANULARITY_LABELS = new Proxy({}, { get: (_, k) => getGranularityLabels()[k] });
+const GRANULARITY_LABELS = new Proxy({}, { get: (_, k) => getGranularityLabels()[k], ownKeys: () => Object.keys(getGranularityLabels()), getOwnPropertyDescriptor: (_, k) => ({ enumerable: true, configurable: true, value: getGranularityLabels()[k] }) });
 
 function fmt(n, d = 1) {
   if (n === null || n === undefined || isNaN(n)) return '–';
@@ -1167,8 +1170,8 @@ document.getElementById('runJoinBtn').addEventListener('click', () => {
   document.getElementById('joinResult').innerHTML = '<div class="join-summary">' + summary + '</div>';
 
   setTimeout(() => {
+    renderPreview();
     renderMapTable();
-    goToStep(2);
   }, 700);
 });
 
@@ -1264,11 +1267,11 @@ function loadSheet(sheetName) {
     } else {
       renderPreview();
       renderMapTable();
-      goToStep(2);
       if (PENDING_TEMPLATE) {
         applyTemplate(PENDING_TEMPLATE);
         PENDING_TEMPLATE = null;
       }
+      // User clicks "Devam Et" on preview panel to proceed
     }
   } catch (err) {
     console.error(err);
@@ -1385,6 +1388,7 @@ function renderMapTable() {
   }
 }
 
+document.getElementById('previewContinueBtn').addEventListener('click', () => goToStep(2));
 document.getElementById('backTo1Btn').addEventListener('click', () => goToStep(1));
 document.getElementById('toStep3Btn').addEventListener('click', () => { renderModeConfig(); goToStep(3); });
 

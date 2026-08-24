@@ -268,30 +268,31 @@
         </div>
         <p class="eyebrow">Veri Analiz Atölyesi</p>
       </div>
-      <h1>Genel Analiz Aracı</h1>
-      <p class="sub">Herhangi bir Excel yükle, kolonları tanımla, ne görmek istediğini seç. Tamamen tarayıcında çalışır, veri hiçbir yere gönderilmez.</p>
-      <span class="trust-badge">Veri hiçbir sunucuya gönderilmez</span>
+      <h1 data-i18n="app_title">Genel Analiz Aracı</h1>
+      <p class="sub" data-i18n="app_sub">Herhangi bir Excel yükle, kolonları tanımla, ne görmek istediğini seç. Tamamen tarayıcında çalışır, veri hiçbir yere gönderilmez.</p>
+      <span class="trust-badge" data-i18n="trust_badge">Veri hiçbir sunucuya gönderilmez</span>
     </div>
     <div style="display:flex;align-items:center;gap:16px">
-      <a href="rehber.html" style="font-size:13px;color:var(--dim);text-decoration:none;font-family:'Inter',sans-serif;border-bottom:1px solid var(--line);padding-bottom:1px;transition:color .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--dim)'">Nasıl Kullanılır?</a>
-      <a href="/" style="font-size:13px;color:var(--dim);text-decoration:none;font-family:'Inter',sans-serif;border-bottom:1px solid var(--line);padding-bottom:1px;transition:color .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--dim)'">← Ana Sayfa</a>
+      <a href="rehber.html" data-i18n="nav_guide" style="font-size:13px;color:var(--dim);text-decoration:none;font-family:'Inter',sans-serif;border-bottom:1px solid var(--line);padding-bottom:1px;transition:color .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--dim)'">Nasıl Kullanılır?</a>
+      <a href="/" data-i18n="nav_home" style="font-size:13px;color:var(--dim);text-decoration:none;font-family:'Inter',sans-serif;border-bottom:1px solid var(--line);padding-bottom:1px;transition:color .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--dim)'">← Ana Sayfa</a>
+      <button id="langToggle" style="font-size:12px;font-family:'IBM Plex Mono',monospace;padding:4px 10px;border-radius:4px;border:1px solid var(--line);background:transparent;color:var(--dim);cursor:pointer;letter-spacing:.04em;">EN</button>
     </div>
   </header>
 
   <div class="step-track">
     <div class="step-node current" id="dot1">
       <div class="step-node-circle">1</div>
-      <span class="step-node-label">Yükle</span>
+      <span class="step-node-label" data-i18n="step_upload">Yükle</span>
     </div>
     <div class="step-conn" id="conn1"></div>
     <div class="step-node" id="dot2">
       <div class="step-node-circle">2</div>
-      <span class="step-node-label">Kolonlar</span>
+      <span class="step-node-label" data-i18n="step_columns">Kolonlar</span>
     </div>
     <div class="step-conn" id="conn2"></div>
     <div class="step-node" id="dot3">
       <div class="step-node-circle">3</div>
-      <span class="step-node-label">Analiz</span>
+      <span class="step-node-label" data-i18n="step_analyze">Analiz</span>
     </div>
   </div>
 
@@ -307,30 +308,30 @@
           <div class="mode-card-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="2" width="10" height="12" rx="1.5" stroke="#49B7AC" stroke-width="1.4"/><path d="M5 6h6M5 9h4" stroke="#49B7AC" stroke-width="1.2" stroke-linecap="round"/></svg>
           </div>
-          <div class="mode-card-title">Tek Dosya</div>
-          <div class="mode-card-desc">Tek bir Excel veya CSV yükle, analiz et.</div>
+          <div class="mode-card-title" data-i18n="mode_single_title">Tek Dosya</div>
+          <div class="mode-card-desc" data-i18n="mode_single_desc">Tek bir Excel veya CSV yükle, analiz et.</div>
         </div>
         <div class="mode-card" data-filemode="join">
           <div class="mode-card-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="6" height="8" rx="1" stroke="#49B7AC" stroke-width="1.4"/><rect x="9" y="4" width="6" height="8" rx="1" stroke="#49B7AC" stroke-width="1.4"/><path d="M7 8h2" stroke="#49B7AC" stroke-width="1.4" stroke-linecap="round"/></svg>
           </div>
-          <div class="mode-card-title">İki Dosyayı Birleştir</div>
-          <div class="mode-card-desc">Ortak kolon üzerinden eşleştir (VLOOKUP mantığı) — tek veri seti üretir.</div>
+          <div class="mode-card-title" data-i18n="mode_join_title">İki Dosyayı Birleştir</div>
+          <div class="mode-card-desc" data-i18n="mode_join_desc">Ortak kolon üzerinden eşleştir (VLOOKUP mantığı) — tek veri seti üretir.</div>
         </div>
         <div class="mode-card" data-filemode="compare">
           <div class="mode-card-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="6" height="10" rx="1" stroke="#49B7AC" stroke-width="1.4"/><rect x="9" y="3" width="6" height="10" rx="1" stroke="#49B7AC" stroke-width="1.4"/><path d="M4 7h2M10 7h2M4 10h2M10 10h2" stroke="#49B7AC" stroke-width="1.2" stroke-linecap="round"/></svg>
           </div>
-          <div class="mode-card-title">İki Dosyayı Karşılaştır</div>
-          <div class="mode-card-desc">Aynı analizi iki ayrı veri setine uygula, sonuçları yan yana gör.</div>
+          <div class="mode-card-title" data-i18n="mode_compare_title">İki Dosyayı Karşılaştır</div>
+          <div class="mode-card-desc" data-i18n="mode_compare_desc">Aynı analizi iki ayrı veri setine uygula, sonuçları yan yana gör.</div>
         </div>
       </div>
     </div>
 
     <!-- File upload panel -->
     <div class="panel">
-      <div class="panel-header"><div class="panel-num">2</div><h2 id="uploadPanelTitle">Dosyayı Yükle</h2></div>
-      <p class="section-note" id="uploadPanelNote">Excel (.xlsx, .xls) veya CSV dosyanı yükle. İlk satır başlık olarak okunur.</p>
+      <div class="panel-header"><div class="panel-num">2</div><h2 id="uploadPanelTitle" data-i18n="upload_title">Dosyayı Yükle</h2></div>
+      <p class="section-note" id="uploadPanelNote" data-i18n="upload_note">Excel (.xlsx, .xls) veya CSV dosyanı yükle. İlk satır başlık olarak okunur.</p>
 
       <!-- Single mode dropzone -->
       <div id="singleDropzoneWrap">
@@ -338,8 +339,8 @@
           <div class="dz-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 4L12 16M12 4L8 8M12 4L16 8" stroke="#49B7AC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V17" stroke="#49B7AC" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
-          <p class="dz-title">Dosyayı buraya sürükle</p>
-          <p class="dz-sub">ya da tıklayarak dosya seç</p>
+          <p class="dz-title" data-i18n="dz_title">Dosyayı buraya sürükle</p>
+          <p class="dz-sub" data-i18n="dz_sub">ya da tıklayarak dosya seç</p>
           <span class="hint">.xlsx &nbsp;·&nbsp; .xls &nbsp;·&nbsp; .csv</span>
           <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
         </div>
@@ -351,40 +352,40 @@
           <div>
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
               <span class="ab-badge a">A</span>
-              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);" id="fileALabel">Dosya A — Ana veri</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);" id="fileALabel" data-i18n="file_a_label">Dosya A — Ana veri</span>
             </div>
             <div class="dz-mini" id="dropzoneA">
-              <p class="dz-title">Dosya A'yı sürükle</p>
-              <p class="dz-sub">ya da tıkla</p>
+              <p class="dz-title" data-i18n="dz_a_title">Dosya A'yı sürükle</p>
+              <p class="dz-sub" data-i18n="dz_dual_sub">ya da tıkla</p>
               <span class="hint">.xlsx · .xls · .csv</span>
               <input type="file" id="fileInputA" accept=".xlsx,.xls,.csv" style="display:none;">
             </div>
             <div id="statusA" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);margin-top:8px;min-height:16px;"></div>
             <div id="sheetSelectRowA" class="hidden" style="margin-top:10px;">
-              <label style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;">Sayfa seç</label>
+              <label style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;" data-i18n="sheet_select_label">Sayfa seç</label>
               <div style="display:flex;gap:8px;flex-wrap:wrap;">
                 <select id="sheetSelectA" style="min-width:160px;"></select>
-                <button class="btn small primary" id="loadSheetBtnA">Yükle</button>
+                <button class="btn small primary" id="loadSheetBtnA" data-i18n="load_btn">Yükle</button>
               </div>
             </div>
           </div>
           <div>
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
               <span class="ab-badge b">B</span>
-              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);" id="fileBLabel">Dosya B — İkinci veri</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);" id="fileBLabel" data-i18n="file_b_label">Dosya B — İkinci veri</span>
             </div>
             <div class="dz-mini" id="dropzoneB">
-              <p class="dz-title">Dosya B'yi sürükle</p>
-              <p class="dz-sub">ya da tıkla</p>
+              <p class="dz-title" data-i18n="dz_b_title">Dosya B'yi sürükle</p>
+              <p class="dz-sub" data-i18n="dz_dual_sub">ya da tıkla</p>
               <span class="hint">.xlsx · .xls · .csv</span>
               <input type="file" id="fileInputB" accept=".xlsx,.xls,.csv" style="display:none;">
             </div>
             <div id="statusB" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--amber);margin-top:8px;min-height:16px;"></div>
             <div id="sheetSelectRowB" class="hidden" style="margin-top:10px;">
-              <label style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;">Sayfa seç</label>
+              <label style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;" data-i18n="sheet_select_label">Sayfa seç</label>
               <div style="display:flex;gap:8px;flex-wrap:wrap;">
                 <select id="sheetSelectB" style="min-width:160px;"></select>
-                <button class="btn small primary" id="loadSheetBtnB">Yükle</button>
+                <button class="btn small primary" id="loadSheetBtnB" data-i18n="load_btn">Yükle</button>
               </div>
             </div>
           </div>
@@ -393,36 +394,36 @@
 
       <div id="status"></div>
       <div id="sheetSelectRow" class="hidden" style="margin-top:16px;">
-        <label style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);display:block;margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase;">Dosyada birden fazla sayfa var — hangisini kullanalım?</label>
+        <label style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);display:block;margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase;" data-i18n="sheet_label">Dosyada birden fazla sayfa var — hangisini kullanalım?</label>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
           <select id="sheetSelect" style="min-width:220px;"></select>
-          <button class="btn small primary" id="loadSheetBtn">Bu Sayfayı Yükle</button>
+          <button class="btn small primary" id="loadSheetBtn" data-i18n="load_sheet_btn">Bu Sayfayı Yükle</button>
         </div>
       </div>
       <div class="template-row">
-        Daha önce kaydettiğin bir şablonun varsa <a id="templateLink">buradan yükle</a> — veriyle birlikte otomatik uygulanır.
+        <span data-i18n="template_row_before">Daha önce kaydettiğin bir şablonun varsa</span> <a id="templateLink" data-i18n="template_row_link">buradan yükle</a> <span data-i18n="template_row_after">— veriyle birlikte otomatik uygulanır.</span>
         <input type="file" id="templateInput" accept=".json">
       </div>
     </div>
 
     <!-- Join config panel (shown after both files loaded in join mode) -->
     <div class="panel hidden" id="joinConfigPanel">
-      <div class="panel-header"><div class="panel-num" style="background:var(--amber-soft);border-color:rgba(224,164,88,.3);color:var(--amber);">3</div><h2>Birleştirme Ayarı</h2></div>
-      <p class="section-note">Hangi kolon üzerinden eşleştirilsin? Dosya B'den hangi kolonlar Dosya A'ya ekleneceğini seç.</p>
+      <div class="panel-header"><div class="panel-num" style="background:var(--amber-soft);border-color:rgba(224,164,88,.3);color:var(--amber);">3</div><h2 data-i18n="join_title">Birleştirme Ayarı</h2></div>
+      <p class="section-note" data-i18n="join_note">Hangi kolon üzerinden eşleştirilsin? Dosya B'den hangi kolonlar Dosya A'ya ekleneceğini seç.</p>
       <div class="form-row">
-        <label>Dosya A — Anahtar Kolon</label>
+        <label data-i18n="join_key_a">Dosya A — Anahtar Kolon</label>
         <select id="joinKeyA" style="min-width:200px;"></select>
       </div>
       <div class="form-row">
-        <label>Dosya B — Anahtar Kolon</label>
+        <label data-i18n="join_key_b">Dosya B — Anahtar Kolon</label>
         <select id="joinKeyB" style="min-width:200px;"></select>
       </div>
       <div style="margin-top:16px;">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;">Dosya B'den Getirilecek Kolonlar</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;" data-i18n="join_cols_label">Dosya B'den Getirilecek Kolonlar</div>
         <div class="col-check-list" id="joinColChecks"></div>
       </div>
       <div class="btn-row" style="margin-top:20px;">
-        <button class="btn primary" id="runJoinBtn">Birleştir ve Devam Et →</button>
+        <button class="btn primary" id="runJoinBtn" data-i18n="join_btn">Birleştir ve Devam Et →</button>
       </div>
       <div id="joinResult" style="margin-top:12px;"></div>
     </div>
@@ -431,16 +432,16 @@
     <div class="panel hidden" id="compareReadyPanel">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
         <div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;margin-bottom:4px;">Her iki dosya yüklendi</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;margin-bottom:4px;" data-i18n="compare_ready_title">Her iki dosya yüklendi</div>
           <div style="font-size:12.5px;color:var(--dim);" id="compareReadyNote">Kolon tiplerini kontrol et, ardından analizi kur.</div>
         </div>
-        <button class="btn primary" id="compareToStep2Btn">Kolonları Tanı →</button>
+        <button class="btn primary" id="compareToStep2Btn" data-i18n="compare_to_step2_btn">Kolonları Tanı →</button>
       </div>
     </div>
 
     <div class="panel hidden" id="previewPanel">
       <div class="preview-panel-head">
-        <h2>Veri Önizleme</h2>
+        <h2 data-i18n="preview_title">Veri Önizleme</h2>
         <span class="preview-badge" id="previewNote"></span>
       </div>
       <div style="overflow-x:auto;"><table class="resulttable" id="previewTable"></table></div>
@@ -450,8 +451,8 @@
   <!-- STEP 2: COLUMN MAPPING -->
   <div class="step" id="step2">
     <div class="panel">
-      <div class="panel-header"><div class="panel-num">2</div><h2>Kolonları Tanı</h2></div>
-      <p class="section-note">Her kolonun tipini otomatik tahmin ettim. Yanlış görünen varsa dropdown'dan düzelt.</p>
+      <div class="panel-header"><div class="panel-num">2</div><h2 data-i18n="step2_title">Kolonları Tanı</h2></div>
+      <p class="section-note" data-i18n="step2_note">Her kolonun tipini otomatik tahmin ettim. Yanlış görünen varsa dropdown'dan düzelt.</p>
       <!-- single mode -->
       <table class="maptable" id="mapTable"></table>
       <!-- compare mode -->
@@ -466,8 +467,8 @@
         </div>
       </div>
       <div class="btn-row">
-        <button class="btn primary" id="toStep3Btn">Devam Et →</button>
-        <button class="btn ghost" id="backTo1Btn">← Geri</button>
+        <button class="btn primary" id="toStep3Btn" data-i18n="continue_btn">Devam Et →</button>
+        <button class="btn ghost" id="backTo1Btn" data-i18n="back_btn">← Geri</button>
       </div>
     </div>
   </div>
@@ -475,40 +476,40 @@
   <!-- STEP 3: ANALYSIS BUILDER -->
   <div class="step" id="step3">
     <div class="panel">
-      <div class="panel-header"><div class="panel-num">3</div><h2>Analizi Kur</h2></div>
-      <p class="section-note">Ne görmek istediğini seç: zaman içinde değişim mi, kategori kırılımı mı, yoksa ikisi bir arada mı (pivot).</p>
+      <div class="panel-header"><div class="panel-num">3</div><h2 data-i18n="step3_title">Analizi Kur</h2></div>
+      <p class="section-note" data-i18n="step3_note">Ne görmek istediğini seç: zaman içinde değişim mi, kategori kırılımı mı, yoksa ikisi bir arada mı (pivot).</p>
       <div class="tabs" id="modeTabs">
-        <div class="tab active" data-mode="timeseries">Zaman Serisi</div>
-        <div class="tab" data-mode="category">Kategori Kırılımı</div>
-        <div class="tab" data-mode="pivot">Pivot (Kategori × Zaman)</div>
+        <div class="tab active" data-mode="timeseries" data-i18n="tab_timeseries">Zaman Serisi</div>
+        <div class="tab" data-mode="category" data-i18n="tab_category">Kategori Kırılımı</div>
+        <div class="tab" data-mode="pivot" data-i18n="tab_pivot">Pivot (Kategori × Zaman)</div>
       </div>
 
       <div id="modeConfig"></div>
 
       <div class="sub-section">
         <div class="sub-section-title">
-          Filtreler
-          <span class="sub-section-note">opsiyonel</span>
+          <span data-i18n="filters_title">Filtreler</span>
+          <span class="sub-section-note" data-i18n="optional_label">opsiyonel</span>
         </div>
         <div id="filterList" style="margin-top:10px;"></div>
-        <span class="add-link" id="addFilterLink">+ filtre ekle</span>
+        <span class="add-link" id="addFilterLink" data-i18n="add_filter_link">+ filtre ekle</span>
       </div>
 
       <div class="sub-section">
         <div class="sub-section-title">
-          Hesaplanan Alanlar
-          <span class="sub-section-note">opsiyonel — örn. {duration_sec} / 60</span>
+          <span data-i18n="formulas_title">Hesaplanan Alanlar</span>
+          <span class="sub-section-note" data-i18n="optional_label">opsiyonel</span>
         </div>
         <div id="formulaList" style="margin-top:10px;"></div>
-        <span class="add-link" id="addFormulaLink">+ hesaplanan alan ekle</span>
+        <span class="add-link" id="addFormulaLink" data-i18n="add_formula_link">+ hesaplanan alan ekle</span>
       </div>
 
       <div class="btn-row" style="margin-top:28px;">
         <button class="btn primary" id="runBtn">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2.5L11 7L3 11.5V2.5Z" fill="currentColor"/></svg>
-          Analizi Çalıştır
+          <span data-i18n="run_btn">Analizi Çalıştır</span>
         </button>
-        <button class="btn ghost" id="backTo2Btn">← Geri</button>
+        <button class="btn ghost" id="backTo2Btn" data-i18n="back_btn">← Geri</button>
       </div>
     </div>
   </div>
@@ -516,11 +517,11 @@
   <!-- NLQ persistent panel (visible from step 3 onwards) -->
   <div id="nlqSection" class="hidden">
     <div class="panel">
-      <div class="panel-header"><div class="panel-num" style="background:rgba(108,140,255,.12);border-color:rgba(108,140,255,.35);color:var(--blue);">?</div><h2>Verin Hakkında Soru Sor</h2></div>
-      <p class="section-note">Kural tabanlı, AI yok — veri hiçbir yere gitmiyor. Örn: <em>"toplam satış ne kadar?"</em>, <em>"en çok satan 5 ürün"</em>, <em>"İstanbul'da toplam satış"</em>, <em>"aylık trend"</em></p>
+      <div class="panel-header"><div class="panel-num" style="background:rgba(108,140,255,.12);border-color:rgba(108,140,255,.35);color:var(--blue);">?</div><h2 data-i18n="nlq_title">Verin Hakkında Soru Sor</h2></div>
+      <p class="section-note" data-i18n-html="nlq_note">Kural tabanlı, AI yok — veri hiçbir yere gitmiyor. Örn: <em>"toplam satış ne kadar?"</em>, <em>"en çok satan 5 ürün"</em>, <em>"İstanbul'da toplam satış"</em>, <em>"aylık trend"</em></p>
       <div class="nlq-input-row">
-        <input type="text" id="nlqInput" placeholder="Bir şey sor...">
-        <button class="btn primary" id="nlqAskBtn">Sor</button>
+        <input type="text" id="nlqInput" placeholder="Bir şey sor..." data-i18n-placeholder="nlq_placeholder">
+        <button class="btn primary" id="nlqAskBtn" data-i18n="nlq_ask_btn">Sor</button>
       </div>
       <div id="nlqFeedback"></div>
     </div>
@@ -530,32 +531,357 @@
   <div class="step" id="step4">
     <div class="panel">
       <div class="result-header">
-        <h2 id="resultTitle">Sonuçlar</h2>
+        <h2 id="resultTitle" data-i18n="results_title">Sonuçlar</h2>
         <span class="result-meta" id="resultMeta"></span>
       </div>
       <div class="kpis" id="resultKpis"></div>
       <div id="chart-wrap" class="hidden" style="position:relative"><canvas id="mainChart" height="100"></canvas><button id="downloadChartBtn" title="Grafiği PNG olarak indir" style="position:absolute;top:10px;right:10px;background:rgba(24,28,34,.85);border:1px solid var(--line);color:var(--dim);font-size:11px;font-family:'IBM Plex Mono',monospace;padding:4px 10px;border-radius:4px;cursor:pointer;">↓ PNG</button></div>
       <div id="resultTableWrap"></div>
       <div class="btn-row" style="margin-top:28px;padding-top:20px;border-top:1px solid var(--line);">
-        <button class="btn" id="downloadXlsxBtn">Excel İndir</button>
-        <button class="btn" id="downloadCsvBtn">CSV İndir</button>
-        <button class="btn" id="downloadTemplateBtn">Şablonu İndir</button>
-        <button class="btn ghost" id="backTo3Btn">← Ayarlara Dön</button>
-        <button class="btn ghost" id="resetBtn">Yeni Analiz</button>
+        <button class="btn" id="downloadXlsxBtn" data-i18n="download_xlsx">Excel İndir</button>
+        <button class="btn" id="downloadCsvBtn" data-i18n="download_csv">CSV İndir</button>
+        <button class="btn" id="downloadTemplateBtn" data-i18n="download_template">Şablonu İndir</button>
+        <button class="btn ghost" id="backTo3Btn" data-i18n="back_to_settings">← Ayarlara Dön</button>
+        <button class="btn ghost" id="resetBtn" data-i18n="new_analysis">Yeni Analiz</button>
       </div>
     </div>
   </div>
 
   <footer>
-    <span><span class="footer-dot"></span>Tüm hesaplama tarayıcında yapılır, veri hiçbir yere gönderilmez.</span>
+    <span><span class="footer-dot"></span><span data-i18n="footer_privacy">Tüm hesaplama tarayıcında yapılır, veri hiçbir yere gönderilmez.</span></span>
     <div style="display:flex;gap:16px">
-      <a href="/" style="color:var(--dim);text-decoration:none;border-bottom:1px solid var(--line);">← Ana Sayfa</a>
-      <a href="rehber.html" style="color:var(--dim);text-decoration:none;border-bottom:1px solid var(--line);">Rehber</a>
+      <a href="/" data-i18n="footer_home" style="color:var(--dim);text-decoration:none;border-bottom:1px solid var(--line);">← Ana Sayfa</a>
+      <a href="rehber.html" data-i18n="footer_guide" style="color:var(--dim);text-decoration:none;border-bottom:1px solid var(--line);">Rehber</a>
     </div>
   </footer>
 </div>
 
 <script>
+// ============================================================
+// LANGUAGE
+// ============================================================
+let LANG = 'tr';
+
+const STRINGS = {
+  tr: {
+    // Header
+    app_title: 'Genel Analiz Aracı',
+    app_sub: 'Herhangi bir Excel yükle, kolonları tanımla, ne görmek istediğini seç. Tamamen tarayıcında çalışır, veri hiçbir yere gönderilmez.',
+    trust_badge: 'Veri hiçbir sunucuya gönderilmez',
+    nav_guide: 'Nasıl Kullanılır?',
+    nav_home: '← Ana Sayfa',
+    // Step nodes
+    step_upload: 'Yükle',
+    step_columns: 'Kolonlar',
+    step_analyze: 'Analiz',
+    // Mode cards
+    mode_single_title: 'Tek Dosya',
+    mode_single_desc: 'Tek bir Excel veya CSV yükle, analiz et.',
+    mode_join_title: 'İki Dosyayı Birleştir',
+    mode_join_desc: 'Ortak kolon üzerinden eşleştir (VLOOKUP mantığı) — tek veri seti üretir.',
+    mode_compare_title: 'İki Dosyayı Karşılaştır',
+    mode_compare_desc: 'Aynı analizi iki ayrı veri setine uygula, sonuçları yan yana gör.',
+    // Upload panel
+    upload_title: 'Dosyayı Yükle',
+    upload_note: 'Excel (.xlsx, .xls) veya CSV dosyanı yükle. İlk satır başlık olarak okunur.',
+    dz_title: 'Dosyayı buraya sürükle',
+    dz_sub: 'ya da tıklayarak dosya seç',
+    dz_a_title: "Dosya A'yı sürükle",
+    dz_b_title: "Dosya B'yi sürükle",
+    dz_dual_sub: 'ya da tıkla',
+    file_a_label: 'Dosya A — Ana veri',
+    file_b_label: 'Dosya B — İkinci veri',
+    sheet_label: 'Dosyada birden fazla sayfa var — hangisini kullanalım?',
+    sheet_select_label: 'Sayfa seç',
+    load_sheet_btn: 'Bu Sayfayı Yükle',
+    load_btn: 'Yükle',
+    template_row_before: 'Daha önce kaydettiğin bir şablonun varsa',
+    template_row_link: 'buradan yükle',
+    template_row_after: '— veriyle birlikte otomatik uygulanır.',
+    // Join panel
+    join_title: 'Birleştirme Ayarı',
+    join_note: "Hangi kolon üzerinden eşleştirilsin? Dosya B'den hangi kolonlar Dosya A'ya ekleneceğini seç.",
+    join_key_a: 'Dosya A — Anahtar Kolon',
+    join_key_b: 'Dosya B — Anahtar Kolon',
+    join_cols_label: "Dosya B'den Getirilecek Kolonlar",
+    join_btn: 'Birleştir ve Devam Et →',
+    // Compare ready
+    compare_ready_title: 'Her iki dosya yüklendi',
+    compare_to_step2_btn: 'Kolonları Tanı →',
+    // Preview
+    preview_title: 'Veri Önizleme',
+    preview_note: 'İlk 8 satır — kolonların doğru okunduğunu buradan kontrol edebilirsin.',
+    // Step 2
+    step2_title: 'Kolonları Tanı',
+    step2_note: "Her kolonun tipini otomatik tahmin ettim. Yanlış görünen varsa dropdown'dan düzelt.",
+    continue_btn: 'Devam Et →',
+    back_btn: '← Geri',
+    // Step 3
+    step3_title: 'Analizi Kur',
+    step3_note: 'Ne görmek istediğini seç: zaman içinde değişim mi, kategori kırılımı mı, yoksa ikisi bir arada mı (pivot).',
+    tab_timeseries: 'Zaman Serisi',
+    tab_category: 'Kategori Kırılımı',
+    tab_pivot: 'Pivot (Kategori × Zaman)',
+    filters_title: 'Filtreler',
+    optional_label: 'opsiyonel',
+    add_filter_link: '+ filtre ekle',
+    formulas_title: 'Hesaplanan Alanlar',
+    add_formula_link: '+ hesaplanan alan ekle',
+    run_btn: 'Analizi Çalıştır',
+    // NLQ
+    nlq_title: 'Verin Hakkında Soru Sor',
+    nlq_note: 'Kural tabanlı, AI yok — veri hiçbir yere gitmiyor. Örn: <em>"toplam satış ne kadar?"</em>, <em>"en çok satan 5 ürün"</em>, <em>"İstanbul\'da toplam satış"</em>, <em>"aylık trend"</em>',
+    nlq_placeholder: 'Bir şey sor...',
+    nlq_ask_btn: 'Sor',
+    // Step 4
+    results_title: 'Sonuçlar',
+    download_xlsx: 'Excel İndir',
+    download_csv: 'CSV İndir',
+    download_template: 'Şablonu İndir',
+    back_to_settings: '← Ayarlara Dön',
+    new_analysis: 'Yeni Analiz',
+    // Footer
+    footer_privacy: 'Tüm hesaplama tarayıcında yapılır, veri hiçbir yere gönderilmez.',
+    footer_home: '← Ana Sayfa',
+    footer_guide: 'Rehber',
+    // renderModeConfig labels
+    cfg_time_col: 'Zaman Kolonu',
+    cfg_granularity: 'Zaman Dilimi',
+    cfg_split: 'Seriye Ayır',
+    cfg_single_series: '— (tek seri)',
+    cfg_category: 'Kategori Kolonu',
+    cfg_sort: 'Sırala',
+    cfg_sort_desc: 'Büyükten küçüğe',
+    cfg_sort_asc: 'Küçükten büyüğe',
+    cfg_chart_type: 'Grafik Tipi',
+    cfg_chart_bar: 'Bar',
+    cfg_chart_pie: 'Pasta',
+    cfg_top_n: 'İlk N',
+    cfg_row_col: 'Satırlar (Kategori)',
+    cfg_col_col: 'Kolonlar (Zaman)',
+    cfg_value: 'Değer',
+    cfg_operation: 'İşlem',
+    add_metric: '+ metrik ekle',
+    // formula / filter placeholders
+    formula_name_ph: 'alan adı',
+    filter_val_ph: 'değer',
+    // KPI labels
+    kpi_total_rows: 'Toplam Satır',
+    kpi_after_filter: 'Filtre Sonrası',
+    kpi_time_buckets: 'Zaman Dilimi Sayısı',
+    kpi_categories: 'Kategori Sayısı',
+    kpi_cat_x_time: 'Kategori × Zaman',
+    kpi_common_key: 'Ortak Anahtar',
+    // compare labels
+    fark_pct: 'Fark %',
+    file_a: 'Dosya A',
+    file_b: 'Dosya B',
+    // result titles
+    time_series_title: 'Zaman Serisi',
+    time_series_by: 'Bazında',
+    category_title: 'Kategori Kırılımı',
+    pivot_title: 'Pivot',
+    compare_label: 'Karşılaştırma',
+    // status messages
+    reading: 'Okunuyor: ',
+    no_rows_found: 'Satır bulunamadı.',
+    error_prefix: 'Hata: ',
+    rows_loaded: 'satır',
+    cols_loaded: 'kolon',
+    sheets_found: 'sayfa — birini seç.',
+    // errors
+    err_no_rows_filter: 'Filtrelerden sonra hiç satır kalmadı. Filtreleri gözden geçir.',
+    err_analysis: 'Analiz çalıştırılırken hata oluştu:',
+    err_no_rows_nlq: 'Filtrelerden sonra hiç satır kalmadı.',
+    // NLQ explain
+    nlq_understood: 'Şunu anladım:',
+    nlq_by: "'a göre",
+    nlq_top_n: 'ilk',
+    nlq_top_dir: '(büyükten küçüğe)',
+    nlq_bot_dir: '(küçükten büyüğe)',
+    nlq_last: 'son',
+    nlq_time_series_suffix: 'bazında zaman serisi',
+    nlq_filter_prefix: 'filtre: ',
+    // NLQ clarify questions
+    nlq_which_metric: 'Hangi sayısal kolonu kullanayım?',
+    nlq_which_measure: 'Hangi ölçümü kullanayım?',
+    nlq_no_num_col: "Sayısal bir kolon bulunamadı. Kolon tiplerini Adım 2'de kontrol et.",
+    nlq_which_group: 'Hangi kolona göre gruplandırayım?',
+    nlq_which_sort: 'Hangi kolona göre sıralayayım?',
+    nlq_no_date: 'Tarih kolonu bulunamadı.',
+    nlq_which_date: 'Hangi tarih kolonunu kullanalım?',
+    nlq_no_group: 'Gruplama kolonu bulunamadı.',
+    nlq_not_understood_suffix: 'Desteklenen kalıplar: "toplam X", "en çok satan N Y", "X\'e göre ortalama Z", "aylık Z trendi"',
+    nlq_error_prefix: 'Hata: ',
+  },
+  en: {
+    // Header
+    app_title: 'Data Analysis Tool',
+    app_sub: 'Upload any Excel or CSV, map columns, choose what to see. Runs entirely in your browser — no data ever leaves your device.',
+    trust_badge: 'No data sent to any server',
+    nav_guide: 'How to Use?',
+    nav_home: '← Home',
+    // Step nodes
+    step_upload: 'Upload',
+    step_columns: 'Columns',
+    step_analyze: 'Analyze',
+    // Mode cards
+    mode_single_title: 'Single File',
+    mode_single_desc: 'Upload one Excel or CSV and analyze it.',
+    mode_join_title: 'Join Two Files',
+    mode_join_desc: 'Match on a common column (VLOOKUP logic) — produces one merged dataset.',
+    mode_compare_title: 'Compare Two Files',
+    mode_compare_desc: 'Run the same analysis on two datasets side by side.',
+    // Upload panel
+    upload_title: 'Upload File',
+    upload_note: 'Upload an Excel (.xlsx, .xls) or CSV file. First row is treated as the header.',
+    dz_title: 'Drag file here',
+    dz_sub: 'or click to browse',
+    dz_a_title: 'Drag File A here',
+    dz_b_title: 'Drag File B here',
+    dz_dual_sub: 'or click',
+    file_a_label: 'File A — Primary data',
+    file_b_label: 'File B — Secondary data',
+    sheet_label: 'File has multiple sheets — which one should we use?',
+    sheet_select_label: 'Select sheet',
+    load_sheet_btn: 'Load This Sheet',
+    load_btn: 'Load',
+    template_row_before: 'Have a saved template?',
+    template_row_link: 'Load it here',
+    template_row_after: '— settings apply automatically.',
+    // Join panel
+    join_title: 'Join Settings',
+    join_note: 'Which column to use for matching? Select which columns from File B to bring into File A.',
+    join_key_a: 'File A — Key Column',
+    join_key_b: 'File B — Key Column',
+    join_cols_label: 'Columns to bring from File B',
+    join_btn: 'Join & Continue →',
+    // Compare ready
+    compare_ready_title: 'Both files loaded',
+    compare_to_step2_btn: 'Map Columns →',
+    // Preview
+    preview_title: 'Data Preview',
+    preview_note: 'First 8 rows — check that columns are read correctly.',
+    // Step 2
+    step2_title: 'Map Columns',
+    step2_note: 'Column types are auto-detected. Fix any that look wrong using the dropdowns.',
+    continue_btn: 'Continue →',
+    back_btn: '← Back',
+    // Step 3
+    step3_title: 'Set Up Analysis',
+    step3_note: 'Choose what to see: trend over time, category breakdown, or both (pivot).',
+    tab_timeseries: 'Time Series',
+    tab_category: 'Category Breakdown',
+    tab_pivot: 'Pivot (Category × Time)',
+    filters_title: 'Filters',
+    optional_label: 'optional',
+    add_filter_link: '+ add filter',
+    formulas_title: 'Calculated Fields',
+    add_formula_link: '+ add calculated field',
+    run_btn: 'Run Analysis',
+    // NLQ
+    nlq_title: 'Ask Questions About Your Data',
+    nlq_note: 'Rule-based, no AI — data never leaves your device. e.g.: <em>"total sales"</em>, <em>"top 5 products"</em>, <em>"sales in London"</em>, <em>"monthly trend"</em>',
+    nlq_placeholder: 'Ask something...',
+    nlq_ask_btn: 'Ask',
+    // Step 4
+    results_title: 'Results',
+    download_xlsx: 'Download Excel',
+    download_csv: 'Download CSV',
+    download_template: 'Save Template',
+    back_to_settings: '← Back to Settings',
+    new_analysis: 'New Analysis',
+    // Footer
+    footer_privacy: 'All computation runs in your browser — no data is ever sent anywhere.',
+    footer_home: '← Home',
+    footer_guide: 'Guide',
+    // renderModeConfig labels
+    cfg_time_col: 'Time Column',
+    cfg_granularity: 'Granularity',
+    cfg_split: 'Split By',
+    cfg_single_series: '— (single series)',
+    cfg_category: 'Category Column',
+    cfg_sort: 'Sort',
+    cfg_sort_desc: 'Largest first',
+    cfg_sort_asc: 'Smallest first',
+    cfg_chart_type: 'Chart Type',
+    cfg_chart_bar: 'Bar',
+    cfg_chart_pie: 'Pie',
+    cfg_top_n: 'Top N',
+    cfg_row_col: 'Rows (Category)',
+    cfg_col_col: 'Columns (Time)',
+    cfg_value: 'Value',
+    cfg_operation: 'Operation',
+    add_metric: '+ add metric',
+    // formula / filter placeholders
+    formula_name_ph: 'field name',
+    filter_val_ph: 'value',
+    // KPI labels
+    kpi_total_rows: 'Total Rows',
+    kpi_after_filter: 'After Filter',
+    kpi_time_buckets: 'Time Buckets',
+    kpi_categories: 'Categories',
+    kpi_cat_x_time: 'Category × Time',
+    kpi_common_key: 'Common Keys',
+    // compare labels
+    fark_pct: 'Diff %',
+    file_a: 'File A',
+    file_b: 'File B',
+    // result titles
+    time_series_title: 'Time Series',
+    time_series_by: 'By',
+    category_title: 'Category Breakdown',
+    pivot_title: 'Pivot',
+    compare_label: 'Comparison',
+    // status messages
+    reading: 'Reading: ',
+    no_rows_found: 'No rows found.',
+    error_prefix: 'Error: ',
+    rows_loaded: 'rows',
+    cols_loaded: 'columns',
+    sheets_found: 'sheets — select one.',
+    // errors
+    err_no_rows_filter: 'No rows left after filters. Review your filters.',
+    err_analysis: 'Error running analysis:',
+    err_no_rows_nlq: 'No rows left after filters.',
+    // NLQ explain
+    nlq_understood: 'I understood:',
+    nlq_by: ' by',
+    nlq_top_n: 'top',
+    nlq_top_dir: '(largest first)',
+    nlq_bot_dir: '(smallest first)',
+    nlq_last: 'bottom',
+    nlq_time_series_suffix: 'time series by',
+    nlq_filter_prefix: 'filter: ',
+    // NLQ clarify questions
+    nlq_which_metric: 'Which numeric column should I use?',
+    nlq_which_measure: 'Which measure should I use?',
+    nlq_no_num_col: "No numeric column found. Check column types in Step 2.",
+    nlq_which_group: 'Which column should I group by?',
+    nlq_which_sort: 'Which column should I sort by?',
+    nlq_no_date: 'No date column found.',
+    nlq_which_date: 'Which date column should we use?',
+    nlq_no_group: 'No grouping column found.',
+    nlq_not_understood_suffix: 'Supported patterns: "total X", "top N Y by Z", "average Z by X", "monthly Z trend"',
+    nlq_error_prefix: 'Error: ',
+  }
+};
+
+function t(key) { return (STRINGS[LANG] || STRINGS.tr)[key] || key; }
+
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
+  const toggle = document.getElementById('langToggle');
+  if (toggle) toggle.textContent = LANG === 'tr' ? 'EN' : 'TR';
+  if (HEADERS.length) {
+    renderModeConfig();
+    renderFormulaList();
+    renderFilterList();
+  }
+}
+
 // ============================================================
 // STATE
 // ============================================================
@@ -581,9 +907,22 @@ let FILE_B_NAME = '';
 let METRICS_B = [];         // parallel to METRICS for compare mode, [{col}]
 let MODE_CONFIG_B = {};     // compare-side column selections
 
-const TYPE_LABELS = { date: 'TARİH', number: 'SAYI', category: 'KATEGORİ', text: 'METİN', id: 'KİMLİK' };
-const AGG_LABELS = { sum: 'Toplam', avg: 'Ortalama', count: 'Sayı', count_distinct: 'Farklı Sayı', min: 'Min', max: 'Max' };
-const GRANULARITY_LABELS = { hour: 'Saat', day: 'Gün', week: 'Hafta', month: 'Ay' };
+function getTypeLabels() {
+  if (LANG === 'en') return { date: 'DATE', number: 'NUMBER', category: 'CATEGORY', text: 'TEXT', id: 'ID' };
+  return { date: 'TARİH', number: 'SAYI', category: 'KATEGORİ', text: 'METİN', id: 'KİMLİK' };
+}
+function getAggLabels() {
+  if (LANG === 'en') return { sum: 'Sum', avg: 'Average', count: 'Count', count_distinct: 'Distinct Count', min: 'Min', max: 'Max' };
+  return { sum: 'Toplam', avg: 'Ortalama', count: 'Sayı', count_distinct: 'Farklı Sayı', min: 'Min', max: 'Max' };
+}
+function getGranularityLabels() {
+  if (LANG === 'en') return { hour: 'Hour', day: 'Day', week: 'Week', month: 'Month' };
+  return { hour: 'Saat', day: 'Gün', week: 'Hafta', month: 'Ay' };
+}
+// Proxy objects so existing code using AGG_LABELS[x] etc. still works live
+const TYPE_LABELS = new Proxy({}, { get: (_, k) => getTypeLabels()[k] });
+const AGG_LABELS = new Proxy({}, { get: (_, k) => getAggLabels()[k], ownKeys: () => Object.keys(getAggLabels()), getOwnPropertyDescriptor: (_, k) => ({ enumerable: true, configurable: true, value: getAggLabels()[k] }) });
+const GRANULARITY_LABELS = new Proxy({}, { get: (_, k) => getGranularityLabels()[k] });
 
 function fmt(n, d = 1) {
   if (n === null || n === undefined || isNaN(n)) return '–';
@@ -621,6 +960,15 @@ function goToStep(n) {
   if (nlqSec) nlqSec.classList.toggle('hidden', n < 3);
 }
 
+// ── Language toggle ─────────────────────────────────────────
+document.getElementById('langToggle').addEventListener('click', () => {
+  LANG = LANG === 'tr' ? 'en' : 'tr';
+  document.documentElement.lang = LANG;
+  applyLang();
+});
+// Apply default language on load
+applyLang();
+
 // ============================================================
 // MODE CARD SELECTOR
 // ============================================================
@@ -640,8 +988,8 @@ document.querySelectorAll('.mode-card').forEach(card => {
       dual.style.display = 'none';
       joinCfg.classList.add('hidden');
       cmpReady.classList.add('hidden');
-      document.getElementById('uploadPanelTitle').textContent = 'Dosyayı Yükle';
-      document.getElementById('uploadPanelNote').textContent = 'Excel (.xlsx, .xls) veya CSV dosyanı yükle. İlk satır başlık olarak okunur.';
+      document.getElementById('uploadPanelTitle').textContent = t('upload_title');
+      document.getElementById('uploadPanelNote').textContent = t('upload_note');
     } else {
       single.style.display = 'none';
       dual.style.display = '';
@@ -649,15 +997,15 @@ document.querySelectorAll('.mode-card').forEach(card => {
       joinCfg.classList.add('hidden');
       cmpReady.classList.add('hidden');
       if (FILE_MODE === 'join') {
-        document.getElementById('uploadPanelTitle').textContent = 'İki Dosyayı Yükle';
-        document.getElementById('uploadPanelNote').textContent = 'Dosya A ana veridir, Dosya B\'den kolon(lar) getirilir.';
-        document.getElementById('fileALabel').textContent = 'Dosya A — Ana veri';
-        document.getElementById('fileBLabel').textContent = 'Dosya B — Eklenecek kolonlar';
+        document.getElementById('uploadPanelTitle').textContent = LANG === 'en' ? 'Upload Two Files' : 'İki Dosyayı Yükle';
+        document.getElementById('uploadPanelNote').textContent = LANG === 'en' ? 'File A is the primary dataset; columns from File B will be added to it.' : "Dosya A ana veridir, Dosya B'den kolon(lar) getirilir.";
+        document.getElementById('fileALabel').textContent = t('file_a_label');
+        document.getElementById('fileBLabel').textContent = LANG === 'en' ? 'File B — Columns to add' : 'Dosya B — Eklenecek kolonlar';
       } else {
-        document.getElementById('uploadPanelTitle').textContent = 'İki Dosyayı Yükle';
-        document.getElementById('uploadPanelNote').textContent = 'Her iki dosyaya aynı analiz uygulanır, sonuçlar yan yana karşılaştırılır.';
-        document.getElementById('fileALabel').textContent = 'Dosya A';
-        document.getElementById('fileBLabel').textContent = 'Dosya B';
+        document.getElementById('uploadPanelTitle').textContent = LANG === 'en' ? 'Upload Two Files' : 'İki Dosyayı Yükle';
+        document.getElementById('uploadPanelNote').textContent = LANG === 'en' ? 'The same analysis is applied to both files and results are shown side by side.' : 'Her iki dosyaya aynı analiz uygulanır, sonuçlar yan yana karşılaştırılır.';
+        document.getElementById('fileALabel').textContent = t('file_a');
+        document.getElementById('fileBLabel').textContent = t('file_b');
       }
       // reset B loaded state
       RAW_ROWS_B = []; HEADERS_B = []; WB_B = null; FILE_B_NAME = '';
@@ -697,7 +1045,7 @@ setupDualDropzone('dropzoneB', 'fileInputB', handleFileB);
 
 function handleFileA(file) {
   FILE_A_NAME = file.name;
-  document.getElementById('statusA').textContent = 'Okunuyor: ' + file.name + ' ...';
+  document.getElementById('statusA').textContent = t('reading') + file.name + ' ...';
   document.getElementById('sheetSelectRowA').classList.add('hidden');
   const isCsv = file.name.toLowerCase().endsWith('.csv');
   const reader = new FileReader();
@@ -711,29 +1059,29 @@ function handleFileA(file) {
         const sel = document.getElementById('sheetSelectA');
         sel.innerHTML = wb.SheetNames.map(n => `<option value="${n}">${n}</option>`).join('');
         document.getElementById('sheetSelectRowA').classList.remove('hidden');
-        document.getElementById('statusA').textContent = wb.SheetNames.length + ' sayfa — birini seç.';
+        document.getElementById('statusA').textContent = wb.SheetNames.length + ' ' + t('sheets_found');
         document.getElementById('loadSheetBtnA').onclick = () => loadSheetA(sel.value);
       } else {
         loadSheetA(wb.SheetNames[0]);
       }
-    } catch(err) { document.getElementById('statusA').textContent = 'Hata: ' + err.message; }
+    } catch(err) { document.getElementById('statusA').textContent = t('error_prefix') + err.message; }
   };
   isCsv ? reader.readAsText(file, 'UTF-8') : reader.readAsArrayBuffer(file);
 }
 
 function loadSheetA(sheetName) {
   const rows = XLSX.utils.sheet_to_json(WB_A.Sheets[sheetName], { defval: null, raw: true });
-  if (!rows.length) { document.getElementById('statusA').textContent = 'Satır bulunamadı.'; return; }
+  if (!rows.length) { document.getElementById('statusA').textContent = t('no_rows_found'); return; }
   RAW_ROWS = rows; HEADERS = Object.keys(rows[0]);
   COLUMN_TYPES = detectColumnTypes(RAW_ROWS, HEADERS);
-  document.getElementById('statusA').textContent = '✓ ' + rows.length.toLocaleString('tr-TR') + ' satır, ' + HEADERS.length + ' kolon';
+  document.getElementById('statusA').textContent = '✓ ' + rows.length.toLocaleString('tr-TR') + ' ' + t('rows_loaded') + ', ' + HEADERS.length + ' ' + t('cols_loaded');
   document.getElementById('dropzoneA').classList.add('loaded');
   checkBothFilesLoaded();
 }
 
 function handleFileB(file) {
   FILE_B_NAME = file.name;
-  document.getElementById('statusB').textContent = 'Okunuyor: ' + file.name + ' ...';
+  document.getElementById('statusB').textContent = t('reading') + file.name + ' ...';
   document.getElementById('sheetSelectRowB').classList.add('hidden');
   const isCsv = file.name.toLowerCase().endsWith('.csv');
   const reader = new FileReader();
@@ -747,22 +1095,22 @@ function handleFileB(file) {
         const sel = document.getElementById('sheetSelectB');
         sel.innerHTML = wb.SheetNames.map(n => `<option value="${n}">${n}</option>`).join('');
         document.getElementById('sheetSelectRowB').classList.remove('hidden');
-        document.getElementById('statusB').textContent = wb.SheetNames.length + ' sayfa — birini seç.';
+        document.getElementById('statusB').textContent = wb.SheetNames.length + ' ' + t('sheets_found');
         document.getElementById('loadSheetBtnB').onclick = () => loadSheetB(sel.value);
       } else {
         loadSheetB(wb.SheetNames[0]);
       }
-    } catch(err) { document.getElementById('statusB').textContent = 'Hata: ' + err.message; }
+    } catch(err) { document.getElementById('statusB').textContent = t('error_prefix') + err.message; }
   };
   isCsv ? reader.readAsText(file, 'UTF-8') : reader.readAsArrayBuffer(file);
 }
 
 function loadSheetB(sheetName) {
   const rows = XLSX.utils.sheet_to_json(WB_B.Sheets[sheetName], { defval: null, raw: true });
-  if (!rows.length) { document.getElementById('statusB').textContent = 'Satır bulunamadı.'; return; }
+  if (!rows.length) { document.getElementById('statusB').textContent = t('no_rows_found'); return; }
   RAW_ROWS_B = rows; HEADERS_B = Object.keys(rows[0]);
   COLUMN_TYPES_B = detectColumnTypes(RAW_ROWS_B, HEADERS_B);
-  document.getElementById('statusB').textContent = '✓ ' + rows.length.toLocaleString('tr-TR') + ' satır, ' + HEADERS_B.length + ' kolon';
+  document.getElementById('statusB').textContent = '✓ ' + rows.length.toLocaleString('tr-TR') + ' ' + t('rows_loaded') + ', ' + HEADERS_B.length + ' ' + t('cols_loaded');
   document.getElementById('dropzoneB').classList.add('loaded');
   checkBothFilesLoaded();
 }
@@ -774,8 +1122,8 @@ function checkBothFilesLoaded() {
   } else if (FILE_MODE === 'compare') {
     document.getElementById('compareReadyPanel').classList.remove('hidden');
     document.getElementById('compareReadyNote').textContent =
-      FILE_A_NAME + ' (' + RAW_ROWS.length.toLocaleString('tr-TR') + ' satır) ve ' +
-      FILE_B_NAME + ' (' + RAW_ROWS_B.length.toLocaleString('tr-TR') + ' satır) yüklendi.';
+      FILE_A_NAME + ' (' + RAW_ROWS.length.toLocaleString('tr-TR') + ' ' + t('rows_loaded') + ') & ' +
+      FILE_B_NAME + ' (' + RAW_ROWS_B.length.toLocaleString('tr-TR') + ' ' + t('rows_loaded') + ').';
   }
 }
 
@@ -805,16 +1153,16 @@ document.getElementById('runJoinBtn').addEventListener('click', () => {
   const keyB = document.getElementById('joinKeyB').value;
   const checks = document.getElementById('joinColChecks').querySelectorAll('input:checked');
   const bringCols = Array.from(checks).map(c => c.value);
-  if (!bringCols.length) { document.getElementById('joinResult').innerHTML = '<div style="color:var(--danger);font-family:IBM Plex Mono,monospace;font-size:11.5px;">En az bir kolon seç.</div>'; return; }
+  if (!bringCols.length) { document.getElementById('joinResult').innerHTML = '<div style="color:var(--danger);font-family:IBM Plex Mono,monospace;font-size:11.5px;">' + (LANG === 'en' ? 'Select at least one column.' : 'En az bir kolon seç.') + '</div>'; return; }
 
   const { merged, duplicateKeys, unmatchedCount } = joinDatasets(RAW_ROWS, keyA, RAW_ROWS_B, keyB, bringCols);
   RAW_ROWS = merged;
   HEADERS = Object.keys(merged[0] || {});
   COLUMN_TYPES = detectColumnTypes(RAW_ROWS, HEADERS);
 
-  let summary = merged.length.toLocaleString('tr-TR') + ' satır işlendi.';
-  if (unmatchedCount) summary += ' · ' + unmatchedCount + ' satırda eşleşme bulunamadı (boş geldi).';
-  if (duplicateKeys) summary += ' · ' + duplicateKeys + ' anahtarda birden fazla eşleşme vardı (son satır kullanıldı).';
+  let summary = merged.length.toLocaleString('tr-TR') + ' ' + (LANG === 'en' ? 'rows processed.' : 'satır işlendi.');
+  if (unmatchedCount) summary += ' · ' + unmatchedCount + (LANG === 'en' ? ' rows had no match (left empty).' : ' satırda eşleşme bulunamadı (boş geldi).');
+  if (duplicateKeys) summary += ' · ' + duplicateKeys + (LANG === 'en' ? ' keys had multiple matches (last row used).' : ' anahtarda birden fazla eşleşme vardı (son satır kullanıldı).');
   document.getElementById('joinResult').innerHTML = '<div class="join-summary">' + summary + '</div>';
 
   setTimeout(() => {
@@ -854,9 +1202,9 @@ document.getElementById('templateInput').addEventListener('change', e => {
   reader.onload = (ev) => {
     try {
       PENDING_TEMPLATE = JSON.parse(ev.target.result);
-      setStatus('Şablon yüklendi: "' + (PENDING_TEMPLATE.name || 'isimsiz') + '". Şimdi veri dosyasını yükle, otomatik uygulanacak.');
+      setStatus(LANG === 'en' ? 'Template loaded: "' + (PENDING_TEMPLATE.name || 'unnamed') + '". Now upload a data file and it will be applied automatically.' : 'Şablon yüklendi: "' + (PENDING_TEMPLATE.name || 'isimsiz') + '". Şimdi veri dosyasını yükle, otomatik uygulanacak.');
     } catch (err) {
-      setStatus('Şablon dosyası okunamadı: ' + err.message, true);
+      setStatus((LANG === 'en' ? 'Could not read template file: ' : 'Şablon dosyası okunamadı: ') + err.message, true);
     }
   };
   reader.readAsText(e.target.files[0]);
@@ -867,7 +1215,7 @@ let PENDING_TEMPLATE = null;
 let CURRENT_WORKBOOK = null;
 
 function handleFile(file) {
-  setStatus('Okunuyor: ' + file.name + ' ...');
+  setStatus(t('reading') + file.name + ' ...');
   document.getElementById('sheetSelectRow').classList.add('hidden');
   document.getElementById('previewPanel').classList.add('hidden');
   const isCsv = file.name.toLowerCase().endsWith('.csv');
@@ -882,17 +1230,17 @@ function handleFile(file) {
         const sel = document.getElementById('sheetSelect');
         sel.innerHTML = wb.SheetNames.map(n => `<option value="${n}">${n}</option>`).join('');
         document.getElementById('sheetSelectRow').classList.remove('hidden');
-        setStatus(wb.SheetNames.length + ' sayfa bulundu, birini seç.');
+        setStatus(wb.SheetNames.length + ' ' + t('sheets_found'));
         document.getElementById('loadSheetBtn').onclick = () => loadSheet(sel.value);
       } else {
         loadSheet(wb.SheetNames[0]);
       }
     } catch (err) {
       console.error(err);
-      setStatus('Dosya okunamadı: ' + err.message, true);
+      setStatus(t('error_prefix') + err.message, true);
     }
   };
-  reader.onerror = () => setStatus('Dosya okuma hatası.', true);
+  reader.onerror = () => setStatus(t('error_prefix'), true);
   isCsv ? reader.readAsText(file, 'UTF-8') : reader.readAsArrayBuffer(file);
 }
 
@@ -900,13 +1248,13 @@ function loadSheet(sheetName) {
   try {
     const sheet = CURRENT_WORKBOOK.Sheets[sheetName];
     const rows = XLSX.utils.sheet_to_json(sheet, { defval: null, raw: true });
-    if (!rows.length) { setStatus('"' + sheetName + '" sayfasında satır bulunamadı.', true); return; }
+    if (!rows.length) { setStatus('"' + sheetName + '" ' + t('no_rows_found'), true); return; }
     RAW_ROWS = rows;
     HEADERS = Object.keys(rows[0]);
     COLUMN_TYPES = detectColumnTypes(RAW_ROWS, HEADERS);
 
-    let msg = rows.length.toLocaleString('tr-TR') + ' satır, ' + HEADERS.length + ' kolon okundu.';
-    if (rows.length > 100000) msg += ' Büyük bir dosya — tarayıcı biraz yavaşlayabilir.';
+    let msg = rows.length.toLocaleString('tr-TR') + ' ' + t('rows_loaded') + ', ' + HEADERS.length + ' ' + t('cols_loaded') + '.';
+    if (rows.length > 100000) msg += LANG === 'en' ? ' Large file — browser may slow down.' : ' Büyük bir dosya — tarayıcı biraz yavaşlayabilir.';
     setStatus(msg);
 
     if (EMBEDDED_PRESET) {
@@ -923,13 +1271,13 @@ function loadSheet(sheetName) {
     }
   } catch (err) {
     console.error(err);
-    setStatus('Sayfa okunamadı: ' + err.message, true);
+    setStatus(t('error_prefix') + err.message, true);
   }
 }
 
 function renderPreview() {
   const previewRows = RAW_ROWS.slice(0, 8);
-  document.getElementById('previewNote').textContent = 'İlk 8 satır — kolonların doğru okunduğunu buradan kontrol edebilirsin.';
+  document.getElementById('previewNote').textContent = t('preview_note');
   const thead = HEADERS.map(h => `<th>${h}</th>`).join('');
   const tbody = previewRows.map(r => `<tr>${HEADERS.map(h => `<td style="text-align:left;">${r[h] === null || r[h] === undefined ? '<span style="color:var(--dim)">—</span>' : String(r[h])}</td>`).join('')}</tr>`).join('');
   document.getElementById('previewTable').innerHTML = `<thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody>`;
@@ -1061,12 +1409,12 @@ function allDateColsB() { return HEADERS_B.filter(h => COLUMN_TYPES_B[h] && COLU
 
 function metricRowHtml(idx, agg = 'sum', col = '') {
   const valOptions = allValueCols().map(c => `<option value="${c}" ${c === col ? 'selected' : ''}>${c}</option>`).join('');
-  const aggOptions = Object.keys(AGG_LABELS).map(a => `<option value="${a}" ${a === agg ? 'selected' : ''}>${AGG_LABELS[a]}</option>`).join('');
+  const aggOptions = Object.keys(getAggLabels()).map(a => `<option value="${a}" ${a === agg ? 'selected' : ''}>${getAggLabels()[a]}</option>`).join('');
   return `
     <div class="metric-row" data-idx="${idx}">
-      <label>Değer</label>
+      <label>${t('cfg_value')}</label>
       <select class="metric-col">${valOptions}</select>
-      <label>İşlem</label>
+      <label>${t('cfg_operation')}</label>
       <select class="metric-agg">${aggOptions}</select>
       <button class="remove-btn metric-remove" title="kaldır">✕</button>
     </div>`;
@@ -1094,22 +1442,22 @@ function renderModeConfig() {
 
     if (MODE === 'timeseries') {
       container.innerHTML =
-        cmpPair('Zaman Kolonu', 'cfgTimeCol', dateOpts, 'cfgTimeColB', dateOptsB) +
-        `<div class="form-row"><label>Zaman Dilimi</label><select id="cfgGranularity">${granOpts}</select></div>` +
-        `<div id="metricList"></div><span class="add-link" id="addMetricLink">+ metrik ekle</span>`;
+        cmpPair(t('cfg_time_col'), 'cfgTimeCol', dateOpts, 'cfgTimeColB', dateOptsB) +
+        `<div class="form-row"><label>${t('cfg_granularity')}</label><select id="cfgGranularity">${granOpts}</select></div>` +
+        `<div id="metricList"></div><span class="add-link" id="addMetricLink">${t('add_metric')}</span>`;
     } else if (MODE === 'category') {
       container.innerHTML =
-        cmpPair('Kategori Kolonu', 'cfgGroupCol', groupOpts, 'cfgGroupColB', groupOptsB) +
-        `<div class="form-row"><label>Sırala</label><select id="cfgSortDir"><option value="desc">Büyükten küçüğe</option><option value="asc">Küçükten büyüğe</option></select></div>` +
-        `<div class="form-row"><label>İlk N</label><input type="number" id="cfgTopN" value="20" min="1" style="width:80px"></div>` +
-        `<div id="metricList"></div><span class="add-link" id="addMetricLink">+ metrik ekle</span>`;
+        cmpPair(t('cfg_category'), 'cfgGroupCol', groupOpts, 'cfgGroupColB', groupOptsB) +
+        `<div class="form-row"><label>${t('cfg_sort')}</label><select id="cfgSortDir"><option value="desc">${t('cfg_sort_desc')}</option><option value="asc">${t('cfg_sort_asc')}</option></select></div>` +
+        `<div class="form-row"><label>${t('cfg_top_n')}</label><input type="number" id="cfgTopN" value="20" min="1" style="width:80px"></div>` +
+        `<div id="metricList"></div><span class="add-link" id="addMetricLink">${t('add_metric')}</span>`;
     } else if (MODE === 'pivot') {
       container.innerHTML =
-        cmpPair('Satırlar (Kategori)', 'cfgGroupCol', groupOpts, 'cfgGroupColB', groupOptsB) +
-        cmpPair('Kolonlar (Zaman)', 'cfgTimeCol', dateOpts, 'cfgTimeColB', dateOptsB) +
-        `<div class="form-row"><label>Zaman Dilimi</label><select id="cfgGranularity">${granOpts}</select></div>` +
-        cmpPair('Değer', 'cfgPivotCol', allValueCols().map(c=>`<option>${c}</option>`).join(''), 'cfgPivotColB', allValueColsB().map(c=>`<option>${c}</option>`).join('')) +
-        `<div class="form-row"><label>İşlem</label><select id="cfgPivotAgg">${Object.keys(AGG_LABELS).map(a=>`<option value="${a}">${AGG_LABELS[a]}</option>`).join('')}</select></div>`;
+        cmpPair(t('cfg_row_col'), 'cfgGroupCol', groupOpts, 'cfgGroupColB', groupOptsB) +
+        cmpPair(t('cfg_col_col'), 'cfgTimeCol', dateOpts, 'cfgTimeColB', dateOptsB) +
+        `<div class="form-row"><label>${t('cfg_granularity')}</label><select id="cfgGranularity">${granOpts}</select></div>` +
+        cmpPair(t('cfg_value'), 'cfgPivotCol', allValueCols().map(c=>`<option>${c}</option>`).join(''), 'cfgPivotColB', allValueColsB().map(c=>`<option>${c}</option>`).join('')) +
+        `<div class="form-row"><label>${t('cfg_operation')}</label><select id="cfgPivotAgg">${Object.keys(getAggLabels()).map(a=>`<option value="${a}">${getAggLabels()[a]}</option>`).join('')}</select></div>`;
     }
 
     if (MODE !== 'pivot') {
@@ -1128,28 +1476,28 @@ function renderModeConfig() {
   // ── single / join mode (original) ──
   if (MODE === 'timeseries') {
     container.innerHTML = `
-      <div class="form-row"><label>Zaman Kolonu</label><select id="cfgTimeCol">${dateOpts}</select></div>
-      <div class="form-row"><label>Zaman Dilimi</label><select id="cfgGranularity">${granOpts}</select></div>
-      <div class="form-row"><label>Seriye Ayır</label><select id="cfgSplitCol"><option value="">— (tek seri)</option>${groupOpts}</select></div>
+      <div class="form-row"><label>${t('cfg_time_col')}</label><select id="cfgTimeCol">${dateOpts}</select></div>
+      <div class="form-row"><label>${t('cfg_granularity')}</label><select id="cfgGranularity">${granOpts}</select></div>
+      <div class="form-row"><label>${t('cfg_split')}</label><select id="cfgSplitCol"><option value="">${t('cfg_single_series')}</option>${groupOpts}</select></div>
       <div id="metricList"></div>
-      <span class="add-link" id="addMetricLink">+ metrik ekle</span>
+      <span class="add-link" id="addMetricLink">${t('add_metric')}</span>
     `;
   } else if (MODE === 'category') {
     container.innerHTML = `
-      <div class="form-row"><label>Kategori Kolonu</label><select id="cfgGroupCol">${groupOpts}</select></div>
-      <div class="form-row"><label>Sırala</label><select id="cfgSortDir"><option value="desc">Büyükten küçüğe</option><option value="asc">Küçükten büyüğe</option></select></div>
-      <div class="form-row"><label>Grafik Tipi</label><select id="cfgChartType"><option value="bar">Bar</option><option value="pie">Pasta</option></select></div>
-      <div class="form-row"><label>İlk N</label><input type="number" id="cfgTopN" value="20" min="1" style="width:80px"></div>
+      <div class="form-row"><label>${t('cfg_category')}</label><select id="cfgGroupCol">${groupOpts}</select></div>
+      <div class="form-row"><label>${t('cfg_sort')}</label><select id="cfgSortDir"><option value="desc">${t('cfg_sort_desc')}</option><option value="asc">${t('cfg_sort_asc')}</option></select></div>
+      <div class="form-row"><label>${t('cfg_chart_type')}</label><select id="cfgChartType"><option value="bar">${t('cfg_chart_bar')}</option><option value="pie">${t('cfg_chart_pie')}</option></select></div>
+      <div class="form-row"><label>${t('cfg_top_n')}</label><input type="number" id="cfgTopN" value="20" min="1" style="width:80px"></div>
       <div id="metricList"></div>
-      <span class="add-link" id="addMetricLink">+ metrik ekle</span>
+      <span class="add-link" id="addMetricLink">${t('add_metric')}</span>
     `;
   } else if (MODE === 'pivot') {
     container.innerHTML = `
-      <div class="form-row"><label>Satırlar (Kategori)</label><select id="cfgGroupCol">${groupOpts}</select></div>
-      <div class="form-row"><label>Kolonlar (Zaman)</label><select id="cfgTimeCol">${dateOpts}</select></div>
-      <div class="form-row"><label>Zaman Dilimi</label><select id="cfgGranularity">${granOpts}</select></div>
-      <div class="form-row"><label>Değer</label><select id="cfgPivotCol">${allValueCols().map(c => `<option value="${c}">${c}</option>`).join('')}</select></div>
-      <div class="form-row"><label>İşlem</label><select id="cfgPivotAgg">${Object.keys(AGG_LABELS).map(a => `<option value="${a}">${AGG_LABELS[a]}</option>`).join('')}</select></div>
+      <div class="form-row"><label>${t('cfg_row_col')}</label><select id="cfgGroupCol">${groupOpts}</select></div>
+      <div class="form-row"><label>${t('cfg_col_col')}</label><select id="cfgTimeCol">${dateOpts}</select></div>
+      <div class="form-row"><label>${t('cfg_granularity')}</label><select id="cfgGranularity">${granOpts}</select></div>
+      <div class="form-row"><label>${t('cfg_value')}</label><select id="cfgPivotCol">${allValueCols().map(c => `<option value="${c}">${c}</option>`).join('')}</select></div>
+      <div class="form-row"><label>${t('cfg_operation')}</label><select id="cfgPivotAgg">${Object.keys(getAggLabels()).map(a => `<option value="${a}">${getAggLabels()[a]}</option>`).join('')}</select></div>
     `;
   }
 
@@ -1166,9 +1514,9 @@ function renderModeConfig() {
 function metricRowCompareHtml(idx, m, mb) {
   const aOpts = allValueCols().map(c => `<option value="${c}" ${c===m.col?'selected':''}>${c}</option>`).join('');
   const bOpts = allValueColsB().map(c => `<option value="${c}" ${c===(mb&&mb.col)?'selected':''}>${c}</option>`).join('');
-  const aggOpts = Object.keys(AGG_LABELS).map(a => `<option value="${a}" ${a===m.agg?'selected':''}>${AGG_LABELS[a]}</option>`).join('');
+  const aggOpts = Object.keys(getAggLabels()).map(a => `<option value="${a}" ${a===m.agg?'selected':''}>${getAggLabels()[a]}</option>`).join('');
   return `<div class="metric-row" data-idx="${idx}">
-    <label>İşlem</label><select class="metric-agg">${aggOpts}</select>
+    <label>${t('cfg_operation')}</label><select class="metric-agg">${aggOpts}</select>
     <span class="ab-badge a" style="width:18px;height:18px;font-size:10px;">A</span><select class="metric-col">${aOpts}</select>
     <span class="ab-badge b" style="width:18px;height:18px;font-size:10px;">B</span><select class="metric-colb">${bOpts}</select>
     <button class="remove-btn metric-remove" title="kaldır">✕</button>
@@ -1201,9 +1549,24 @@ function renderMetricList() {
 // ============================================================
 // FILTERS
 // ============================================================
-const OP_LABELS_NUM  = { eq: '=', neq: '≠', gt: '>', lt: '<', gte: '≥', lte: '≤', empty: 'boş', notempty: 'boş değil' };
-const OP_LABELS_TEXT = { eq: '=', neq: '≠', contains: 'içerir', empty: 'boş', notempty: 'boş değil' };
-const OP_LABELS_DATE = { date_last7: 'son 7 gün', date_last30: 'son 30 gün', date_thisweek: 'bu hafta', date_thismonth: 'bu ay', date_thisyear: 'bu yıl', date_q1: 'Q1', date_q2: 'Q2', date_q3: 'Q3', date_q4: 'Q4', gte: '≥ tarih', lte: '≤ tarih', empty: 'boş', notempty: 'boş değil' };
+function getOpLabelsNum() {
+  return LANG === 'en'
+    ? { eq: '=', neq: '≠', gt: '>', lt: '<', gte: '≥', lte: '≤', empty: 'empty', notempty: 'not empty' }
+    : { eq: '=', neq: '≠', gt: '>', lt: '<', gte: '≥', lte: '≤', empty: 'boş', notempty: 'boş değil' };
+}
+function getOpLabelsText() {
+  return LANG === 'en'
+    ? { eq: '=', neq: '≠', contains: 'contains', empty: 'empty', notempty: 'not empty' }
+    : { eq: '=', neq: '≠', contains: 'içerir', empty: 'boş', notempty: 'boş değil' };
+}
+function getOpLabelsDate() {
+  return LANG === 'en'
+    ? { date_last7: 'last 7 days', date_last30: 'last 30 days', date_thisweek: 'this week', date_thismonth: 'this month', date_thisyear: 'this year', date_q1: 'Q1', date_q2: 'Q2', date_q3: 'Q3', date_q4: 'Q4', gte: '≥ date', lte: '≤ date', empty: 'empty', notempty: 'not empty' }
+    : { date_last7: 'son 7 gün', date_last30: 'son 30 gün', date_thisweek: 'bu hafta', date_thismonth: 'bu ay', date_thisyear: 'bu yıl', date_q1: 'Q1', date_q2: 'Q2', date_q3: 'Q3', date_q4: 'Q4', gte: '≥ tarih', lte: '≤ tarih', empty: 'boş', notempty: 'boş değil' };
+}
+const OP_LABELS_NUM  = new Proxy({}, { get: (_, k) => getOpLabelsNum()[k], ownKeys: () => Object.keys(getOpLabelsNum()), getOwnPropertyDescriptor: (_, k) => ({ enumerable: true, configurable: true, value: getOpLabelsNum()[k] }) });
+const OP_LABELS_TEXT = new Proxy({}, { get: (_, k) => getOpLabelsText()[k], ownKeys: () => Object.keys(getOpLabelsText()), getOwnPropertyDescriptor: (_, k) => ({ enumerable: true, configurable: true, value: getOpLabelsText()[k] }) });
+const OP_LABELS_DATE = new Proxy({}, { get: (_, k) => getOpLabelsDate()[k], ownKeys: () => Object.keys(getOpLabelsDate()), getOwnPropertyDescriptor: (_, k) => ({ enumerable: true, configurable: true, value: getOpLabelsDate()[k] }) });
 const NO_VAL_OPS = new Set(['empty','notempty','date_last7','date_last30','date_thisweek','date_thismonth','date_thisyear','date_q1','date_q2','date_q3','date_q4']);
 function opLabelsFor(col) {
   const t = (COLUMN_TYPES[col] || {}).type;
@@ -1226,7 +1589,7 @@ function filterRowHtml(idx, f) {
     <div class="filter-row" data-idx="${idx}">
       <select class="filter-col">${colOpts}</select>
       <select class="filter-op">${opOpts}</select>
-      ${needsVal ? `<input type="${inputType}" class="filter-val" value="${f.val || ''}" placeholder="değer">` : ''}
+      ${needsVal ? `<input type="${inputType}" class="filter-val" value="${f.val || ''}" placeholder="${t('filter_val_ph')}">` : ''}
       <button class="remove-btn filter-remove">✕</button>
     </div>`;
 }
@@ -1253,7 +1616,7 @@ document.getElementById('addFilterLink').addEventListener('click', () => {
 function formulaRowHtml(idx, f) {
   return `
     <div class="formula-row" data-idx="${idx}" style="flex-wrap:wrap;">
-      <input type="text" class="formula-name" value="${f.name || ''}" placeholder="alan adı" style="width:140px">
+      <input type="text" class="formula-name" value="${f.name || ''}" placeholder="${t('formula_name_ph')}" style="width:140px">
       <span style="color:var(--dim)">=</span>
       <div style="position:relative;display:inline-block;">
         <input type="text" class="formula-expr" value="${f.expr || ''}" placeholder="{Satış} * 0.18  ·  {Adet} > 5 ? 'çok' : 'az'  ·  Math.round({Fiyat} / {Adet})" style="width:380px">
@@ -1554,24 +1917,26 @@ document.getElementById('runBtn').addEventListener('click', runAnalysis);
 function validateBeforeRun() {
   const problems = [];
   const isCompare = FILE_MODE === 'compare';
+  const fileALabel = LANG === 'en' ? 'File A' : 'Dosya A';
+  const fileBLabel = LANG === 'en' ? 'File B' : 'Dosya B';
   if (MODE === 'timeseries') {
-    if (!document.getElementById('cfgTimeCol').value) problems.push('Zaman kolonu seçilmedi (Dosya A).');
-    if (isCompare && !document.getElementById('cfgTimeColB').value) problems.push('Zaman kolonu seçilmedi (Dosya B).');
-    if (!METRICS.length || METRICS.some(m => !m.col)) problems.push('En az bir metrik seçilmeli.');
-    if (isCompare && METRICS_B.some(m => !m || !m.col)) problems.push('Dosya B için metrik kolonları seçilmeli.');
+    if (!document.getElementById('cfgTimeCol').value) problems.push(LANG === 'en' ? 'Time column not selected (File A).' : 'Zaman kolonu seçilmedi (Dosya A).');
+    if (isCompare && !document.getElementById('cfgTimeColB').value) problems.push(LANG === 'en' ? 'Time column not selected (File B).' : 'Zaman kolonu seçilmedi (Dosya B).');
+    if (!METRICS.length || METRICS.some(m => !m.col)) problems.push(LANG === 'en' ? 'At least one metric must be selected.' : 'En az bir metrik seçilmeli.');
+    if (isCompare && METRICS_B.some(m => !m || !m.col)) problems.push(LANG === 'en' ? 'Metric columns for File B must be selected.' : 'Dosya B için metrik kolonları seçilmeli.');
   } else if (MODE === 'category') {
-    if (!document.getElementById('cfgGroupCol').value) problems.push('Kategori kolonu seçilmedi (Dosya A).');
-    if (isCompare && !document.getElementById('cfgGroupColB').value) problems.push('Kategori kolonu seçilmedi (Dosya B).');
-    if (!METRICS.length || METRICS.some(m => !m.col)) problems.push('En az bir metrik seçilmeli.');
+    if (!document.getElementById('cfgGroupCol').value) problems.push(LANG === 'en' ? 'Category column not selected (File A).' : 'Kategori kolonu seçilmedi (Dosya A).');
+    if (isCompare && !document.getElementById('cfgGroupColB').value) problems.push(LANG === 'en' ? 'Category column not selected (File B).' : 'Kategori kolonu seçilmedi (Dosya B).');
+    if (!METRICS.length || METRICS.some(m => !m.col)) problems.push(LANG === 'en' ? 'At least one metric must be selected.' : 'En az bir metrik seçilmeli.');
   } else if (MODE === 'pivot') {
-    if (!document.getElementById('cfgGroupCol').value) problems.push('Satır (kategori) kolonu seçilmedi.');
-    if (!document.getElementById('cfgTimeCol').value) problems.push('Kolon (zaman) alanı seçilmedi.');
-    if (!document.getElementById('cfgPivotCol').value) problems.push('Değer kolonu seçilmedi.');
+    if (!document.getElementById('cfgGroupCol').value) problems.push(LANG === 'en' ? 'Row (category) column not selected.' : 'Satır (kategori) kolonu seçilmedi.');
+    if (!document.getElementById('cfgTimeCol').value) problems.push(LANG === 'en' ? 'Column (time) field not selected.' : 'Kolon (zaman) alanı seçilmedi.');
+    if (!document.getElementById('cfgPivotCol').value) problems.push(LANG === 'en' ? 'Value column not selected.' : 'Değer kolonu seçilmedi.');
   }
   FORMULAS.forEach(f => {
     if (f.expr) {
       const v = validateFormula(f.expr, RAW_ROWS[0] || {});
-      if (!v.ok) problems.push('"' + f.name + '" formülünde hata: ' + v.message);
+      if (!v.ok) problems.push('"' + f.name + '" ' + (LANG === 'en' ? 'formula error: ' : 'formülünde hata: ') + v.message);
     }
   });
   return problems;
@@ -1590,7 +1955,7 @@ function showRunError(msg) {
 
 function runAnalysis() {
   const problems = validateBeforeRun();
-  if (problems.length) { showRunError('Devam edemiyorum:\n• ' + problems.join('\n• ')); return; }
+  if (problems.length) { showRunError((LANG === 'en' ? 'Cannot proceed:\n• ' : 'Devam edemiyorum:\n• ') + problems.join('\n• ')); return; }
   showRunError('');
 
   if (FILE_MODE === 'compare') { runCompare(); return; }
@@ -1599,14 +1964,14 @@ function runAnalysis() {
     let rows = applyRowFormulas(RAW_ROWS, FORMULAS);
     const totalBefore = rows.length;
     rows = applyFilters(rows, FILTERS);
-    if (rows.length === 0) { showRunError('Filtrelerden sonra hiç satır kalmadı. Filtreleri gözden geçir.'); return; }
+    if (rows.length === 0) { showRunError(t('err_no_rows_filter')); return; }
     if (MODE === 'timeseries') runTimeSeries(rows, totalBefore);
     else if (MODE === 'category') runCategory(rows, totalBefore);
     else if (MODE === 'pivot') runPivot(rows, totalBefore);
     goToStep(4);
   } catch (err) {
     console.error('Analiz hatası:', err);
-    showRunError('Analiz çalıştırılırken hata oluştu: ' + err.message);
+    showRunError(t('err_analysis') + ' ' + err.message);
   }
 }
 
@@ -1619,8 +1984,8 @@ function runCompare() {
     const rowsA = applyFilters(applyRowFormulas(RAW_ROWS, FORMULAS), FILTERS);
     const rowsB = applyFilters(RAW_ROWS_B, []);
 
-    if (!rowsA.length) { showRunError('Dosya A\'da filtreden sonra satır kalmadı.'); return; }
-    if (!rowsB.length) { showRunError('Dosya B\'de satır bulunamadı.'); return; }
+    if (!rowsA.length) { showRunError(LANG === 'en' ? 'No rows left in File A after filter.' : "Dosya A'da filtreden sonra satır kalmadı."); return; }
+    if (!rowsB.length) { showRunError(LANG === 'en' ? 'No rows found in File B.' : "Dosya B'de satır bulunamadı."); return; }
 
     let tableA, tableB, keyCol;
 
@@ -1637,7 +2002,7 @@ function runCompare() {
       ({ table: tableA, keyCol } = buildCategoryTable(rowsA, groupColA, METRICS, topN, sortDir));
       ({ table: tableB } = buildCategoryTable(rowsB, groupColB, METRICS_B, topN, sortDir));
     } else if (MODE === 'pivot') {
-      showRunError('Pivot modu karşılaştırma desteklenmiyor. Zaman Serisi veya Kategori kullan.');
+      showRunError(LANG === 'en' ? 'Pivot mode is not supported for comparison. Use Time Series or Category.' : 'Pivot modu karşılaştırma desteklenmiyor. Zaman Serisi veya Kategori kullan.');
       return;
     }
 
@@ -1645,7 +2010,7 @@ function runCompare() {
     goToStep(4);
   } catch (err) {
     console.error('Karşılaştırma hatası:', err);
-    showRunError('Karşılaştırma çalıştırılırken hata oluştu: ' + err.message);
+    showRunError(t('err_analysis') + ' ' + err.message);
   }
 }
 
@@ -1681,18 +2046,18 @@ function renderCompareResult(tableA, tableB, keyCol, countA, countB, granularity
 
   // KPIs
   renderKpis([
-    { label: FILE_A_NAME || 'Dosya A', value: fmtInt(countA) + ' satır' },
-    { label: FILE_B_NAME || 'Dosya B', value: fmtInt(countB) + ' satır' },
-    { label: 'Ortak Anahtar', value: fmtInt(orderedKeys.filter(k => mapA.has(k) && mapB.has(k)).length) }
+    { label: FILE_A_NAME || t('file_a'), value: fmtInt(countA) + ' ' + t('rows_loaded') },
+    { label: FILE_B_NAME || t('file_b'), value: fmtInt(countB) + ' ' + t('rows_loaded') },
+    { label: t('kpi_common_key'), value: fmtInt(orderedKeys.filter(k => mapA.has(k) && mapB.has(k)).length) }
   ]);
 
-  const modeLabel = MODE === 'timeseries' ? GRANULARITY_LABELS[granularity] + ' Bazında' : 'Kategori Kırılımı';
-  document.getElementById('resultTitle').textContent = 'Karşılaştırma — ' + modeLabel;
+  const modeLabel = MODE === 'timeseries' ? GRANULARITY_LABELS[granularity] + ' ' + t('time_series_by') : t('category_title');
+  document.getElementById('resultTitle').textContent = t('compare_label') + ' — ' + modeLabel;
 
   // Legend
   const legendHtml = `<div class="result-ab-legend">
-    <div class="result-ab-label"><span style="background:${CHART_COLORS[0]}"></span>${FILE_A_NAME||'Dosya A'}</div>
-    <div class="result-ab-label"><span style="background:${CHART_COLORS[1]};border-top:2px dashed ${CHART_COLORS[1]};height:0;margin:auto 0"></span>${FILE_B_NAME||'Dosya B'}</div>
+    <div class="result-ab-label"><span style="background:${CHART_COLORS[0]}"></span>${FILE_A_NAME||t('file_a')}</div>
+    <div class="result-ab-label"><span style="background:${CHART_COLORS[1]};border-top:2px dashed ${CHART_COLORS[1]};height:0;margin:auto 0"></span>${FILE_B_NAME||t('file_b')}</div>
   </div>`;
 
   // Chart: one dataset pair per metric
@@ -1703,14 +2068,14 @@ function renderCompareResult(tableA, tableB, keyCol, countA, countB, granularity
   metricColsA.forEach((colA, i) => {
     const colB = metricColsB[i] || colA;
     chartDatasets.push({
-      label: (FILE_A_NAME||'A') + ' — ' + colA,
+      label: (FILE_A_NAME||t('file_a')) + ' — ' + colA,
       data: orderedKeys.map(k => { const r = mapA.get(k); return r ? r[colA] : null; }),
       borderColor: CHART_COLORS[i*2 % CHART_COLORS.length],
       backgroundColor: CHART_COLORS[i*2 % CHART_COLORS.length],
       borderWidth: 2, tension: 0.3, pointRadius: 2
     });
     chartDatasets.push({
-      label: (FILE_B_NAME||'B') + ' — ' + colB,
+      label: (FILE_B_NAME||t('file_b')) + ' — ' + colB,
       data: orderedKeys.map(k => { const r = mapB.get(k); return r ? r[colB] : null; }),
       borderColor: CHART_COLORS[(i*2+1) % CHART_COLORS.length],
       backgroundColor: CHART_COLORS[(i*2+1) % CHART_COLORS.length],
@@ -1729,7 +2094,7 @@ function renderCompareResult(tableA, tableB, keyCol, countA, countB, granularity
   metricColsA.forEach((colA, i) => {
     const colB = metricColsB[i] || colA;
     const label = colA === colB ? colA : colA + ' / ' + colB;
-    headers.push('A — ' + label, 'B — ' + label, 'Fark %');
+    headers.push('A — ' + label, 'B — ' + label, t('fark_pct'));
   });
 
   const tableRows = orderedKeys.map(k => {
@@ -1742,7 +2107,7 @@ function renderCompareResult(tableA, tableB, keyCol, countA, countB, granularity
       const vB = rB ? rB[colB] : null;
       row['A — ' + label] = vA;
       row['B — ' + label] = vB;
-      row['Fark %'] = (vA !== null && vB !== null && vA !== 0) ? ((vB - vA) / Math.abs(vA)) * 100 : null;
+      row[t('fark_pct')] = (vA !== null && vB !== null && vA !== 0) ? ((vB - vA) / Math.abs(vA)) * 100 : null;
     });
     return row;
   });
@@ -1752,7 +2117,7 @@ function renderCompareResult(tableA, tableB, keyCol, countA, countB, granularity
   const tbody = tableRows.map(row => `<tr>${headers.map(h => {
     const v = row[h];
     if (h === keyCol) return `<td style="text-align:left">${v ?? '–'}</td>`;
-    if (h.startsWith('Fark %')) {
+    if (h === t('fark_pct')) {
       if (v === null) return `<td class="diff-neu">–</td>`;
       const cls = v > 0 ? 'diff-pos' : v < 0 ? 'diff-neg' : 'diff-neu';
       return `<td class="${cls}">${(v > 0 ? '+' : '') + fmt(v, 1)}%</td>`;
@@ -1839,11 +2204,11 @@ function runTimeSeries(rows, totalBefore) {
   const splitCol = document.getElementById('cfgSplitCol').value;
   const { table, valueCols } = computeTimeSeriesResult(rows, { timeCol, granularity, splitCol, metrics: METRICS });
   renderKpis([
-    { label: 'Toplam Satır', value: fmtInt(totalBefore) },
-    { label: 'Filtre Sonrası', value: fmtInt(rows.length) },
-    { label: 'Zaman Dilimi Sayısı', value: fmtInt(table.length) }
+    { label: t('kpi_total_rows'), value: fmtInt(totalBefore) },
+    { label: t('kpi_after_filter'), value: fmtInt(rows.length) },
+    { label: t('kpi_time_buckets'), value: fmtInt(table.length) }
   ]);
-  document.getElementById('resultTitle').textContent = 'Zaman Serisi — ' + GRANULARITY_LABELS[granularity] + ' Bazında';
+  document.getElementById('resultTitle').textContent = t('time_series_title') + ' — ' + GRANULARITY_LABELS[granularity] + ' ' + t('time_series_by');
   renderLineChart(table.map(r => r.Zaman), valueCols.map(c => ({ label: c, data: table.map(r => r[c]) })));
   renderResultTable(['Zaman', ...valueCols], table);
   LAST_RESULT = { headers: ['Zaman', ...valueCols], table };
@@ -1855,11 +2220,11 @@ function runCategory(rows, totalBefore) {
   const topN = parseInt(document.getElementById('cfgTopN').value) || 20;
   const { table, valueCols, totalGroups } = computeCategoryResult(rows, { groupCol, metrics: METRICS, sortDir, topN });
   renderKpis([
-    { label: 'Toplam Satır', value: fmtInt(totalBefore) },
-    { label: 'Filtre Sonrası', value: fmtInt(rows.length) },
-    { label: 'Kategori Sayısı', value: fmtInt(totalGroups) }
+    { label: t('kpi_total_rows'), value: fmtInt(totalBefore) },
+    { label: t('kpi_after_filter'), value: fmtInt(rows.length) },
+    { label: t('kpi_categories'), value: fmtInt(totalGroups) }
   ]);
-  document.getElementById('resultTitle').textContent = 'Kategori Kırılımı — ' + groupCol;
+  document.getElementById('resultTitle').textContent = t('category_title') + ' — ' + groupCol;
   const chartType = document.getElementById('cfgChartType').value;
   if (chartType === 'pie' && valueCols.length === 1) {
     renderPieChart(table.map(r => String(r[groupCol])), table.map(r => r[valueCols[0]]), valueCols[0]);
@@ -1878,10 +2243,10 @@ function runPivot(rows, totalBefore) {
   const agg = document.getElementById('cfgPivotAgg').value;
   const { matrix, catVals, bucketKeys } = computePivotResult(rows, { groupCol, timeCol, granularity, valCol, agg });
   renderKpis([
-    { label: 'Toplam Satır', value: fmtInt(rows.length) },
-    { label: 'Kategori × Zaman', value: fmtInt(catVals.length) + ' × ' + fmtInt(bucketKeys.length) }
+    { label: t('kpi_total_rows'), value: fmtInt(rows.length) },
+    { label: t('kpi_cat_x_time'), value: fmtInt(catVals.length) + ' × ' + fmtInt(bucketKeys.length) }
   ]);
-  document.getElementById('resultTitle').textContent = 'Pivot — ' + groupCol + ' × ' + GRANULARITY_LABELS[granularity];
+  document.getElementById('resultTitle').textContent = t('pivot_title') + ' — ' + groupCol + ' × ' + GRANULARITY_LABELS[granularity];
   document.getElementById('chart-wrap').classList.add('hidden');
   renderPivotTable(groupCol, bucketKeys, matrix);
   LAST_RESULT = { headers: [groupCol, ...bucketKeys], table: matrix };
@@ -2132,23 +2497,23 @@ function levenshtein(a, b) {
 // ── Keyword maps ────────────────────────────────────────────
 const NLQ_AGG_MAP = [
   { agg:'sum',            words:['toplam','toplamı','sum','total','hepsinin toplami','genel toplam','toplam ne kadar','kac para','ne kadar'] },
-  { agg:'avg',            words:['ortalama','ortalamasi','avg','average','ortalama ne kadar','ortalama deger'] },
+  { agg:'avg',            words:['ortalama','ortalamasi','avg','average','mean','ortalama ne kadar','ortalama deger'] },
   { agg:'max',            words:['en yuksek','maksimum','max','en fazla','en buyuk','highest','maximum','en cok','en yuksek nedir','zirve'] },
   { agg:'min',            words:['en dusuk','minimum','min','en az','en kucuk','lowest','minimum','en dusuk nedir'] },
-  { agg:'count',          words:['kac tane','sayisi','adedi','count','kac adet','kac kayit','kac satir'] },
+  { agg:'count',          words:['kac tane','sayisi','adedi','count','kac adet','kac kayit','kac satir','how many','number of'] },
   { agg:'count_distinct', words:['farkli kac','kac farkli','distinct','benzersiz','unique'] },
 ];
-const NLQ_TOP_WORDS   = ['en cok satan','en fazla satan','en yuksek satisa sahip','top','best selling','en iyi','siralamada','en cok'];
-const NLQ_BOT_WORDS   = ['en az satan','en dusuk satisa sahip','bottom','worst','en kotu','en dusuk performans'];
-const NLQ_TIME_WORDS  = ['trend','zaman icinde','degisimi','zaman serisi','time series','degisim','zamanla','boyunca','sureci'];
+const NLQ_TOP_WORDS   = ['en cok satan','en fazla satan','en yuksek satisa sahip','top','best selling','en iyi','siralamada','en cok','highest','most','best','leading','largest','greatest'];
+const NLQ_BOT_WORDS   = ['en az satan','en dusuk satisa sahip','bottom','worst','en kotu','en dusuk performans','lowest','least','smallest'];
+const NLQ_TIME_WORDS  = ['trend','zaman icinde','degisimi','zaman serisi','time series','degisim','zamanla','boyunca','sureci','over time','change over time','progression','monthly','daily','weekly','by month','by day','by week'];
 const NLQ_GRAN_MAP    = [
-  { g:'hour',  words:['saatlik','saat bazinda','saatte'] },
-  { g:'day',   words:['gunluk','gun bazinda','gunde','gunluk degisim'] },
-  { g:'week',  words:['haftalik','hafta bazinda','haftada'] },
-  { g:'month', words:['aylik','ay bazinda','ayda','aylik degisim','aylik trend'] },
+  { g:'hour',  words:['saatlik','saat bazinda','saatte','hourly'] },
+  { g:'day',   words:['gunluk','gun bazinda','gunde','gunluk degisim','daily','by day'] },
+  { g:'week',  words:['haftalik','hafta bazinda','haftada','weekly','by week'] },
+  { g:'month', words:['aylik','ay bazinda','ayda','aylik degisim','aylik trend','monthly','by month'] },
 ];
-const NLQ_GROUPBY_WORDS = ['gore','bazinda','kirilimlari','kirilimu','grupla','gruplandır','by','per','group by','kırılımı'];
-const NLQ_SHOW_WORDS    = ['goster','listele','listesi','sirala','ranking','hangi','nedir','nelerdir'];
+const NLQ_GROUPBY_WORDS = ['gore','bazinda','kirilimlari','kirilimu','grupla','gruplandır','by','per','group by','kırılımı','grouped by','for each','breakdown by'];
+const NLQ_SHOW_WORDS    = ['goster','listele','listesi','sirala','ranking','hangi','nedir','nelerdir','show','list','what is','what are','which','display','get'];
 
 // ── Column finder ───────────────────────────────────────────
 function nlqFindCol(queryWords, colTypes, typeFilter) {
@@ -2220,15 +2585,15 @@ function nlqParse(rawQuery) {
   // Fuzzy match via finder
   if (!metric && needsNumMetric) {
     const res = nlqFindCol(qws, COLUMN_TYPES, 'number');
-    if (res.ambiguous) return { status:'clarify', question:'Hangi sayısal kolonu kullanayım?', options: Array.isArray(res.found)?res.found:[res.found], field:'metric' };
+    if (res.ambiguous) return { status:'clarify', question:t('nlq_which_metric'), options: Array.isArray(res.found)?res.found:[res.found], field:'metric' };
     if (res.found) metric = res.found;
   }
 
   // Default: single numeric col
   if (!metric && needsNumMetric) {
     if (numCols.length === 1) metric = numCols[0];
-    else if (numCols.length > 1) return { status:'clarify', question:'Hangi ölçümü kullanayım?', options: numCols, field:'metric' };
-    else return { status:'not_understood', message:'Sayısal bir kolon bulunamadı. Kolon tiplerini Adım 2\'de kontrol et.' };
+    else if (numCols.length > 1) return { status:'clarify', question:t('nlq_which_measure'), options: numCols, field:'metric' };
+    else return { status:'not_understood', message:t('nlq_no_num_col') };
   }
   if (!metric && !needsNumMetric) metric = numCols[0] || HEADERS[0];
 
@@ -2250,13 +2615,13 @@ function nlqParse(rawQuery) {
       const res = nlqFindCol(qws, COLUMN_TYPES, null);
       const catRes = nlqFindCol(qws, Object.fromEntries(catCols.map(h=>[h,COLUMN_TYPES[h]])), null);
       if (catRes.found && !catRes.ambiguous) groupBy = Array.isArray(catRes.found) ? null : catRes.found;
-      else if (catRes.ambiguous) return { status:'clarify', question:'Hangi kolona göre gruplandırayım?', options: Array.isArray(catRes.found)?catRes.found:[catRes.found], field:'groupBy' };
+      else if (catRes.ambiguous) return { status:'clarify', question:t('nlq_which_group'), options: Array.isArray(catRes.found)?catRes.found:[catRes.found], field:'groupBy' };
     }
     // Default: single cat col
     if (!groupBy && (hasGbWord || operation === 'top' || operation === 'bottom')) {
       if (catCols.length === 1) groupBy = catCols[0];
       else if (catCols.length > 1 && (operation === 'top' || operation === 'bottom'))
-        return { status:'clarify', question:'Hangi kolona göre sıralayayım?', options: catCols, field:'groupBy' };
+        return { status:'clarify', question:t('nlq_which_sort'), options: catCols, field:'groupBy' };
     }
   }
 
@@ -2264,11 +2629,11 @@ function nlqParse(rawQuery) {
   let timeCol = null, granularity = 'month';
   if (operation === 'time_series') {
     const dateCols = Object.keys(COLUMN_TYPES).filter(h => COLUMN_TYPES[h].type === 'date');
-    if (!dateCols.length) return { status:'not_understood', message:'Tarih kolonu bulunamadı.' };
+    if (!dateCols.length) return { status:'not_understood', message:t('nlq_no_date') };
     if (dateCols.length === 1) timeCol = dateCols[0];
     else {
       for (const h of dateCols) { if (qn.includes(nlqNorm(h))) { timeCol = h; break; } }
-      if (!timeCol) return { status:'clarify', question:'Hangi tarih kolonunu kullanalım?', options: dateCols, field:'timeCol' };
+      if (!timeCol) return { status:'clarify', question:t('nlq_which_date'), options: dateCols, field:'timeCol' };
     }
     for (const entry of NLQ_GRAN_MAP) {
       if (entry.words.some(w => nlqIncludes(qn, nlqNorm(w)))) { granularity = entry.g; break; }
@@ -2317,15 +2682,15 @@ function nlqParse(rawQuery) {
   if (dateCols2.length) {
     const dc = timeCol || dateCols2[0];
     if (!filters.some(f => f.col === dc)) {
-      if (/bu yil/.test(qn))                              filters.push({ col: dc, op: 'date_thisyear',  val: '' });
-      else if (/bu ay/.test(qn))                          filters.push({ col: dc, op: 'date_thismonth', val: '' });
-      else if (/bu hafta/.test(qn))                       filters.push({ col: dc, op: 'date_thisweek',  val: '' });
-      else if (/son 7 gun|son yedi gun/.test(qn))         filters.push({ col: dc, op: 'date_last7',     val: '' });
-      else if (/son 30 gun|son otuz gun/.test(qn))        filters.push({ col: dc, op: 'date_last30',    val: '' });
-      else if (/\bq1\b|1 ceyrek|birinci ceyrek/.test(qn)) filters.push({ col: dc, op: 'date_q1',       val: '' });
-      else if (/\bq2\b|2 ceyrek|ikinci ceyrek/.test(qn))  filters.push({ col: dc, op: 'date_q2',       val: '' });
-      else if (/\bq3\b|3 ceyrek|ucuncu ceyrek/.test(qn))  filters.push({ col: dc, op: 'date_q3',       val: '' });
-      else if (/\bq4\b|4 ceyrek|dorduncu ceyrek/.test(qn))filters.push({ col: dc, op: 'date_q4',       val: '' });
+      if (/bu yil|this year/.test(qn))                                       filters.push({ col: dc, op: 'date_thisyear',  val: '' });
+      else if (/bu ay|this month/.test(qn))                                  filters.push({ col: dc, op: 'date_thismonth', val: '' });
+      else if (/bu hafta|this week/.test(qn))                                filters.push({ col: dc, op: 'date_thisweek',  val: '' });
+      else if (/son 7 gun|son yedi gun|last 7 days/.test(qn))                filters.push({ col: dc, op: 'date_last7',     val: '' });
+      else if (/son 30 gun|son otuz gun|last 30 days/.test(qn))              filters.push({ col: dc, op: 'date_last30',    val: '' });
+      else if (/\bq1\b|1 ceyrek|birinci ceyrek|first quarter/.test(qn))     filters.push({ col: dc, op: 'date_q1',        val: '' });
+      else if (/\bq2\b|2 ceyrek|ikinci ceyrek|second quarter/.test(qn))     filters.push({ col: dc, op: 'date_q2',        val: '' });
+      else if (/\bq3\b|3 ceyrek|ucuncu ceyrek|third quarter/.test(qn))      filters.push({ col: dc, op: 'date_q3',        val: '' });
+      else if (/\bq4\b|4 ceyrek|dorduncu ceyrek|fourth quarter/.test(qn))   filters.push({ col: dc, op: 'date_q4',        val: '' });
     }
   }
 
@@ -2339,7 +2704,7 @@ function nlqParse(rawQuery) {
 function nlqExecute(sq) {
   let rows = applyRowFormulas(RAW_ROWS, FORMULAS);
   if (sq.filters.length) rows = applyFilters(rows, sq.filters);
-  if (!rows.length) return { error: 'Filtrelerden sonra hiç satır kalmadı.' };
+  if (!rows.length) return { error: t('err_no_rows_nlq') };
 
   const AGG_MAP_LOCAL = { sum:'sum',avg:'avg',max:'max',min:'min',count:'count',count_distinct:'count_distinct' };
   const agg = AGG_MAP_LOCAL[sq.aggregation] || 'sum';
@@ -2359,7 +2724,7 @@ function nlqExecute(sq) {
 
   // Category / top / bottom
   const groupCol = sq.groupBy || Object.keys(COLUMN_TYPES).find(h => ['category','text'].includes(COLUMN_TYPES[h].type));
-  if (!groupCol) return { error: 'Gruplama kolonu bulunamadı.' };
+  if (!groupCol) return { error: t('nlq_no_group') };
   const metrics = [{ col: sq.metric, agg }];
   const topN = sq.limit || (sq.operation === 'aggregate' ? 50 : 10);
   const sortDir = sq.sort || (sq.operation === 'bottom' ? 'asc' : 'desc');
@@ -2371,16 +2736,18 @@ function nlqExecute(sq) {
 function nlqExplain(sq) {
   const aggLabel = AGG_LABELS[sq.aggregation] || sq.aggregation;
   let parts = ['<strong>' + sq.metric + '</strong> ' + aggLabel];
-  if (sq.groupBy) parts.push('<strong>' + sq.groupBy + '</strong>\'a göre');
-  if (sq.operation === 'top')   parts.push('ilk ' + (sq.limit||10) + ' (büyükten küçüğe)');
-  if (sq.operation === 'bottom') parts.push('son ' + (sq.limit||10) + ' (küçükten büyüğe)');
-  if (sq.operation === 'time_series') parts.push(GRANULARITY_LABELS[sq.granularity] + ' bazında zaman serisi');
+  if (sq.groupBy) parts.push('<strong>' + sq.groupBy + '</strong>' + t('nlq_by'));
+  if (sq.operation === 'top')    parts.push(t('nlq_top_n') + ' ' + (sq.limit||10) + ' ' + t('nlq_top_dir'));
+  if (sq.operation === 'bottom') parts.push(t('nlq_last') + ' ' + (sq.limit||10) + ' ' + t('nlq_bot_dir'));
+  if (sq.operation === 'time_series') parts.push(GRANULARITY_LABELS[sq.granularity] + ' ' + t('nlq_time_series_suffix'));
   if (sq.filters.length) {
-    const ALL_OP_LABELS = { eq:'=', neq:'≠', gt:'>', lt:'<', gte:'≥', lte:'≤', contains:'içerir', empty:'boş', notempty:'boş değil', date_last7:'son 7 gün', date_last30:'son 30 gün', date_thisweek:'bu hafta', date_thismonth:'bu ay', date_thisyear:'bu yıl', date_q1:'Q1', date_q2:'Q2', date_q3:'Q3', date_q4:'Q4' };
+    const ALL_OP_LABELS = LANG === 'en'
+      ? { eq:'=', neq:'≠', gt:'>', lt:'<', gte:'≥', lte:'≤', contains:'contains', empty:'empty', notempty:'not empty', date_last7:'last 7 days', date_last30:'last 30 days', date_thisweek:'this week', date_thismonth:'this month', date_thisyear:'this year', date_q1:'Q1', date_q2:'Q2', date_q3:'Q3', date_q4:'Q4' }
+      : { eq:'=', neq:'≠', gt:'>', lt:'<', gte:'≥', lte:'≤', contains:'içerir', empty:'boş', notempty:'boş değil', date_last7:'son 7 gün', date_last30:'son 30 gün', date_thisweek:'bu hafta', date_thismonth:'bu ay', date_thisyear:'bu yıl', date_q1:'Q1', date_q2:'Q2', date_q3:'Q3', date_q4:'Q4' };
     const fs = sq.filters.map(f => '<strong>' + f.col + '</strong> ' + (ALL_OP_LABELS[f.op] || f.op) + (f.val ? ' ' + f.val : '')).join(', ');
-    parts.push('filtre: ' + fs);
+    parts.push(t('nlq_filter_prefix') + fs);
   }
-  return 'Şunu anladım: ' + parts.join(', ') + '.';
+  return t('nlq_understood') + ' ' + parts.join(', ') + '.';
 }
 
 // ── Render NLQ result ───────────────────────────────────────
@@ -2481,7 +2848,7 @@ function nlqAsk(rawQuery, isClarify) {
   }
 
   if (parseResult.status === 'not_understood') {
-    fb.innerHTML = `<div class="nlq-error">${parseResult.message}<br><span style="color:var(--dim)">Desteklenen kalıplar: "toplam X", "en çok satan N Y", "X'e göre ortalama Z", "aylık Z trendi"</span></div>`;
+    fb.innerHTML = `<div class="nlq-error">${parseResult.message}<br><span style="color:var(--dim)">${t('nlq_not_understood_suffix')}</span></div>`;
     return;
   }
 
@@ -2492,7 +2859,7 @@ function nlqAsk(rawQuery, isClarify) {
     nlqRenderResult(result, explanation, rawQuery);
     if (!result.error) LAST_NLQ_QUERY = sq;
   } catch(err) {
-    fb.innerHTML = '<div class="nlq-error">Hata: ' + err.message + '</div>';
+    fb.innerHTML = '<div class="nlq-error">' + t('nlq_error_prefix') + err.message + '</div>';
   }
 }
 

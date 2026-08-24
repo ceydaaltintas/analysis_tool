@@ -99,7 +99,8 @@
   .btn.ghost:hover:not(:disabled){background:rgba(231,233,236,.04);border-color:var(--line);}
   .btn.small{padding:6px 13px;font-size:12px;}
   .btn-row{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;align-items:center;}
-  .action-bar{position:fixed;bottom:0;left:0;right:0;z-index:300;display:flex;align-items:center;gap:10px;padding:12px 32px;background:rgba(18,21,26,.95);backdrop-filter:blur(16px);border-top:1px solid var(--line);}
+  .action-bar{position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(18,21,26,.95);backdrop-filter:blur(16px);border-top:1px solid var(--line);}
+  .action-bar-inner{max-width:1180px;margin:0 auto;padding:12px 28px;display:flex;align-items:center;gap:10px;}
   .action-bar-sep{flex:1;}
 
   /* ── column mapping table ──────────────────────────── */
@@ -557,12 +558,14 @@
 
 <!-- Sticky action bar — shown only on step 4 -->
 <div id="actionBar" class="action-bar hidden">
-  <button class="btn" id="downloadXlsxBtn" data-i18n="download_xlsx">Excel İndir</button>
-  <button class="btn" id="downloadCsvBtn" data-i18n="download_csv">CSV İndir</button>
-  <button class="btn" id="downloadTemplateBtn" data-i18n="download_template">Şablonu İndir</button>
-  <div class="action-bar-sep"></div>
-  <button class="btn ghost" id="backTo3Btn" data-i18n="back_to_settings">← Ayarlara Dön</button>
-  <button class="btn ghost" id="resetBtn" data-i18n="new_analysis">Yeni Analiz</button>
+  <div class="action-bar-inner">
+    <button class="btn" id="downloadXlsxBtn" data-i18n="download_xlsx">Excel İndir</button>
+    <button class="btn" id="downloadCsvBtn" data-i18n="download_csv">CSV İndir</button>
+    <button class="btn" id="downloadTemplateBtn" data-i18n="download_template">Şablonu İndir</button>
+    <div class="action-bar-sep"></div>
+    <button class="btn ghost" id="backTo3Btn" data-i18n="back_to_settings">← Ayarlara Dön</button>
+    <button class="btn ghost" id="resetBtn" data-i18n="new_analysis">Yeni Analiz</button>
+  </div>
 </div>
 
 <script>

@@ -2932,6 +2932,9 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   document.getElementById('dualMapTable').style.display = 'none';
   setStatus('');
   fileInput.value = '';
+  document.getElementById('previewPanel').classList.add('hidden');
+  document.getElementById('previewTable').innerHTML = '';
+  document.getElementById('dropzone').classList.remove('loaded');
   goToStep(1);
 });
 </script>

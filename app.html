@@ -569,6 +569,10 @@ const STRINGS = {
   tr: {
     // Header
     logo_name: 'Veri Analiz Atölyesi',
+    col_header_col: 'Kolon',
+    col_header_sample: 'Örnek',
+    col_header_type: 'Tip',
+    col_header_fix: 'Düzelt',
     app_title: 'Genel Analiz Aracı',
     app_sub: 'Herhangi bir Excel yükle, kolonları tanımla, ne görmek istediğini seç. Tamamen tarayıcında çalışır, veri hiçbir yere gönderilmez.',
     trust_badge: 'Veri hiçbir sunucuya gönderilmez',
@@ -722,6 +726,10 @@ const STRINGS = {
   en: {
     // Header
     logo_name: 'Data Analysis Tool',
+    col_header_col: 'Column',
+    col_header_sample: 'Sample',
+    col_header_type: 'Type',
+    col_header_fix: 'Fix',
     app_title: 'Data Analysis Tool',
     app_sub: 'Upload any Excel or CSV, map columns, choose what to see. Runs entirely in your browser — no data ever leaves your device.',
     trust_badge: 'No data sent to any server',
@@ -883,6 +891,7 @@ function applyLang() {
   const toggle = document.getElementById('langToggle');
   if (toggle) toggle.textContent = LANG === 'tr' ? 'EN' : 'TR';
   if (HEADERS.length) {
+    renderMapTable();
     renderModeConfig();
     renderFormulaList();
     renderFilterList();
@@ -1358,7 +1367,7 @@ function buildMapTableHtml(headers, colTypes, tableId, ctRef) {
       <td><select class="type-override" data-col="${h}" data-tableid="${tableId}">${options}</select></td>
     </tr>`;
   }).join('');
-  return `<thead><tr><th>Kolon</th><th>Örnek</th><th>Tip</th><th>Düzelt</th></tr></thead><tbody>${rowsHtml}</tbody>`;
+  return `<thead><tr><th>${t('col_header_col')}</th><th>${t('col_header_sample')}</th><th>${t('col_header_type')}</th><th>${t('col_header_fix')}</th></tr></thead><tbody>${rowsHtml}</tbody>`;
 }
 
 function renderMapTable() {

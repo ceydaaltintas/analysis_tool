@@ -156,7 +156,7 @@
 
   /* ── result table ──────────────────────────────────── */
   table.resulttable{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12px;margin-top:16px;}
-  table.resulttable th{text-align:right;font-weight:600;color:var(--teal);border-bottom:1px solid rgba(73,183,172,.3);padding:9px 12px;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;user-select:none;white-space:nowrap;}
+  table.resulttable th{text-align:right;font-weight:600;color:var(--teal);border-bottom:1px solid rgba(73,183,172,.3);padding:9px 12px;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;user-select:none;white-space:nowrap;position:sticky;top:0;background:var(--panel);z-index:2;}
   table.resulttable th:first-child,table.resulttable td:first-child{text-align:left;}
   table.resulttable th:hover{color:var(--text);}
   table.resulttable td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:right;}
@@ -1255,7 +1255,10 @@ function formulaRowHtml(idx, f) {
     <div class="formula-row" data-idx="${idx}" style="flex-wrap:wrap;">
       <input type="text" class="formula-name" value="${f.name || ''}" placeholder="alan adı" style="width:140px">
       <span style="color:var(--dim)">=</span>
-      <input type="text" class="formula-expr" value="${f.expr || ''}" placeholder="{Satış} * 0.18  ·  {Adet} > 5 ? 'çok' : 'az'  ·  Math.round({Fiyat} / {Adet})" style="width:380px">
+      <div style="position:relative;display:inline-block;">
+        <input type="text" class="formula-expr" value="${f.expr || ''}" placeholder="{Satış} * 0.18  ·  {Adet} > 5 ? 'çok' : 'az'  ·  Math.round({Fiyat} / {Adet})" style="width:380px">
+        <div class="formula-hints" style="display:none;position:absolute;top:100%;left:0;z-index:99;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:6px 8px;margin-top:3px;display:none;flex-wrap:wrap;gap:5px;max-width:400px;box-shadow:0 4px 16px rgba(0,0,0,.4);"></div>
+      </div>
       <button class="remove-btn formula-remove">✕</button>
       <div class="formula-error" style="width:100%;color:var(--danger);font-size:11.5px;font-family:'IBM Plex Mono',monospace;display:none;"></div>
     </div>`;
@@ -1282,7 +1285,44 @@ function renderFormulaList() {
         });
       });
     });
-    row.querySelector('.formula-expr').addEventListener('input', e => { FORMULAS[i].expr = e.target.value; check(); });
+    const exprInput = row.querySelector('.formula-expr');
+    const hintsEl   = row.querySelector('.formula-hints');
+    function showHints(filter) {
+      const cols = HEADERS.concat(FORMULAS.filter((_, j) => j !== i).map(f => f.name));
+      const matched = filter ? cols.filter(c => c.toLowerCase().includes(filter.toLowerCase())) : cols;
+      if (!matched.length) { hintsEl.style.display = 'none'; return; }
+      hintsEl.innerHTML = matched.map(c =>
+        `<span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 8px;background:rgba(73,183,172,.1);border:1px solid rgba(73,183,172,.3);border-radius:4px;color:var(--teal);cursor:pointer;" data-col="${c}">{${c}}</span>`
+      ).join('');
+      hintsEl.style.display = 'flex';
+      hintsEl.querySelectorAll('span').forEach(span => {
+        span.addEventListener('mousedown', ev => {
+          ev.preventDefault();
+          const ins = '{' + span.dataset.col + '}';
+          const pos = exprInput.selectionStart;
+          const val = exprInput.value;
+          const openBrace = val.lastIndexOf('{', pos - 1);
+          const start = openBrace >= 0 ? openBrace : pos;
+          exprInput.value = val.slice(0, start) + ins + val.slice(pos);
+          exprInput.selectionStart = exprInput.selectionEnd = start + ins.length;
+          FORMULAS[i].expr = exprInput.value;
+          hintsEl.style.display = 'none';
+          check();
+        });
+      });
+    }
+    exprInput.addEventListener('input', e => {
+      FORMULAS[i].expr = e.target.value;
+      const pos = e.target.selectionStart;
+      const val = e.target.value.slice(0, pos);
+      const ob = val.lastIndexOf('{');
+      const cb = val.lastIndexOf('}');
+      if (ob > cb) showHints(val.slice(ob + 1));
+      else hintsEl.style.display = 'none';
+      check();
+    });
+    exprInput.addEventListener('blur', () => setTimeout(() => { hintsEl.style.display = 'none'; }, 150));
+    exprInput.addEventListener('keydown', e => { if (e.key === 'Escape') hintsEl.style.display = 'none'; });
     row.querySelector('.formula-remove').addEventListener('click', () => {
       const removedName = FORMULAS[i].name;
       FORMULAS.splice(i, 1);
@@ -2269,6 +2309,23 @@ function nlqParse(rawQuery) {
       const samps = COLUMN_TYPES[col].samples || [];
       const matched = samps.find(s => nlqNorm(s) === cand || nlqNorm(s).includes(cand));
       if (matched && !filters.some(f => f.col === col)) filters.push({ col, op: 'eq', val: matched });
+    }
+  }
+
+  // Date filters: "bu yıl", "bu ay", "son 30 gün", Q1-Q4 etc.
+  const dateCols2 = Object.keys(COLUMN_TYPES).filter(h => COLUMN_TYPES[h].type === 'date');
+  if (dateCols2.length) {
+    const dc = timeCol || dateCols2[0];
+    if (!filters.some(f => f.col === dc)) {
+      if (/bu yil/.test(qn))                              filters.push({ col: dc, op: 'date_thisyear',  val: '' });
+      else if (/bu ay/.test(qn))                          filters.push({ col: dc, op: 'date_thismonth', val: '' });
+      else if (/bu hafta/.test(qn))                       filters.push({ col: dc, op: 'date_thisweek',  val: '' });
+      else if (/son 7 gun|son yedi gun/.test(qn))         filters.push({ col: dc, op: 'date_last7',     val: '' });
+      else if (/son 30 gun|son otuz gun/.test(qn))        filters.push({ col: dc, op: 'date_last30',    val: '' });
+      else if (/\bq1\b|1 ceyrek|birinci ceyrek/.test(qn)) filters.push({ col: dc, op: 'date_q1',       val: '' });
+      else if (/\bq2\b|2 ceyrek|ikinci ceyrek/.test(qn))  filters.push({ col: dc, op: 'date_q2',       val: '' });
+      else if (/\bq3\b|3 ceyrek|ucuncu ceyrek/.test(qn))  filters.push({ col: dc, op: 'date_q3',       val: '' });
+      else if (/\bq4\b|4 ceyrek|dorduncu ceyrek/.test(qn))filters.push({ col: dc, op: 'date_q4',       val: '' });
     }
   }
 
